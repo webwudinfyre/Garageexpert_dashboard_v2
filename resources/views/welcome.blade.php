@@ -39,7 +39,7 @@
                 </div>
 
 
-<h1>garage expert</h1>
+<h1 class="text-gray-600">garage expert</h1>
 
             </div>
         </div>
