@@ -34,19 +34,3 @@
         </div>
     </body>
 </html>
-{{--
-.button {
-    background-color: hsl(17, 76%, 45%);
-    -webkit-border-radius: 60px;
-    border-radius: 60px;
-    border: none;
-    color: #eeeeee;
-    cursor: pointer;
-    display: inline-block;
-    font-family: 'Times New Roman'; /* Enclosed font family name in quotes */
-    font-size: 18px;
-    padding: 10px 20px; /* Adjusted padding for better appearance */
-    text-align: center;
-    text-decoration: none;
-    animation: glowing 1300ms infinite;
-  } --}}
