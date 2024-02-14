@@ -28,8 +28,23 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $userType = auth()->user()->user_type;
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if( $userType ==='admin')
+        {
+            return redirect()->intended(RouteServiceProvider::ADMIN);
+        }
+        elseif ($userType==='user'){
+            return redirect()->intended(RouteServiceProvider::user);
+        }
+        elseif ($userType==='tech'){
+            return redirect()->intended(RouteServiceProvider::Tech);
+        }
+        else
+        {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
+
     }
 
     /**
