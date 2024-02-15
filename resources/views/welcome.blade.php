@@ -21,7 +21,7 @@
         }
 
         .bg-primary_expert:hover {
-            background-color: #ff6309;
+            background-color: #ed3e33;
             color: white;
             border: 1px solid #ced4da;
         }
