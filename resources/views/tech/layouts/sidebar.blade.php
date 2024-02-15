@@ -6,7 +6,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/tech/dashboard">
                     <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
+                    <span> tech Dashboard</span>
                 </a>
             </li><!-- End Dashboard Nav -->
 
