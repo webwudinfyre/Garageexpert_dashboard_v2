@@ -22,7 +22,7 @@ class UserTypeMiddleware
 
             return $next($request);
         }
-        return $next($request);
+        return redirect()->back();
         // print_r($request->user()->user_type);die();
         // return to_route('/dashboard');
     }
