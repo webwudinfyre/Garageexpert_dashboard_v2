@@ -69,7 +69,9 @@
 
                                         <div class="d-flex mb-3 pb-1">
                                             <div class="logo d-flex">
-                                                <img src="{{ asset('admin/assets/img/Garage-Logo.png') }}"
+                                                {{-- <img src="{{ asset('admin/assets/img/Garage-Logo.png') }}"
+                                                    alt=""> --}}
+                                                    <img src="{{ asset('admin/assets/img/Garagexpert_logo@4x.png') }}" style="height:65px"
                                                     alt="">
                                             </div>
                                         </div>
