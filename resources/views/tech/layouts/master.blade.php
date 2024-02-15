@@ -34,7 +34,7 @@
 <body>
 
 
-    @include('admin.layouts.header')
+    @include('tech.layouts.header')
     @include('tech.layouts.sidebar')
 
     <main id="main" class="main">
