@@ -16,6 +16,7 @@ class UserTypeMiddleware
     public function handle(Request $request, Closure $next, string $userType): Response
     {
 
+        print_r($request->user()->user_type);die();
         if($request->user()->user_type === $userType)
         {
 
