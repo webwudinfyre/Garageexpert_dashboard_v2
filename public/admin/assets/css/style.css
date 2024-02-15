@@ -70,7 +70,7 @@ h6 {
   right: 15px;
   bottom: 15px;
   z-index: 99999;
-  background: #4154f1;
+  background: #FF530A;
   width: 40px;
   height: 40px;
   border-radius: 4px;
@@ -84,7 +84,8 @@ h6 {
 }
 
 .back-to-top:hover {
-  background: #6776f4;
+  /* hovercolor */
+  background: #fb8451;
   color: #fff;
 }
 
@@ -688,7 +689,9 @@ h6 {
   font-weight: 600;
   color: #54595E;
   transition: 0.3;
-  background: #f6f9ff;
+
+  background: #ffeee6;
+
   padding: 10px 15px;
   border-radius: 4px;
 }
