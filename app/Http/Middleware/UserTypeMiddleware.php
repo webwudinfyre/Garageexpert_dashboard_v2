@@ -21,6 +21,6 @@ class UserTypeMiddleware
 
             return $next($request);
         }
-        return to_route('/');
+        return to_route('#');
     }
 }
