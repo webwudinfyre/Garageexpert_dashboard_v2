@@ -22,7 +22,8 @@ class UserTypeMiddleware
 
             return $next($request);
         }
-        print_r($request->user()->user_type);die();
-        return to_route('/dashboard');
+        return $next($request);
+        // print_r($request->user()->user_type);die();
+        // return to_route('/dashboard');
     }
 }
