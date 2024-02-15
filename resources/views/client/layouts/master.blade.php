@@ -35,7 +35,7 @@
 
 
     @include('admin.layouts.header')
-    @include('admin.layouts.sidebar')
+    @include('client.layouts.sidebar')
 
     <main id="main" class="main">
 
