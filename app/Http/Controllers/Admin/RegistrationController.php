@@ -36,8 +36,8 @@ class RegistrationController extends Controller
         ]);
 
 
-        // $user->adminUser()->save($adminuser);
-        $user->adminUser()->associate($adminuser)->save();
+        $user->adminUser()->save($adminuser);
+        // $user->adminUser()->associate($adminuser)->save();
         // $user->adminUser()->associate($adminuser)->save();
 
         if ($user instanceof User) {
