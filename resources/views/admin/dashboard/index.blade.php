@@ -1,11 +1,47 @@
 @extends('admin.layouts.master')
+<style type="text/css">
+    #image-preview {
+      width: 400px;
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+      background-color: #ffffff;
+      color: #ecf0f1;
+    }
+    #image-preview input {
+      line-height: 200px;
+      font-size: 200px;
+      position: absolute;
+      opacity: 0;
+      z-index: 10;
+    }
+    #image-preview label {
+      position: absolute;
+      z-index: 5;
+      opacity: 0.8;
+      cursor: pointer;
+      background-color: #bdc3c7;
+      width: 200px;
+      height: 50px;
+      font-size: 20px;
+      line-height: 50px;
+      text-transform: uppercase;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      text-align: center;
+    }
+    </style>
+
 
 @section('contents')
 <div class="pagetitle">
     <h1>Admin Dashboard</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard.index') }}">Home</a></li>
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
     </nav>
@@ -17,6 +53,7 @@
         <!-- Left side columns -->
         <div class="col-lg-8">
             <div class="row">
+
 
                 <!-- Sales Card -->
                 <div class="col-xxl-4 col-md-6">
@@ -686,6 +723,19 @@
 
     </div>
 </section>
+
+{{--
+    <div id="image-preview">
+      <label for="image-upload" id="image-label">Choose File</label>
+      <input type="file" name="image" id="image-upload" />
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="{{asset('admin/assets/js/upload-preview/assets/js/uploadPreview.min.js')}}"></script>
+    <script src="{{asset('admin/assets/js/up-pr/features-post-create.js')}}"></script> --}}
+
+    <!-- Your script using jQuery -->
 
 @endsection
 
