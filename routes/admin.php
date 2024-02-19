@@ -23,5 +23,6 @@ Route::middleware(['auth', 'user.type:admin'])
 
 
     Route::get('/registration/tech', [RegistrationController::class, 'tech_index'])->name('registration.techdetails');
+    Route::POST('/registration/tech/create', [RegistrationController::class, 'tech_create'])->name('registration.techcreate');  //tech add
 
 });

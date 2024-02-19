@@ -1298,6 +1298,7 @@ margin-top: 20px;
 #exampleModal .modal-header button.btn i {
 font-size: 22px;
 }
+
 .bg-primary_expert
 {
     background-color: #FF530A;
@@ -1317,6 +1318,26 @@ font-size: 22px;
     margin-top: 5px;
     margin-bottom: 5px;
     color:red;
+}
+.action_icon
+{
+    display: flex;
+    gap: 10px;
+}
+#exampleModal2 .modal-title
+{
+  color: var(--main-color);
+}
+#exampleModal2 .btn-close
+{
+  color: var(--main-color);
+}
+#exampleModal2 .modal-header button.btn {
+  color: var(--main-color);
+
+}
+#exampleModal2 .modal-header button.btn i {
+font-size: 22px;
 }
 @media (max-width: 576px) {
 
