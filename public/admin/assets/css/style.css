@@ -1339,6 +1339,19 @@ font-size: 22px;
 #exampleModal2 .modal-header button.btn i {
 font-size: 22px;
 }
+.add_office {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+#emailAvailabilityMessage
+{
+    color: var(--main-color);
+}
+.error-message
+{
+    color: red;
+}
 @media (max-width: 576px) {
 
     .datatable-top {

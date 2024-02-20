@@ -53,6 +53,10 @@ class User extends Authenticatable
     {
        return $this->hasMany(techUser::class,'user_id','id');
     }
+    public function clientUser() : HasMany
+    {
+       return $this->hasMany(ClientUser::class,'user_id','id');
+    }
     // public function adminUser1()
     // {
     //     return $this->hasOne(AdminUser::class,'user_id','id');
