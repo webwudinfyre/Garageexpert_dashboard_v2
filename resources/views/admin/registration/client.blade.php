@@ -36,6 +36,15 @@
 
                             </div>
                         </div>
+                        {{-- @php
+                            print_r($clientData);
+                        @endphp
+                        @foreach ($clientData as $data)
+                        <p>Client ID: {{ $data['client']->id }}</p>
+                        <p>Client Name: {{ $data['client']->firstname }} {{ $data['client']->lastname }} {{ $data['client']->users->email }}</p>
+                        <p>Suboffice Count: {{ $data['suboffice_count'] }}</p>
+                        <!-- Add more fields as needed -->
+                    @endforeach --}}
 
 
 
@@ -46,24 +55,26 @@
                                     <tr>
                                         <th>sl.no</th>
                                         <th>
-                                            First Name
+                                            Office
                                         </th>
-                                        <th>Last Name.</th>
+                                        <th>Location</th>
                                         <th>Email</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($Adminusers as $Adminusers)
+
+                                    @foreach ($clientData as $data)
                                 <tr>
                                     <td>{{$loop->iteration }}</td>
-                                    <td>{{$Adminusers->firstname }}</td>
-                                    <td>{{$Adminusers->lastname }}</td>
+                                    <td>{{ $data['client']->office }}</td>
+
+                                    <td>{{$data['client']->location}}</td>
                                     <td>
-                                        {{$Adminusers->users->email }}
+                                        {{ $data['client']->users->email }}
                                     </td>
-                                    <td>{{$Adminusers->users->status == 1 ? 'Active' : 'Inactive' }} </td>
+                                    <td>{{$data['client']->users->status == 1 ? 'Active' : 'Inactive' }} </td>
                                     <td>
                                         <div class="action_icon ">
                                             <button type="button" class="btn " data-bs-toggle="tooltip"
@@ -73,7 +84,7 @@
                                                 data-bs-placement="top" data-bs-title="Edit"><i
                                                     class="bi bi-pencil-square"></i></i></button>
 
-                                            @if ($Adminusers->users->status == 1)
+                                            @if ($data['client']->users->status == 1)
                                             <button type="button" class="btn" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" data-bs-title="Status Change"> <i
                                                     class="bi bi-check-circle"></i></button>
@@ -88,7 +99,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach --}}
+                                @endforeach
 
 
                                 </tbody>

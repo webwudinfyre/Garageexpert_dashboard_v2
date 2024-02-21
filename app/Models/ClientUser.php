@@ -16,7 +16,6 @@ class ClientUser extends Model
         'office',
        'location',
        'suboffice',
-        'user_id',
     ];
 
     public function users() :BelongsTo
