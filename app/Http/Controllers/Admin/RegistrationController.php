@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Validator;
 
 class RegistrationController extends Controller
 {
@@ -27,6 +28,7 @@ class RegistrationController extends Controller
     {
 
         $Adminusers = AdminUser::with('users')->get();
+        $posts = AdminUser::all();
         return view('admin.registration.admin', compact('Adminusers'));
     }
     public function admin_create(Adminuserupdate $request): RedirectResponse
@@ -59,25 +61,71 @@ class RegistrationController extends Controller
             return redirect()->back();
         }
     }
+    public function admin_passwordchange(Request $request, $id): JsonResponse
+    {
+
+        $userId = $id;
+        $responseData = AdminUser::with('users')->find($userId);
+        return response()->json(['data' => $responseData]);
+    }
+    public function admin_passwordupdae(Request $request): RedirectResponse
+    {
+
+        $Data = AdminUser::with('users')->find($request->id);
+        $user = User::find($Data->user_id);
+
+        if ($user) {
+            $user->update(['password' =>  Hash::make($request->ConfirmPassword)]);
+            toastr()->success('password Update successfully!');
+
+            return redirect()->back()->with('refresh', now());;
+        } else {
+            toastr()->error('An error has occurred, please try again later.');
+
+            return redirect()->back();
+        }
 
 
+    }
+
+    // public function view_create()
+    // {
+
+    //     return view('admin.registration.modal_post');
+    // }
+
+    public function showModal($postId): view
+    {
+        $post = AdminUser::find($postId);
+        print_r("hI");
+        die();
+        return view('admin.registration.modal_post', compact('post'));
+    }
 
     public function client_index(): View
     {
         $ClientUser_count = ClientUser::where('suboffice', 'main')->with('users')->get();
 
         $clientData = [];
-        foreach ($ClientUser_count as $clientUser)
-        {
+        foreach ($ClientUser_count as $clientUser) {
             $subofficeCounts = ClientUser::where('suboffice', $clientUser->id)->groupBy('suboffice')->count();
+            $suboffice = ClientUser::where('suboffice', $clientUser->id)->with('users')->get();
             $clientData[] = [
 
-                'client'=>$clientUser,
+                'client' => $clientUser,
                 'suboffice_count' => $subofficeCounts,
+                'suboffice' => $suboffice,
             ];
         }
+        // $jsonData = json_encode($clientData, JSON_PRETTY_PRINT);
 
-        return view('admin.registration.client',compact('clientData'));
+        // // Save the JSON data to a file
+        // file_put_contents('client_data.json', $jsonData);
+
+        // // Print the JSON data (optional)
+        // echo $jsonData;
+        // die();
+        return view('admin.registration.client', compact('clientData'));
     }
     public function client_create(clientuserupdate $request): RedirectResponse
     {

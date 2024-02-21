@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Failedpage;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,12 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-
+Route::get('/failed-page',[Failedpage::class, 'index'])->name('failed.page');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

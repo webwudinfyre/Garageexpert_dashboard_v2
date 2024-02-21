@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
         elseif ($userType==='tech'){
             return redirect()->intended(RouteServiceProvider::Tech);
         }
- 
+
 
     }
 

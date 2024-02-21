@@ -54,25 +54,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($techuser as $techuser)
+                                    @foreach ($techuser as $techusers)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $techuser->firstname }}</td>
-                                            <td>{{ $techuser->lastname }}</td>
+                                            <td>{{ $techusers->firstname }}</td>
+                                            <td>{{ $techusers->lastname }}</td>
                                             <td>
-                                                {{ $techuser->users->email }}
+                                                {{ $techusers->users->email }}
                                             </td>
-                                            <td>{{ $techuser->users->status == 1 ? 'Active' : 'Inactive' }} </td>
+                                            <td>{{ $techusers->users->status == 1 ? 'Active' : 'Inactive' }} </td>
                                             <td>
                                                 <div class="action_icon ">
-                                                    <button type="button" class="btn " data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="View"><i
-                                                            class="bi bi-eye"></i></i></button>
+
+
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="View">
+                                                        <button type="button" class="btn" data-bs-toggle="modal"
+                                                            data-bs-target="#view{{ $techusers->id }}">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                    </a>
+
                                                     <button type="button" class="btn "data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Edit"><i
                                                             class="bi bi-pencil-square"></i></i></button>
 
-                                                    @if ($techuser->users->status == 1)
+                                                    @if ($techusers->users->status == 1)
                                                         <button type="button" class="btn" data-bs-toggle="tooltip"
                                                             data-bs-placement="top" data-bs-title="Status Change"> <i
                                                                 class="bi bi-check-circle"></i></button>
@@ -206,6 +213,17 @@
             </div>
         </div>
     </section>
+
+
+    @foreach ($techuser as $posts)
+        <section class="view" id="view">
+            <div class="modal fade" id="view{{ $posts->id }}" tabindex="-1" aria-labelledby="viewLabel"
+                aria-hidden="true">
+                @include('admin.registration.tech_view', ['post' => $posts])
+
+            </div>
+        </section>
+    @endforeach
     @if ($errors->any())
         @section('script')
             <script>
@@ -216,13 +234,6 @@
         @endsection
     @endif
     @push('scripts')
-        <script>
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl, {
-                    placement: 'top' // Adjust the placement as needed
-                });
-            });
-        </script>
+    
     @endpush
 @endsection

@@ -17,10 +17,15 @@ class UserTypeMiddleware
     {
 
 
-        if($request->user()->user_type === $userType)
+        if(($request->user()->user_type === $userType) && ($request->user()->status === '1'))
         {
 
             return $next($request);
+        }
+        else
+        {
+            return redirect()->route('failed.page');
+
         }
         // return redirect()->back();
         // print_r($request->user()->user_type);die();

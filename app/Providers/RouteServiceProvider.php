@@ -21,6 +21,8 @@ class RouteServiceProvider extends ServiceProvider
     public const ADMIN = '/admin/dashboard';
     public const user= '/client/dashboard';
     public const Tech= '/tech/dashboard';
+    public const LoginFailed= '/loginfailed';
+
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

@@ -36,15 +36,7 @@
 
                             </div>
                         </div>
-                        {{-- @php
-                            print_r($clientData);
-                        @endphp
-                        @foreach ($clientData as $data)
-                        <p>Client ID: {{ $data['client']->id }}</p>
-                        <p>Client Name: {{ $data['client']->firstname }} {{ $data['client']->lastname }} {{ $data['client']->users->email }}</p>
-                        <p>Suboffice Count: {{ $data['suboffice_count'] }}</p>
-                        <!-- Add more fields as needed -->
-                    @endforeach --}}
+
 
 
 
@@ -59,6 +51,7 @@
                                         </th>
                                         <th>Location</th>
                                         <th>Email</th>
+                                        <th>Sub Office list</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -66,40 +59,49 @@
                                 <tbody>
 
                                     @foreach ($clientData as $data)
-                                <tr>
-                                    <td>{{$loop->iteration }}</td>
-                                    <td>{{ $data['client']->office }}</td>
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $data['client']->office }}</td>
 
-                                    <td>{{$data['client']->location}}</td>
-                                    <td>
-                                        {{ $data['client']->users->email }}
-                                    </td>
-                                    <td>{{$data['client']->users->status == 1 ? 'Active' : 'Inactive' }} </td>
-                                    <td>
-                                        <div class="action_icon ">
-                                            <button type="button" class="btn " data-bs-toggle="tooltip"
-                                                data-bs-placement="top" data-bs-title="View"><i
-                                                    class="bi bi-eye"></i></i></button>
-                                            <button type="button" class="btn " data-bs-toggle="tooltip"
-                                                data-bs-placement="top" data-bs-title="Edit"><i
-                                                    class="bi bi-pencil-square"></i></i></button>
-
-                                            @if ($data['client']->users->status == 1)
-                                            <button type="button" class="btn" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" data-bs-title="Status Change"> <i
-                                                    class="bi bi-check-circle"></i></button>
-                                            @else
-                                            <button type="button" class="btn" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" data-bs-title="Status Change"> <i
-                                                    class="bi bi-x-circle"></i></button>
-                                            @endif
+                                            <td>{{ $data['client']->location }}</td>
+                                            <td>
+                                                {{ $data['client']->users->email }}
+                                            </td>
+                                            <td>
+                                                {{ $data['suboffice_count'] }}
+                                            </td>
+                                            <td>{{ $data['client']->users->status == 1 ? 'Active' : 'Inactive' }} </td>
+                                            <td>
+                                                <div class="action_icon ">
 
 
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="View">
+                                                        <button type="button" class="btn" data-bs-toggle="modal"
+                                                            data-bs-target="#view{{ $data['client']->id }}">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                    </a>
+                                                    <button type="button" class="btn " data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Edit"><i
+                                                            class="bi bi-pencil-square"></i></i></button>
 
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                                    @if ($data['client']->users->status == 1)
+                                                        <button type="button" class="btn" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top" data-bs-title="Status Change"> <i
+                                                                class="bi bi-check-circle"></i></button>
+                                                    @else
+                                                        <button type="button" class="btn" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top" data-bs-title="Status Change"> <i
+                                                                class="bi bi-x-circle"></i></button>
+                                                    @endif
+
+
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
 
                                 </tbody>
@@ -274,6 +276,16 @@
         </div>
     </section>
 
+    @foreach ($clientData as $posts)
+        <section class="view" id="view">
+            <div class="modal fade" id="view{{ $posts['client']->id }}" tabindex="-1" aria-labelledby="viewLabel"
+                aria-hidden="true">
+                @include('admin.registration.client_view', ['post' => $posts])
+
+            </div>
+        </section>
+    @endforeach
+
     <a href="#" title="" class="add-friend">Add Friend</a>
     @if ($errors->any())
         @section('script')
@@ -285,14 +297,7 @@
         @endsection
     @endif
     @push('scripts')
-        <script>
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl, {
-                    placement: 'top' // Adjust the placement as needed
-                });
-            });
-        </script>
+      
         <script>
             $(document).ready(function() {
                 var emailInput = $('#floatingEmail');
@@ -366,7 +371,7 @@
 
                     errorMessage.text(validatePassword(passwordValue) ? '' :
                         'Password must be at least 4 characters long and include at least  one lowercase letter ,one digit'
-                        );
+                    );
                 }
 
                 function addNewRow() {

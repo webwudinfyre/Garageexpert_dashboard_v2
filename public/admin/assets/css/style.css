@@ -1283,6 +1283,26 @@ margin-top: 20px;
 
     margin-bottom: 20px;
 }
+h1#view {
+}
+#view  .modal-dialog .modal-title
+{
+    color: var(--main-color);
+}
+#view  .modal-dialog .btn-close
+{
+    color: var(--main-color);
+}
+#view .modal-header button.btn {
+    color: var(--main-color);
+
+  }
+  #view .modal-header button.btn i {
+    font-size: 22px;
+    }
+#Sub_Office_details{
+    color: var(--main-color);
+}
 #exampleModal .modal-title
 {
   color: var(--main-color);
@@ -1310,8 +1330,13 @@ font-size: 22px;
     color:#cfe2ff ;
 }
 .btn-style
-{
+{ margin-top: 20px;
     width: 100px;
+}
+.btn-style-password
+{
+    margin-top: 20px;
+    width: 225px;
 }
 .alert-color
 {
@@ -1352,6 +1377,8 @@ font-size: 22px;
 {
     color: red;
 }
+
+
 @media (max-width: 576px) {
 
     .datatable-top {

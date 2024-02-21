@@ -8,7 +8,7 @@
     <title>Dashboard - GarageExpert</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-
+    
     <!-- Favicons -->
     <link href="{{ asset('admin/assets/img/favicon.ico') }}" rel="icon">
     <link href="{{ asset('admin/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">

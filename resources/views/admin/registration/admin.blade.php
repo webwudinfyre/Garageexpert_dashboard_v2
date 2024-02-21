@@ -54,25 +54,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($Adminusers as $Adminusers)
+                                    @foreach ($Adminusers as $Adminuserstable)
                                         <tr>
-                                            <td>{{$loop->iteration }}</td>
-                                            <td>{{$Adminusers->firstname }}</td>
-                                            <td>{{$Adminusers->lastname }}</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $Adminuserstable->firstname }}</td>
+                                            <td>{{ $Adminuserstable->lastname }}</td>
                                             <td>
-                                                {{$Adminusers->users->email }}
+                                                {{ $Adminuserstable->users->email }}
                                             </td>
-                                            <td>{{$Adminusers->users->status == 1 ? 'Active' : 'Inactive' }} </td>
+                                            <td>{{ $Adminuserstable->users->status == 1 ? 'Active' : 'Inactive' }} </td>
                                             <td>
                                                 <div class="action_icon ">
-                                                    <button type="button" class="btn "  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"><i class="bi bi-eye"></i></i></button>
-                                                    <button type="button" class="btn "data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="bi bi-pencil-square"></i></i></button>
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="View">
+                                                        <button type="button" class="btn" data-bs-toggle="modal"
+                                                            data-bs-target="#view{{ $Adminuserstable->id }}">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                    </a>
 
-                                                        @if ($Adminusers->users->status == 1)
-                                                        <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Status Change">  <i class="bi bi-check-circle"></i></button>
-                                                        @else
-                                                        <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Status Change"> <i class="bi bi-x-circle"></i></button>
-                                                        @endif
+
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="Password change">
+                                                        <button type="button" class="btn" data-bs-toggle="modal"
+                                                            data-bs-target="#Password_change"
+                                                            data-bs-whatever={{ $Adminuserstable->id }}>
+                                                            <i class="bi bi-key"></i>
+                                                        </button>
+                                                    </a>
+
+
+                                                    @if ($Adminuserstable->users->status == 1)
+                                                        <button type="button" class="btn" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top" data-bs-title="Status Change"> <i
+                                                                class="bi bi-check-circle"></i></button>
+                                                    @else
+                                                        <button type="button" class="btn" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top" data-bs-title="Status Change"> <i
+                                                                class="bi bi-x-circle"></i></button>
+                                                    @endif
 
 
 
@@ -92,6 +112,11 @@
             </div>
         </div>
     </section>
+
+
+
+
+
     <section class="admin_registration_modal">
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg  modal-dialog-centered">
@@ -163,9 +188,9 @@
                             <div class="col-md-6">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingPhone" name="Phone_number"
-                                            placeholder="Phone Number" required autocomplete="Phone_number" autofocus
-                                            value="{{ old('Phone_number') }}">
+                                        <input type="text" class="form-control" id="floatingPhone"
+                                            name="Phone_number" placeholder="Phone Number" required
+                                            autocomplete="Phone_number" autofocus value="{{ old('Phone_number') }}">
                                         <label for="floatingPhone">Phone Number</label>
                                         @error('Phone_number')
                                             <div class="alert-color" role="alert">
@@ -198,6 +223,108 @@
             </div>
         </div>
     </section>
+
+    @foreach ($Adminusers as $posts)
+        <section class="view" id="view">
+            <div class="modal fade" id="view{{ $posts->id }}" tabindex="-1" aria-labelledby="viewLabel"
+                aria-hidden="true">
+                @include('admin.registration.admin_view', ['post' => $posts])
+
+            </div>
+        </section>
+    @endforeach
+
+
+    @foreach ($Adminusers as $posts)
+        <div class="modal fade" id="exampleModal{{ $posts->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            {{-- //@include('admin.registration.modal_post', ['post' => $posts, 'modalRoute' => route('admin.post.modal', ['postId' => $posts->id])]) --}}
+            @include('admin.registration.modal_post', ['post' => $posts])
+
+        </div>
+    @endforeach
+
+
+
+    <section class="view" id="view">
+        <div class="modal fade" id="Password_change" tabindex="-1" aria-labelledby="Password_change"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg  modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Password Change</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('admin.registration.admindpasswordupdate') }}" class="row g-3"
+                            method="POST">
+
+                            @csrf
+                            <input type="text" class="form-control" id="recipient-name" name="id" hidden>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingName" placeholder="Name"
+                                        name="Name" required autocomplete="Nmae" autofocus disabled>
+                                    <label for="floatingName">Name</label>
+                                    @error('Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="Email" class="form-control" id="floatingEmail" placeholder="Email"
+                                        name="Email" required autocomplete="Last_Name" autofocus disabled>
+                                    <label for="floatingEmail">Email</label>
+                                    @error('Last_Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="floatingpasswordchanged"
+                                        name="password" placeholder="Password" required autocomplete="password"
+                                        autofocus>
+                                    <label for="floatingpassword"> Password</label>
+                                    @error('Email')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="ConfirmPassword"
+                                        name="ConfirmPassword" placeholder="ConfirmPassword">
+                                    <label for="ConfirmPassword">Confirm Password</label>
+                                    <div id="passwordHelp" class="form-text"></div>
+
+                                </div>
+                            </div>
+                            <div class="text-center">
+
+                                <button type="submit" id='UpdatePassword'
+                                    class="btn bg-primary_expert btn-style-password">Update
+                                    Password</button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     @if ($errors->any())
         @section('script')
             <script>
@@ -207,15 +334,18 @@
             </script>
         @endsection
     @endif
+    @if (request()->has('refresh'))
+        @section('script')
+            <script>
+                window.location.href = window.location.href;
+            </script>
+        @endsection
+    @endif
+
     @push('scripts')
-    <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl, {
-                placement: 'top'  // Adjust the placement as needed
-            });
-        });
-    </script>
+        <script></script>
+
+        <script></script>
+        <script></script>
     @endpush
 @endsection
-
