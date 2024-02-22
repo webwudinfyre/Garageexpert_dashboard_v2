@@ -75,10 +75,14 @@
                                                         </button>
                                                     </a>
 
-                                                    <button type="button" class="btn "data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="Edit"><i
-                                                            class="bi bi-pencil-square"></i></i></button>
-
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="Password change">
+                                                    <button type="button" class="btn" data-bs-toggle="modal"
+                                                        data-bs-target="#Password_change"
+                                                        data-bs-whatever={{ $techusers->users->id }}>
+                                                        <i class="bi bi-key"></i>
+                                                    </button>
+                                                </a>
                                                     @if ($techusers->users->status == 1)
                                                         <button type="button" class="btn" data-bs-toggle="tooltip"
                                                             data-bs-placement="top" data-bs-title="Status Change"> <i
@@ -214,6 +218,84 @@
         </div>
     </section>
 
+    <section class="view" id="view">
+        <div class="modal fade" id="Password_change" tabindex="-1" aria-labelledby="Password_change"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg  modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Password Change</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('admin.passwordupdate') }}" class="row g-3"
+                            method="POST">
+
+                            @csrf
+                            <input type="text" class="form-control" id="recipient-name" name="id" hidden>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingName" placeholder="Name"
+                                        name="Name" required autocomplete="Nmae" autofocus disabled>
+                                    <label for="floatingName">Name</label>
+                                    @error('Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="Email" class="form-control" id="floatingEmail" placeholder="Email"
+                                        name="Email" required autocomplete="Last_Name" autofocus disabled>
+                                    <label for="floatingEmail">Email</label>
+                                    @error('Last_Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="floatingpasswordchanged"
+                                        name="password" placeholder="Password" required autocomplete="password"
+                                        autofocus>
+                                    <label for="floatingpassword"> Password</label>
+                                    @error('Email')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="ConfirmPassword"
+                                        name="ConfirmPassword" placeholder="ConfirmPassword">
+                                    <label for="ConfirmPassword">Confirm Password</label>
+                                    <div id="passwordHelp" class="form-text"></div>
+
+                                </div>
+                            </div>
+                            <div class="text-center">
+
+                                <button type="submit" id='UpdatePassword'
+                                    class="btn bg-primary_expert btn-style-password">Update
+                                    Password</button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     @foreach ($techuser as $posts)
         <section class="view" id="view">
@@ -234,6 +316,6 @@
         @endsection
     @endif
     @push('scripts')
-    
+
     @endpush
 @endsection

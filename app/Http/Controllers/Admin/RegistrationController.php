@@ -61,32 +61,7 @@ class RegistrationController extends Controller
             return redirect()->back();
         }
     }
-    public function admin_passwordchange(Request $request, $id): JsonResponse
-    {
 
-        $userId = $id;
-        $responseData = AdminUser::with('users')->find($userId);
-        return response()->json(['data' => $responseData]);
-    }
-    public function admin_passwordupdae(Request $request): RedirectResponse
-    {
-
-        $Data = AdminUser::with('users')->find($request->id);
-        $user = User::find($Data->user_id);
-
-        if ($user) {
-            $user->update(['password' =>  Hash::make($request->ConfirmPassword)]);
-            toastr()->success('password Update successfully!');
-
-            return redirect()->back()->with('refresh', now());;
-        } else {
-            toastr()->error('An error has occurred, please try again later.');
-
-            return redirect()->back();
-        }
-
-
-    }
 
     // public function view_create()
     // {
@@ -245,4 +220,32 @@ class RegistrationController extends Controller
             return redirect()->back();
         }
     }
+    public function passwordchange(Request $request, $id): JsonResponse
+    {
+
+        $userId = $id;
+        $responseData = User::find($userId);
+        return response()->json(['data' => $responseData]);
+    }
+    public function passwordupdae(Request $request): RedirectResponse
+    {
+
+
+        $user = User::find($request->id);
+
+        if ($user) {
+            $user->update(['password' =>  Hash::make($request->ConfirmPassword)]);
+            toastr()->success('password Update successfully!');
+
+            return redirect()->back()->with('refresh', now());;
+        } else {
+            toastr()->error('An error has occurred, please try again later.');
+
+            return redirect()->back();
+        }
+
+
+    }
+
+
 }

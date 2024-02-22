@@ -24,7 +24,7 @@
             // Extract info from data-bs-* attributes
             const recipient = button.getAttribute("data-bs-whatever");
 
-            fetch("/admin/registration/admin/passwordchange/" + recipient, {
+            fetch("/admin/passwordchange/" + recipient, {
                 method: "get",
             })
                 .then((response) => response.json())
@@ -42,8 +42,8 @@
 
                     modalBodyInput.value = recipient;
                     modalTitle.textContent = "Password Change";
-                    emailInput.value = data.data.users.email;
-                    nameInput.value = data.data.users.name;
+                    emailInput.value = data.data.email;
+                    nameInput.value = data.data.name;
                 })
                 .catch((error) => {
                     console.error("Error:", error);

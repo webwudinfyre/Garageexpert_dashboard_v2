@@ -78,7 +78,7 @@
                                                         data-bs-title="Password change">
                                                         <button type="button" class="btn" data-bs-toggle="modal"
                                                             data-bs-target="#Password_change"
-                                                            data-bs-whatever={{ $Adminuserstable->id }}>
+                                                            data-bs-whatever={{ $Adminuserstable->users->id }}>
                                                             <i class="bi bi-key"></i>
                                                         </button>
                                                     </a>
@@ -256,7 +256,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.registration.admindpasswordupdate') }}" class="row g-3"
+                        <form action="{{ route('admin.passwordupdate') }}" class="row g-3"
                             method="POST">
 
                             @csrf
