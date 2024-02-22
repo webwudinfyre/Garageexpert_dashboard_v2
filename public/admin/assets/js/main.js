@@ -14,7 +14,7 @@
     };
 
     /**
-     * Easy selector helper function
+     * Password_change function
      */
     const Password_change = document.getElementById("Password_change");
     if (Password_change) {
@@ -50,6 +50,70 @@
                 });
         });
     }
+    /**
+     *  Status_change function
+     */
+    const Status_change = document.getElementById("Status_change");
+    if (Status_change) {
+        Status_change.addEventListener("show.bs.modal", (event) => {
+            // Button that triggered the modal
+            const button = event.relatedTarget;
+            // Extract info from data-bs-* attributes
+            const recipient = button.getAttribute("data-bs-whatever");
+
+            fetch("/admin/passwordchange/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    // Update the modal's content with data received from the server
+                    const modalTitle = Status_change.querySelector(".modal-title");
+                    const emailInput = Status_change.querySelector("#floatingEmail");
+                    const nameInput = Status_change.querySelector("#floatingName");
+                    const StatusInput = Status_change.querySelector("#statusName");
+                    const modalBodyInput = Status_change.querySelector("#recipient-name");
+
+                    modalBodyInput.value = recipient;
+                    modalTitle.textContent = "Status Change";
+                    emailInput.value = data.data.email;
+                    nameInput.value = data.data.name;
+                    const status1=data.data.status;
+
+                    // Update the status input based on the received status value
+                    if (status1 === '1') {
+                        StatusInput.value = "Active";
+                    } else if (status1=== '2') {
+                        StatusInput.value = "Inactive";
+                    }
+
+                    // Populate the dropdown with the received status value
+                    populateDropdown(data.data.status);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
+
+    function populateDropdown(status) {
+        var dropdown = $('#myDropdown');
+        // Clear previous dropdown options
+        dropdown.empty();
+
+        // Add options for "Active" and "Inactive"
+        dropdown.append($('<option>', {
+            value: 1,
+            text: 'Active',
+            selected: status === 1
+        }));
+        dropdown.append($('<option>', {
+            value: 2,
+            text: 'Inactive',
+            selected: status === 2
+        }));
+    }
+
     /**
      * Easy event listener function
      */
@@ -394,46 +458,50 @@
         }, 200);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const passwordInput = document.getElementById('floatingpasswordchanged');
-        const confirmPasswordInput = document.getElementById('ConfirmPassword');
-        const passwordHelp = document.getElementById('passwordHelp');
-        const submitButton = document.getElementById('UpdatePassword');
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById(
+            "floatingpasswordchanged"
+        );
+        const confirmPasswordInput = document.getElementById("ConfirmPassword");
+        const passwordHelp = document.getElementById("passwordHelp");
+        const submitButton = document.getElementById("UpdatePassword");
 
-        confirmPasswordInput.addEventListener('input', function() {
+        confirmPasswordInput.addEventListener("input", function () {
             if (passwordInput.value === confirmPasswordInput.value) {
-                confirmPasswordInput.classList.remove('is-invalid');
-                confirmPasswordInput.classList.add('is-valid');
-                passwordHelp.textContent = 'Passwords match!';
-                passwordHelp.classList.remove('text-danger');
-                passwordHelp.classList.add('text-success');
-                submitButton.removeAttribute('disabled');
+                confirmPasswordInput.classList.remove("is-invalid");
+                confirmPasswordInput.classList.add("is-valid");
+                passwordHelp.textContent = "Passwords match!";
+                passwordHelp.classList.remove("text-danger");
+                passwordHelp.classList.add("text-success");
+                submitButton.removeAttribute("disabled");
             } else {
-                confirmPasswordInput.classList.remove('is-valid');
-                confirmPasswordInput.classList.add('is-invalid');
-                passwordHelp.textContent = 'Passwords do not match!';
-                passwordHelp.classList.remove('text-success');
-                passwordHelp.classList.add('text-danger');
-                submitButton.setAttribute('disabled', 'true');
+                confirmPasswordInput.classList.remove("is-valid");
+                confirmPasswordInput.classList.add("is-invalid");
+                passwordHelp.textContent = "Passwords do not match!";
+                passwordHelp.classList.remove("text-success");
+                passwordHelp.classList.add("text-danger");
+                submitButton.setAttribute("disabled", "true");
             }
         });
     });
-    document.addEventListener('DOMContentLoaded', function () {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    document.addEventListener("DOMContentLoaded", function () {
+        var tooltipTriggerList = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        );
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl, {
-                placement: 'top',
-                trigger: 'manual' // Set trigger to manual
+                placement: "top",
+                trigger: "manual", // Set trigger to manual
             });
         });
 
         tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-            tooltipTriggerEl.addEventListener('mouseenter', function () {
+            tooltipTriggerEl.addEventListener("mouseenter", function () {
                 var tooltip = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
                 tooltip.show();
             });
 
-            tooltipTriggerEl.addEventListener('mouseleave', function () {
+            tooltipTriggerEl.addEventListener("mouseleave", function () {
                 var tooltip = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
                 tooltip.hide();
             });

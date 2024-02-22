@@ -16,7 +16,7 @@ class AdminUser extends Model
     ];
     public function users() :BelongsTo
     {
-        return $this->belongsTo(User::class ,'user_id','id');
+        return $this->belongsTo(User::class ,'user_id','id')->orderByStatus('asc');
     }
 
 

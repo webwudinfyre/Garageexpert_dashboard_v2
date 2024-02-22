@@ -76,23 +76,25 @@
                                                     </a>
 
                                                     <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    data-bs-title="Password change">
-                                                    <button type="button" class="btn" data-bs-toggle="modal"
-                                                        data-bs-target="#Password_change"
-                                                        data-bs-whatever={{ $techusers->users->id }}>
-                                                        <i class="bi bi-key"></i>
-                                                    </button>
-                                                </a>
-                                                    @if ($techusers->users->status == 1)
-                                                        <button type="button" class="btn" data-bs-toggle="tooltip"
-                                                            data-bs-placement="top" data-bs-title="Status Change"> <i
-                                                                class="bi bi-check-circle"></i></button>
-                                                    @else
-                                                        <button type="button" class="btn" data-bs-toggle="tooltip"
-                                                            data-bs-placement="top" data-bs-title="Status Change"> <i
-                                                                class="bi bi-x-circle"></i></button>
-                                                    @endif
-
+                                                        data-bs-title="Password change">
+                                                        <button type="button" class="btn" data-bs-toggle="modal"
+                                                            data-bs-target="#Password_change"
+                                                            data-bs-whatever={{ $techusers->users->id }}>
+                                                            <i class="bi bi-key"></i>
+                                                        </button>
+                                                    </a>
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="Status Change">
+                                                        <button type="button" class="btn" data-bs-toggle="modal"
+                                                            data-bs-target="#Status_change"
+                                                            data-bs-whatever={{ $techusers->users->id }}>
+                                                            @if ($techusers->users->status == 1)
+                                                                <i class="bi bi-check-circle"></i>
+                                                            @else
+                                                                <i class="bi bi-x-circle"></i>
+                                                            @endif
+                                                        </button>
+                                                    </a>
 
 
                                                 </div>
@@ -228,8 +230,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.passwordupdate') }}" class="row g-3"
-                            method="POST">
+                        <form action="{{ route('admin.passwordupdate') }}" class="row g-3" method="POST">
 
                             @csrf
                             <input type="text" class="form-control" id="recipient-name" name="id" hidden>
@@ -296,6 +297,77 @@
         </div>
     </section>
 
+    <section class="view" id="view">
+        <div class="modal fade" id="Status_change" tabindex="-1" aria-labelledby="Status_change" aria-hidden="true">
+            <div class="modal-dialog modal-lg  modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Status Change</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('admin.updateStatus') }}" class="row g-3" method="POST">
+
+                            @csrf
+                            <input type="text" class="form-control" id="recipient-name" name="id" hidden>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingName" placeholder="Name"
+                                        name="Name" required autocomplete="Nmae" autofocus disabled>
+                                    <label for="floatingName">Name</label>
+                                    @error('Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="Email" class="form-control" id="floatingEmail" placeholder="Email"
+                                        name="Email" required autocomplete="Last_Name" autofocus disabled>
+                                    <label for="floatingEmail">Email</label>
+                                    @error('Last_Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="statusName" name="statusName"
+                                        placeholder="StatusName" required autocomplete="statusName" disabled autofocus>
+                                    <label for="statusName">Status</label>
+                                    @error('statusName')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select id="myDropdown" class="form-select" name="statusupdate"></select>
+                                    <label for="myDropdown">New Status</label>
+
+                                </div>
+                            </div>
+                            <div class="text-center">
+
+                                <button type="submit" id='updateStatus'
+                                    class="btn bg-primary_expert btn-style-password">Update Status</button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
 
     @foreach ($techuser as $posts)
         <section class="view" id="view">
@@ -316,6 +388,5 @@
         @endsection
     @endif
     @push('scripts')
-
     @endpush
 @endsection

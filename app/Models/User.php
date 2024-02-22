@@ -61,4 +61,8 @@ class User extends Authenticatable
     // {
     //     return $this->hasOne(AdminUser::class,'user_id','id');
     // }
+    public function scopeOrderByStatus($query, $order = 'asc')
+    {
+        return $query->orderBy('status', $order);
+    }
 }

@@ -29,6 +29,7 @@ class RegistrationController extends Controller
 
         $Adminusers = AdminUser::with('users')->get();
         $posts = AdminUser::all();
+
         return view('admin.registration.admin', compact('Adminusers'));
     }
     public function admin_create(Adminuserupdate $request): RedirectResponse
@@ -235,7 +236,7 @@ class RegistrationController extends Controller
 
         if ($user) {
             $user->update(['password' =>  Hash::make($request->ConfirmPassword)]);
-            toastr()->success('password Update successfully!');
+            toastr()->success('Update Password  successfully!');
 
             return redirect()->back()->with('refresh', now());;
         } else {
@@ -246,6 +247,24 @@ class RegistrationController extends Controller
 
 
     }
+    public function updateStatus(Request $request): RedirectResponse
+    {
+        $user = User::find($request->id);
+
+        if ($user) {
+            $user->update(['status' =>$request->statusupdate]);
+            toastr()->success('Update Status  successfully!');
+
+            return redirect()->back()->with('refresh', now());;
+        } else {
+            toastr()->error('An error has occurred, please try again later.');
+
+            return redirect()->back();
+        }
+
+
+    }
+
 
 
 }

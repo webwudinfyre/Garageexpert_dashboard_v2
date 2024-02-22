@@ -13,8 +13,9 @@ Route::middleware(['auth', 'user.type:admin'])
  {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    Route::get('/passwordchange/{id}', [RegistrationController::class, 'passwordchange'])->name('passwordchange');//password change
+    Route::get('/passwordchange/{id}', [RegistrationController::class, 'passwordchange'])->name('passwordchange');//password change | status ajax
     Route::post('/passwordupdae', [RegistrationController::class, 'passwordupdae'])->name('passwordupdate');
+    Route::post('/updateStatus', [RegistrationController::class, 'updateStatus'])->name('updateStatus');
 
 
     // Use proper route name and correct route definition
