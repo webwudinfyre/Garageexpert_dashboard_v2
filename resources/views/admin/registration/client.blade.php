@@ -297,7 +297,8 @@
         @endsection
     @endif
     @push('scripts')
-      
+
+    
         <script>
             $(document).ready(function() {
                 var emailInput = $('#floatingEmail');
