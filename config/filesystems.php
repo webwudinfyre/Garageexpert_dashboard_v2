@@ -35,7 +35,12 @@ return [
             'root' => storage_path('app'),
             'throw' => false,
         ],
-
+        'images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images'), // Set the root directory for the images
+            'url' => env('APP_URL').'/storage/images', // URL for accessing images
+            'visibility' => 'public',
+        ],
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

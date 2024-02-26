@@ -13,6 +13,14 @@ class techUser extends Model
         'firstname',
         'lastname',
         'phonenumber',
+        'Website',
+        'facebook',
+        'instagram',
+        'twitter',
+        'avatar',
+        'Address',
+        'Position',
+        'Gender'
     ];
     public function users() :BelongsTo
     {

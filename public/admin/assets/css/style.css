@@ -368,13 +368,13 @@ margin-top: 20px;
 
 .nav-tabs-bordered .nav-link:hover,
 .nav-tabs-bordered .nav-link:focus {
-  color: #4154f1;
+  color: var(--main-color);
 }
 
 .nav-tabs-bordered .nav-link.active {
   background-color: #fff;
-  color: #4154f1;
-  border-bottom: 2px solid #4154f1;
+  color: var(--main-color) ;
+  border-bottom: 2px solid var(--main-color);
 }
 
 /*--------------------------------------------------------------
@@ -1303,6 +1303,10 @@ h1#view {
 #Sub_Office_details{
     color: var(--main-color);
 }
+.modal-title
+{
+  color: var(--main-color);
+}
 #exampleModal .modal-title
 {
   color: var(--main-color);
@@ -1318,12 +1322,16 @@ h1#view {
 #exampleModal .modal-header button.btn i {
 font-size: 22px;
 }
+.modal-header button.btn i {
+    font-size: 22px;
+    }
 
 .bg-primary_expert
 {
     background-color: #FF530A;
     color:#cfe2ff ;
 }
+
 .bg-primary_expert:hover
 {
     background-color: #ff8b59;
@@ -1378,7 +1386,34 @@ font-size: 22px;
     color: red;
 }
 
+.edit-profile {
 
+    display: flex;
+    padding: 10px;
+    justify-content: flex-end;
+}
+
+i.bi.bi-pencil-square {
+    font-size: 22px;
+}
+.head-profie {
+    display: flex;
+    justify-content: space-between;
+}
+#profile i
+{
+    color: var(--main-color);
+}
+span.icon-name {
+    gap: 2px;
+    margin: 0px 10px;
+    color: black;
+    display: none;
+}
+.placeholder-text {
+    color: rgb(255, 0, 0);
+    /* Add other styling properties as needed */
+}
 @media (max-width: 576px) {
 
     .datatable-top {

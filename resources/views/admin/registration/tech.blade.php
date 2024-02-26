@@ -388,5 +388,6 @@
         @endsection
     @endif
     @push('scripts')
+        @include('admin.registration.javascript');
     @endpush
 @endsection

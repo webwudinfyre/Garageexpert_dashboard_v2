@@ -66,9 +66,8 @@
                                             <td>
                                                 <div class="action_icon ">
                                                     <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="View">
-                                                        <button type="button" class="btn" data-bs-toggle="modal"
-                                                            data-bs-target="#view{{ $Adminuserstable->id }}">
+                                                        data-bs-title="View" href="{{ route('admin.registration.admindprofile', ['id' => encrypt($Adminuserstable->id)]) }}">
+                                                        <button type="button" class="btn">
                                                             <i class="bi bi-eye"></i>
                                                         </button>
                                                     </a>
@@ -239,14 +238,13 @@
     @endforeach
 
 
-    @foreach ($Adminusers as $posts)
+    {{-- @foreach ($Adminusers as $posts)
         <div class="modal fade" id="exampleModal{{ $posts->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             {{-- //@include('admin.registration.modal_post', ['post' => $posts, 'modalRoute' => route('admin.post.modal', ['postId' => $posts->id])]) --}}
-            @include('admin.registration.modal_post', ['post' => $posts])
-
-        </div>
-    @endforeach
+    {{-- @include('admin.registration.modal_post', ['post' => $posts]) --}}
+    {{-- </div>
+    @endforeach --}}
 
 
 
@@ -419,9 +417,7 @@
     @endif
 
     @push('scripts')
-        </script>
 
-        <script></script>
-        <script></script>
+    @include('admin.registration.javascript');
     @endpush
 @endsection

@@ -13,11 +13,17 @@ class AdminUser extends Model
         'firstname',
         'lastname',
         'phonenumber',
+        'Website',
+        'facebook',
+        'instagram',
+        'twitter',
+        'avatar',
+        'Address',
+        'Position',
+        'Gender',
     ];
-    public function users() :BelongsTo
+    public function users(): BelongsTo
     {
-        return $this->belongsTo(User::class ,'user_id','id')->orderByStatus('asc');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
-
 }

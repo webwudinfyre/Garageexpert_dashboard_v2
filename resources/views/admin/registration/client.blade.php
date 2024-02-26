@@ -665,5 +665,9 @@
                 }
             });
         </script>
+
+            @include('admin.registration.javascript');
+
+  
     @endpush
 @endsection

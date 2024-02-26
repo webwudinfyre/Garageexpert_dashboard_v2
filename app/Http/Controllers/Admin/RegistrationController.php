@@ -19,6 +19,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,7 +29,10 @@ class RegistrationController extends Controller
     {
 
         $Adminusers = AdminUser::with('users')->get();
-        $posts = AdminUser::all();
+        // $posts = AdminUser::all();
+        // $Adminusers = AdminUser::with(['users' => function ($query) {
+        //     $query->orderByStatus('asc');
+        // }])->get();
 
         return view('admin.registration.admin', compact('Adminusers'));
     }
@@ -63,7 +67,113 @@ class RegistrationController extends Controller
         }
     }
 
+    public function admin_profile($id): view
+    {
+        $id = decrypt($id);
+        $Adminusers = AdminUser::with('users')->find($id);
 
+        return view('admin.profile_view.admin_view', compact('Adminusers'));
+    }
+    public function admin_profilecreate_social (Request $request, $id): RedirectResponse
+    {
+
+        $id = decrypt($id);
+        $adminUser = AdminUser::with('users')->find($id);
+
+        $existingData = [
+
+            'Website' => $adminUser->Website,
+            'facebook' => $adminUser->facebook,
+            'instagram' => $adminUser->instagram,
+            'twitter' => $adminUser->twitter,
+        ];
+
+        $changes = array_diff($request->only(['Website', 'facebook', 'instagram', 'twitter']), $existingData);
+
+        if (!empty($changes)) {
+
+
+            $adminUser->update($changes);
+            toastr()->success('Data has been Update successfully!');
+            return redirect()->back();
+        } else {
+            toastr()->info('No Updation');
+            return redirect()->back();
+        }
+    }
+
+    public function admin_profilebasic_details (Request $request, $id): RedirectResponse
+    {
+
+        $id = decrypt($id);
+        $adminUser = AdminUser::with('users')->find($id);
+        $request->validate([
+            'Email' => 'required|email|unique:users,email,' . $adminUser->users->id,
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+
+            $image= $request->file('image');
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->storeAs('images', $profileImage, 'images');
+
+
+            if ($adminUser->avatar) {
+                Storage::disk('images')->delete('images/'.$adminUser->avatar);
+
+            }
+
+            $imageprofile = "$profileImage";
+        }else{
+            $imageprofile = $adminUser->avatar;
+        }
+
+         $existingData = [
+
+            'firstname' => $adminUser->firstname,
+            'lastname' => $adminUser->lastname,
+            'phonenumber' => $adminUser->phonenumber,
+            'avatar' =>$adminUser->avatar,
+            'Address' =>$adminUser->Address,
+            'name'=>$adminUser->users->name,
+            'email'=>$adminUser->users->email,
+            'Position'=>$adminUser->Position,
+            'Gender'=>$adminUser->Gender,
+
+        ];
+        $userdata= [
+
+            'firstname' => $request->First_Name,
+            'lastname' => $request->Last_Name,
+            'phonenumber' => $request->Phone_number,
+            'avatar'=>$imageprofile,
+            'Address' => $request->Address,
+            'Position' => $request->Postion,
+            'name'=>$request->First_Name . ' ' . $request->Last_Name,
+            'email'=>$request->Email,
+            'Gender'=>$request->Gender,
+        ];
+
+        $changes = array_diff($userdata, $existingData);
+
+
+        if (!empty($changes)) {
+
+
+            $adminUser->update($changes);
+            $adminUser->users()->update([
+                'name' => $request->First_Name . ' ' . $request->Last_Name,
+                'email' => $request->Email,
+            ]);
+            toastr()->success('Data has been Update successfully!');
+            return redirect()->back();
+        } else {
+            toastr()->info('No Updation');
+            return redirect()->back();
+        }
+
+    }
     // public function view_create()
     // {
 
@@ -244,15 +354,13 @@ class RegistrationController extends Controller
 
             return redirect()->back();
         }
-
-
     }
     public function updateStatus(Request $request): RedirectResponse
     {
         $user = User::find($request->id);
 
         if ($user) {
-            $user->update(['status' =>$request->statusupdate]);
+            $user->update(['status' => $request->statusupdate]);
             toastr()->success('Update Status  successfully!');
 
             return redirect()->back()->with('refresh', now());;
@@ -261,10 +369,5 @@ class RegistrationController extends Controller
 
             return redirect()->back();
         }
-
-
     }
-
-
-
 }

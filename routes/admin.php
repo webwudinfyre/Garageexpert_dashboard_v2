@@ -22,8 +22,11 @@ Route::middleware(['auth', 'user.type:admin'])
     //user Admin
     Route::get('/registration/admin', [RegistrationController::class, 'admin_index'])->name('registration.admindetails');
     Route::POST('/registration/admin/create', [RegistrationController::class, 'admin_create'])->name('registration.admincreate');  //admin user add
+    Route::get('/registration/admin/profile/{id}', [RegistrationController::class, 'admin_profile'])->name('registration.admindprofile');
 
-
+    Route::post('/registration/admin/profilecreatesocial/{id}', [RegistrationController::class, 'admin_profilecreate_social'])->name('registration.profilecreatesocial');
+    Route::post('/registration/admin/profilecreate/{id}', [RegistrationController::class, 'admin_profilecreate_social'])->name('registration.profilecreate');
+    Route::post('/registration/admin/profilebasic_details/{id}', [RegistrationController::class, 'admin_profilebasic_details'])->name('registration.profilebasic_details');
 
 
 
