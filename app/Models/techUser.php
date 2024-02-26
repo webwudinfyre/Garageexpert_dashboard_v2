@@ -13,7 +13,7 @@ class techUser extends Model
         'firstname',
         'lastname',
         'phonenumber',
-        'Website',
+        'linkedin',
         'facebook',
         'instagram',
         'twitter',

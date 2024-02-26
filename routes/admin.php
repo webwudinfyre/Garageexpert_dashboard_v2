@@ -34,11 +34,19 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::POST('/registration/client/create', [RegistrationController::class, 'client_create'])->name('registration.clientcreate');  //tech add
     Route::get('/check-email-availability-client', [RegistrationController::class, 'CheckEmailAvailabilityClient']);
 
+    Route::get('/registration/client/profile/{id}', [RegistrationController::class, 'client_profile'])->name('registration.clientprofile');
+     Route::post('/registration/client/profilecreatesocial/{id}', [RegistrationController::class, 'client_profilecreate_social'])->name('registration.client.profilecreatesocial');
+    Route::post('/registration/client/profilecreate/{id}', [RegistrationController::class, 'client_profilecreate_social'])->name('registration.client.profilecreate');
+    Route::post('/registration/client/profilebasic_details/{id}', [RegistrationController::class, 'client_profilebasic_details'])->name('registration.client.profilebasic_details');
 
+    
     Route::get('/registration/tech', [RegistrationController::class, 'tech_index'])->name('registration.techdetails');
     Route::POST('/registration/tech/create', [RegistrationController::class, 'tech_create'])->name('registration.techcreate');  //tech add
 
-
+    Route::post('/registration/tech/profilecreatesocial/{id}', [RegistrationController::class, 'tech_profilecreate_social'])->name('registration.tech.profilecreatesocial');
+    Route::post('/registration/tech/profilecreate/{id}', [RegistrationController::class, 'tech_profilecreate_social'])->name('registration.tech.profilecreate');
+    Route::post('/registration/tech/profilebasic_details/{id}', [RegistrationController::class, 'tech_profilebasic_details'])->name('registration.tech.profilebasic_details');
+    Route::get('/registration/tech/profile/{id}', [RegistrationController::class, 'tech_profile'])->name('registration.techprofile');
 
 
 });

@@ -16,6 +16,14 @@ class ClientUser extends Model
         'office',
        'location',
        'suboffice',
+       'Website',
+       'facebook',
+       'instagram',
+       'twitter',
+       'avatar',
+       'Address',
+       'Position',
+       'Gender',
     ];
 
     public function users() :BelongsTo

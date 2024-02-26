@@ -66,14 +66,12 @@
                                             <td>
                                                 <div class="action_icon ">
 
-
                                                     <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="View">
-                                                        <button type="button" class="btn" data-bs-toggle="modal"
-                                                            data-bs-target="#view{{ $techusers->id }}">
-                                                            <i class="bi bi-eye"></i>
-                                                        </button>
-                                                    </a>
+                                                    data-bs-title="View" href="{{ route('admin.registration.techprofile', ['id' => encrypt($techusers->id)]) }}">
+                                                    <button type="button" class="btn">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </a>
 
                                                     <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                         data-bs-title="Password change">

@@ -82,6 +82,12 @@
                                                             <i class="bi bi-eye"></i>
                                                         </button>
                                                     </a>
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="View" href="{{ route('admin.registration.clientprofile', ['id' => encrypt($data['client']->id)]) }}">
+                                                    <button type="button" class="btn">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </a>
 
                                                     <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                         data-bs-title="Password change">
@@ -668,6 +674,6 @@
 
             @include('admin.registration.javascript');
 
-  
+
     @endpush
 @endsection
