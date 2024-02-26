@@ -295,8 +295,11 @@ class RegistrationController extends Controller
     {
         $id = decrypt($id);
         $Adminusers = ClientUser::with('users')->find($id);
+        $sub_office= ClientUser::with('users')->where('suboffice', $id)->get();
 
-        return view('admin.profile_view.client_view', compact('Adminusers'));
+
+
+        return view('admin.profile_view.client_view', compact('Adminusers','sub_office'));
     }
 
     public function client_profilecreate_social (Request $request, $id): RedirectResponse

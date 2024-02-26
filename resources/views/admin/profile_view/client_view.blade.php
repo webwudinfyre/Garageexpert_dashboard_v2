@@ -2,14 +2,15 @@
 
 @section('contents')
     <style>
-   .sub_office_view {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0px 0px 0px;
-}
-.sub_office_view .card-title{
-    padding: 0px 0px !important;
-}
+        .sub_office_view {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0px 0px 0px;
+        }
+
+        .sub_office_view .card-title {
+            padding: 0px 0px !important;
+        }
     </style>
     <div id="pagetitle" class="pagetitle">
         <div class="row d-flex justify-content-between align-items-center">
@@ -46,8 +47,8 @@
                         @endif
 
 
-                        <h5 class="my-3">@nullOrValue($Adminusers->users->name, 'Name')</h5>
-                        <p class="text-muted mb-1">@nullOrValue($Adminusers->Position, 'Position')</p>
+                        <h5 class="my-2">@nullOrValue($Adminusers->users->name, 'Name')</h5>
+                        <p class="text-muted mb-1">@nullOrValue($Adminusers->location, 'Location')</p>
                         <p class="text-muted mb-4">@nullOrValue($Adminusers->Address, 'Address')</p>
                         <div class="d-flex justify-content-center mb-2">
 
@@ -114,15 +115,7 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <p class="mb-0">Postion</p>
-                            </div>
-                            <div class="col-sm-9">
-                                <p class="text-muted mb-0">@nullOrValue($Adminusers->Position, 'Position')</p>
-                            </div>
-                        </div>
-                        <hr>
+
                         <div class="row">
                             <div class="col-sm-3">
                                 <p class="mb-0">Email</p>
@@ -132,12 +125,23 @@
                             </div>
                         </div>
                         <hr>
+
                         <div class="row">
                             <div class="col-sm-3">
                                 <p class="mb-0">Phone</p>
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">@nullOrValue($Adminusers->phonenumber, 'Phone')</p>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Location</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@nullOrValue($Adminusers->location, 'Location')</p>
                             </div>
                         </div>
 
@@ -153,7 +157,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    @if ($Adminusers->suboffice === 'main')
+                        <div class="col-md-12">
 
                             <div class="card mb-4 ">
                                 <div class="card-body">
@@ -161,10 +166,10 @@
                                         <h5 class="card-title">Sub Office</h5>
                                         <div class="sub_office_btn">
                                             <button class="btn bg-primary_expert collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
-                                            aria-controls="collapseTwo" >
-                                            View All
-                                        </button>
+                                                data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                aria-expanded="false" aria-controls="collapseTwo">
+                                                View All
+                                            </button>
                                         </div>
 
                                     </div>
@@ -173,13 +178,86 @@
                                     <div id="collapseTwo" class="accordion-collapse collapse"
                                         aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
+                                            <div class="table-responsive">
+                                                <table id="admin_table" class="table datatable table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>sl.no</th>
+                                                            <th>Name</th>
+                                                            <th>Office</th>
+                                                            <th>Location</th>
+                                                            <th>Email</th>
+                                                            <th>Phone</th>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
+                                                        @foreach ($sub_office as $data)
+                                                            <tr>
+                                                                <td>{{ $loop->iteration }}</td>
+                                                                <td>{{ $data->users->name }}</td>
+                                                                <td>{{ $data->office }}</td>
+                                                                <td>{{ $data->location }}</td>
+                                                                <td>{{ $data->users->email }}</td>
+                                                                <td>{{ $data->phonenumber }}</td>
+                                                                <td>{{ $data->users->status == 1 ? 'Active' : 'Inactive' }}
+                                                                </td>
+
+                                                                <td>
+                                                                    <div class="action_icon ">
+                                                                        <a data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top" data-bs-title="View"
+                                                                            href="{{ route('admin.registration.clientprofile', ['id' => encrypt($data->id)]) }}">
+                                                                            <button type="button" class="btn">
+                                                                                <i class="bi bi-eye"></i>
+                                                                            </button>
+                                                                        </a>
+                                                                        <a data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            data-bs-title="Password change">
+                                                                            <button type="button" class="btn"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#Password_change"
+                                                                                data-bs-whatever={{ $data->users->id }}>
+                                                                                <i class="bi bi-key"></i>
+                                                                            </button>
+                                                                        </a>
+
+                                                                        <a data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            data-bs-title="Status Change">
+                                                                            <button type="button" class="btn"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#Status_change"
+                                                                                data-bs-whatever={{ $data->users->id }}>
+                                                                                @if ($data->users->status == 1)
+                                                                                    <i class="bi bi-check-circle"></i>
+                                                                                @else
+                                                                                    <i class="bi bi-x-circle"></i>
+                                                                                @endif
+                                                                            </button>
+                                                                        </a>
+                                                                    </div>
+
+
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                    </div>
+                        </div>
+                    @endif
+
                     <div class="col-md-12">
                         <div class="card  mb-4 ">
 
@@ -512,9 +590,154 @@
 
     </section>
 
+    <section class="view" id="view">
+        <div class="modal fade" id="Password_change" tabindex="-1" aria-labelledby="Password_change"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg  modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Password Change</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('admin.passwordupdate') }}" class="row g-3" method="POST">
 
+                            @csrf
+                            <input type="text" class="form-control" id="recipient-name" name="id" hidden>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingName" placeholder="Name"
+                                        name="Name" required autocomplete="Nmae" autofocus disabled>
+                                    <label for="floatingName">Name</label>
+                                    @error('Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="Email" class="form-control" id="floatingEmail" placeholder="Email"
+                                        name="Email" required autocomplete="Last_Name" autofocus disabled>
+                                    <label for="floatingEmail">Email</label>
+                                    @error('Last_Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="floatingpasswordchanged"
+                                        name="password" placeholder="Password" required autocomplete="password"
+                                        autofocus>
+                                    <label for="floatingpassword"> Password</label>
+                                    @error('Email')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="ConfirmPassword"
+                                        name="ConfirmPassword" placeholder="ConfirmPassword">
+                                    <label for="ConfirmPassword">Confirm Password</label>
+                                    <div id="passwordHelp" class="form-text"></div>
+
+                                </div>
+                            </div>
+                            <div class="text-center">
+
+                                <button type="submit" id='UpdatePassword'
+                                    class="btn bg-primary_expert btn-style-password">Update
+                                    Password</button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="view" id="view">
+        <div class="modal fade" id="Status_change" tabindex="-1" aria-labelledby="Status_change" aria-hidden="true">
+            <div class="modal-dialog modal-lg  modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Status Change</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('admin.updateStatus') }}" class="row g-3" method="POST">
+
+                            @csrf
+                            <input type="text" class="form-control" id="recipient-name" name="id" hidden>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingName" placeholder="Name"
+                                        name="Name" required autocomplete="Nmae" autofocus disabled>
+                                    <label for="floatingName">Name</label>
+                                    @error('Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="Email" class="form-control" id="floatingEmail" placeholder="Email"
+                                        name="Email" required autocomplete="Last_Name" autofocus disabled>
+                                    <label for="floatingEmail">Email</label>
+                                    @error('Last_Name')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="statusName" name="statusName"
+                                        placeholder="StatusName" required autocomplete="statusName" disabled autofocus>
+                                    <label for="statusName">Status</label>
+                                    @error('statusName')
+                                        <div class="alert-color" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select id="myDropdown" class="form-select" name="statusupdate"></select>
+                                    <label for="myDropdown">Status</label>
+
+                                </div>
+                            </div>
+                            <div class="text-center">
+
+                                <button type="submit" id='updateStatus'
+                                    class="btn bg-primary_expert btn-style-password">Update Status</button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
 
     @if ($errors->any())
         @section('script')

@@ -1427,4 +1427,12 @@ span.icon-name {
     .pagetitle h1 {
         margin-top: 12px;
     }
+    .vertical-dashed-line
+    {
+        text-align: center;
+        border-right: 0px solid white !important;
+    }
+    .name_office {
+        text-align: center;
+    }
 }
