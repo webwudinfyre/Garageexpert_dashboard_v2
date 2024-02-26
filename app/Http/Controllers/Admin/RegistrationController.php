@@ -74,7 +74,7 @@ class RegistrationController extends Controller
 
         return view('admin.profile_view.admin_view', compact('Adminusers'));
     }
-    public function admin_profilecreate_social (Request $request, $id): RedirectResponse
+    public function admin_profilecreate_social(Request $request, $id): RedirectResponse
     {
 
         $id = decrypt($id);
@@ -102,7 +102,7 @@ class RegistrationController extends Controller
         }
     }
 
-    public function admin_profilebasic_details (Request $request, $id): RedirectResponse
+    public function admin_profilebasic_details(Request $request, $id): RedirectResponse
     {
 
         $id = decrypt($id);
@@ -114,45 +114,44 @@ class RegistrationController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $image= $request->file('image');
+            $image = $request->file('image');
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->storeAs('images', $profileImage, 'images');
 
 
             if ($adminUser->avatar) {
-                Storage::disk('images')->delete('images/'.$adminUser->avatar);
-
+                Storage::disk('images')->delete('images/' . $adminUser->avatar);
             }
 
             $imageprofile = "$profileImage";
-        }else{
+        } else {
             $imageprofile = $adminUser->avatar;
         }
 
-         $existingData = [
+        $existingData = [
 
             'firstname' => $adminUser->firstname,
             'lastname' => $adminUser->lastname,
             'phonenumber' => $adminUser->phonenumber,
-            'avatar' =>$adminUser->avatar,
-            'Address' =>$adminUser->Address,
-            'name'=>$adminUser->users->name,
-            'email'=>$adminUser->users->email,
-            'Position'=>$adminUser->Position,
-            'Gender'=>$adminUser->Gender,
+            'avatar' => $adminUser->avatar,
+            'Address' => $adminUser->Address,
+            'name' => $adminUser->users->name,
+            'email' => $adminUser->users->email,
+            'Position' => $adminUser->Position,
+            'Gender' => $adminUser->Gender,
 
         ];
-        $userdata= [
+        $userdata = [
 
             'firstname' => $request->First_Name,
             'lastname' => $request->Last_Name,
             'phonenumber' => $request->Phone_number,
-            'avatar'=>$imageprofile,
+            'avatar' => $imageprofile,
             'Address' => $request->Address,
             'Position' => $request->Postion,
-            'name'=>$request->First_Name . ' ' . $request->Last_Name,
-            'email'=>$request->Email,
-            'Gender'=>$request->Gender,
+            'name' => $request->First_Name . ' ' . $request->Last_Name,
+            'email' => $request->Email,
+            'Gender' => $request->Gender,
         ];
 
         $changes = array_diff($userdata, $existingData);
@@ -172,7 +171,15 @@ class RegistrationController extends Controller
             toastr()->info('No Updation');
             return redirect()->back();
         }
+    }
 
+    public function admin_profile_main($id): view
+    {
+        $id = decrypt($id);
+
+        $Adminusers = AdminUser::with('users')->where('user_id',$id)->first();
+
+        return view('admin.profile_view.admin_view', compact('Adminusers'));
     }
     // public function view_create()
     // {
@@ -187,7 +194,7 @@ class RegistrationController extends Controller
         die();
         return view('admin.registration.modal_post', compact('post'));
     }
-
+//-------------------------------------client -------------------------------------//
     public function client_index(): View
     {
         $ClientUser_count = ClientUser::where('suboffice', 'main')->with('users')->get();
@@ -295,14 +302,21 @@ class RegistrationController extends Controller
     {
         $id = decrypt($id);
         $Adminusers = ClientUser::with('users')->find($id);
-        $sub_office= ClientUser::with('users')->where('suboffice', $id)->get();
+        $sub_office = ClientUser::with('users')->where('suboffice', $id)->get();
+
+        $officemain = "4gghjgj";
+        if (($Adminusers->suboffice) === 'main') {
+            $officemain = 'main';
+        } else {
+            $mainoffice = ClientUser::with('users')->find($Adminusers->suboffice);
+            $officemain = $mainoffice->office;
+        }
 
 
-
-        return view('admin.profile_view.client_view', compact('Adminusers','sub_office'));
+        return view('admin.profile_view.client_view', compact('Adminusers', 'sub_office', 'officemain'));
     }
 
-    public function client_profilecreate_social (Request $request, $id): RedirectResponse
+    public function client_profilecreate_social(Request $request, $id): RedirectResponse
     {
 
         $id = decrypt($id);
@@ -330,7 +344,7 @@ class RegistrationController extends Controller
         }
     }
 
-    public function client_profilebasic_details (Request $request, $id): RedirectResponse
+    public function client_profilebasic_details(Request $request, $id): RedirectResponse
     {
 
         $id = decrypt($id);
@@ -342,45 +356,44 @@ class RegistrationController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $image= $request->file('image');
+            $image = $request->file('image');
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->storeAs('images', $profileImage, 'images');
 
 
             if ($adminUser->avatar) {
-                Storage::disk('images')->delete('images/'.$adminUser->avatar);
-
+                Storage::disk('images')->delete('images/' . $adminUser->avatar);
             }
 
             $imageprofile = "$profileImage";
-        }else{
+        } else {
             $imageprofile = $adminUser->avatar;
         }
 
-         $existingData = [
+        $existingData = [
 
             'firstname' => $adminUser->firstname,
             'lastname' => $adminUser->lastname,
             'phonenumber' => $adminUser->phonenumber,
-            'avatar' =>$adminUser->avatar,
-            'Address' =>$adminUser->Address,
-            'name'=>$adminUser->users->name,
-            'email'=>$adminUser->users->email,
-            'Position'=>$adminUser->Position,
-            'Gender'=>$adminUser->Gender,
+            'avatar' => $adminUser->avatar,
+            'Address' => $adminUser->Address,
+            'name' => $adminUser->users->name,
+            'email' => $adminUser->users->email,
+            'Position' => $adminUser->Position,
+            'Gender' => $adminUser->Gender,
 
         ];
-        $userdata= [
+        $userdata = [
 
             'firstname' => $request->First_Name,
             'lastname' => $request->Last_Name,
             'phonenumber' => $request->Phone_number,
-            'avatar'=>$imageprofile,
+            'avatar' => $imageprofile,
             'Address' => $request->Address,
             'Position' => $request->Postion,
-            'name'=>$request->First_Name . ' ' . $request->Last_Name,
-            'email'=>$request->Email,
-            'Gender'=>$request->Gender,
+            'name' => $request->First_Name . ' ' . $request->Last_Name,
+            'email' => $request->Email,
+            'Gender' => $request->Gender,
         ];
 
         $changes = array_diff($userdata, $existingData);
@@ -400,8 +413,104 @@ class RegistrationController extends Controller
             toastr()->info('No Updation');
             return redirect()->back();
         }
-
     }
+    public function client_profilebasic_suboffice(Request $request, $id): RedirectResponse
+    {
+
+        $id = decrypt($id);
+
+
+        if (!empty($request->all())) {
+
+            $adminUser = ClientUser::with('users')->find($id);
+
+            if (($request->officedetails)) {
+                foreach ($request->officedetails as $key => $officedetails) {
+
+
+                        $user = User::create([
+                            'name' => $officedetails['Sub_Office_Name'],
+                            'email' => $officedetails['email_office'],
+                            'password' => Hash::make($officedetails['password_office']),
+                            'user_type' => 'user',
+                            'status' => '1',
+                        ]);
+
+                        $ClientUser = new ClientUser([
+                            'firstname' =>  $officedetails['Sub_Office_Name'],
+                            'lastname' =>  $officedetails['Sub_Office_Name'],
+                            'phonenumber' => $adminUser->phonenumber,
+                            'office' => $officedetails['Sub_Office_Name'],
+                            'location' => $officedetails['Location'],
+                            'suboffice' => $id,
+                        ]);
+
+                        $user->clientUser()->save($ClientUser);
+                        toastr()->success('Data has been saved successfully!');
+                        return redirect()->back();
+
+
+
+                }
+            }
+
+
+        } else {
+            toastr()->info('No Updation');
+            return redirect()->back();
+        }
+    }
+
+//     public function client_profilebasic_suboffice(Request $request, $id): RedirectResponse
+// {
+//     $id = decrypt($id);
+
+//     if (!empty($request->all())) {
+//         $adminUser = ClientUser::with('users')->find($id);
+
+//         if (($request->officedetails)) {
+//             $validationErrors = [];
+
+//             foreach ($request->officedetails as $key => $officedetails) {
+//                 $validator = Validator::make($officedetails, [
+//                     'email_office' => 'required|email|max:255|unique:users,email',
+//                 ]);
+
+//                 if ($validator->fails()) {
+//                     $validationErrors[$key] = $validator->errors()->all();
+//                 } else {
+//                     $user = User::create([
+//                                       'name' => $officedetails['Sub_Office_Name'],
+//                           'email' => $officedetails['email_office'],
+//                            'password' => Hash::make($officedetails['password_office']),
+//                                    'user_type' => 'user',
+//                                    'status' => '1',
+//                                        ]);
+
+//                                          $ClientUser = new ClientUser([
+//                                              'firstname' =>  $officedetails['Sub_Office_Name'],
+//                                             'lastname' =>  $officedetails['Sub_Office_Name'],
+//                                               'phonenumber' => $adminUser->phonenumber,
+//                                             'office' => $officedetails['Sub_Office_Name'],
+//                                              'location' => $officedetails['Location'],
+//                                         'suboffice' => $id,
+//                                 ]);
+
+//                                        $user->clientUser()->save($ClientUser);
+//                                           toastr()->success('Data has been saved successfully!');
+//                                             return redirect()->back();
+//                 }
+//             }
+
+//             if (!empty($validationErrors)) {
+//                 return response()->json(['status' => 'validation_failed', 'errors' => $validationErrors]);
+//             }
+//         }
+//     }
+
+//     return redirect()->back()->with('info', 'No Updation');
+// }
+
     //------------------------------------------tech-------------------------------------//
 
     public function tech_index(): View
@@ -454,7 +563,7 @@ class RegistrationController extends Controller
 
         return view('admin.profile_view.tech_view', compact('Adminusers'));
     }
-    public function tech_profilecreate_social (Request $request, $id): RedirectResponse
+    public function tech_profilecreate_social(Request $request, $id): RedirectResponse
     {
 
         $id = decrypt($id);
@@ -482,7 +591,7 @@ class RegistrationController extends Controller
         }
     }
 
-    public function tech_profilebasic_details (Request $request, $id): RedirectResponse
+    public function tech_profilebasic_details(Request $request, $id): RedirectResponse
     {
 
         $id = decrypt($id);
@@ -494,45 +603,44 @@ class RegistrationController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $image= $request->file('image');
+            $image = $request->file('image');
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->storeAs('images', $profileImage, 'images');
 
 
             if ($adminUser->avatar) {
-                Storage::disk('images')->delete('images/'.$adminUser->avatar);
-
+                Storage::disk('images')->delete('images/' . $adminUser->avatar);
             }
 
             $imageprofile = "$profileImage";
-        }else{
+        } else {
             $imageprofile = $adminUser->avatar;
         }
 
-         $existingData = [
+        $existingData = [
 
             'firstname' => $adminUser->firstname,
             'lastname' => $adminUser->lastname,
             'phonenumber' => $adminUser->phonenumber,
-            'avatar' =>$adminUser->avatar,
-            'Address' =>$adminUser->Address,
-            'name'=>$adminUser->users->name,
-            'email'=>$adminUser->users->email,
-            'Position'=>$adminUser->Position,
-            'Gender'=>$adminUser->Gender,
+            'avatar' => $adminUser->avatar,
+            'Address' => $adminUser->Address,
+            'name' => $adminUser->users->name,
+            'email' => $adminUser->users->email,
+            'Position' => $adminUser->Position,
+            'Gender' => $adminUser->Gender,
 
         ];
-        $userdata= [
+        $userdata = [
 
             'firstname' => $request->First_Name,
             'lastname' => $request->Last_Name,
             'phonenumber' => $request->Phone_number,
-            'avatar'=>$imageprofile,
+            'avatar' => $imageprofile,
             'Address' => $request->Address,
             'Position' => $request->Postion,
-            'name'=>$request->First_Name . ' ' . $request->Last_Name,
-            'email'=>$request->Email,
-            'Gender'=>$request->Gender,
+            'name' => $request->First_Name . ' ' . $request->Last_Name,
+            'email' => $request->Email,
+            'Gender' => $request->Gender,
         ];
 
         $changes = array_diff($userdata, $existingData);
@@ -552,7 +660,6 @@ class RegistrationController extends Controller
             toastr()->info('No Updation');
             return redirect()->back();
         }
-
     }
 
     //-------------------------------------------------------------------------------------------//
@@ -595,5 +702,4 @@ class RegistrationController extends Controller
             return redirect()->back();
         }
     }
-
 }

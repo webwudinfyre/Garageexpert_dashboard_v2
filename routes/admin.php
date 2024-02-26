@@ -28,6 +28,7 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::post('/registration/admin/profilecreate/{id}', [RegistrationController::class, 'admin_profilecreate_social'])->name('registration.profilecreate');
     Route::post('/registration/admin/profilebasic_details/{id}', [RegistrationController::class, 'admin_profilebasic_details'])->name('registration.profilebasic_details');
 
+    Route::get('/registration/admin/profilemain/{id}', [RegistrationController::class, 'admin_profile_main'])->name('registration.admindprofilemain');
 
 
     Route::get('/registration/client', [RegistrationController::class, 'client_index'])->name('registration.clientdetails');
@@ -39,7 +40,9 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::post('/registration/client/profilecreate/{id}', [RegistrationController::class, 'client_profilecreate_social'])->name('registration.client.profilecreate');
     Route::post('/registration/client/profilebasic_details/{id}', [RegistrationController::class, 'client_profilebasic_details'])->name('registration.client.profilebasic_details');
 
-    
+    Route::post('/registration/client/suboffice/{id}', [RegistrationController::class, 'client_profilebasic_suboffice'])->name('registration.clientcreate.suboffice');
+
+
     Route::get('/registration/tech', [RegistrationController::class, 'tech_index'])->name('registration.techdetails');
     Route::POST('/registration/tech/create', [RegistrationController::class, 'tech_create'])->name('registration.techcreate');  //tech add
 

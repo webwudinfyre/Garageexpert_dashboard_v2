@@ -66,12 +66,12 @@
                                             <td>
                                                 <div class="action_icon ">
 
-                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    data-bs-title="View" href="{{ route('admin.registration.techprofile', ['id' => encrypt($techusers->id)]) }}">
-                                                    <button type="button" class="btn">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                </a>
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"
+                                                        href="{{ route('admin.registration.techprofile', ['id' => encrypt($techusers->id)]) }}">
+                                                        <button type="button" class="btn">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                    </a>
 
                                                     <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                         data-bs-title="Password change">
@@ -367,7 +367,7 @@
         </div>
     </section>
 
-    @foreach ($techuser as $posts)
+    {{-- @foreach ($techuser as $posts)
         <section class="view" id="view">
             <div class="modal fade" id="view{{ $posts->id }}" tabindex="-1" aria-labelledby="viewLabel"
                 aria-hidden="true">
@@ -375,7 +375,7 @@
 
             </div>
         </section>
-    @endforeach
+    @endforeach --}}
     @if ($errors->any())
         @section('script')
             <script>

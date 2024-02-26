@@ -75,19 +75,13 @@
                                                 <div class="action_icon ">
 
 
-                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="View">
-                                                        <button type="button" class="btn" data-bs-toggle="modal"
-                                                            data-bs-target="#view{{ $data['client']->id }}">
+
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"
+                                                        href="{{ route('admin.registration.clientprofile', ['id' => encrypt($data['client']->id)]) }}">
+                                                        <button type="button" class="btn">
                                                             <i class="bi bi-eye"></i>
                                                         </button>
                                                     </a>
-                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    data-bs-title="View" href="{{ route('admin.registration.clientprofile', ['id' => encrypt($data['client']->id)]) }}">
-                                                    <button type="button" class="btn">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                </a>
 
                                                     <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                         data-bs-title="Password change">
@@ -290,15 +284,15 @@
         </div>
     </section>
 
-    @foreach ($clientData as $posts)
-        <section class="view" id="view">
-            <div class="modal fade" id="view{{ $posts['client']->id }}" tabindex="-1" aria-labelledby="viewLabel"
-                aria-hidden="true">
-                @include('admin.registration.client_view', ['post' => $posts])
+    {{-- @foreach ($clientData as $posts)
+<section class="view" id="view">
+    <div class="modal fade" id="view{{ $posts['client']->id }}" tabindex="-1" aria-labelledby="viewLabel"
+        aria-hidden="true">
+        @include('admin.registration.client_view', ['post' => $posts])
 
-            </div>
-        </section>
-    @endforeach
+    </div>
+</section>
+@endforeach --}}
 
 
     <section class="view" id="view">
@@ -672,8 +666,6 @@
             });
         </script>
 
-            @include('admin.registration.javascript');
-
-
+        @include('admin.registration.javascript');
     @endpush
 @endsection
