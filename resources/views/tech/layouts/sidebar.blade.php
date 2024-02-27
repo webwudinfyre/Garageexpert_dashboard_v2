@@ -27,9 +27,10 @@
 
 
             <li class="nav-heading">Pages</li>
+            {{--  --}}
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="users-profile.html">
+                <a class="nav-link collapsed" href="{{ route('tech.registration.techprofilemain', ['id' => encrypt(Auth::user()->id)]) }}">
                     <i class="bi bi-person"></i>
                     <span>Profile</span>
                 </a>
@@ -49,7 +50,7 @@
                 </a>
             </li><!-- End Contact Page Nav -->
 
-   
+
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-error-404.html">

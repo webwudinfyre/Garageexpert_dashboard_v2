@@ -50,6 +50,45 @@
                 });
         });
     }
+
+
+
+
+    const Password_change_api = document.getElementById("Password_change_api");
+    if (Password_change_api) {
+        Password_change_api.addEventListener("show.bs.modal", (event) => {
+            // Button that triggered the modal
+            const button = event.relatedTarget;
+            // Extract info from data-bs-* attributes
+            const recipient = button.getAttribute("data-bs-whatever");
+
+            fetch("/client/passwordchange/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    // Update the modal's content with data received from the server
+                    const modalTitle =
+                        Password_change_api.querySelector(".modal-title");
+                    const emailInput =
+                        Password_change_api.querySelector("#floatingEmail");
+                    const nameInput =
+                        Password_change_api.querySelector("#floatingName");
+                    const modalBodyInput =
+                        Password_change_api.querySelector("#recipient-name");
+
+                    modalBodyInput.value = recipient;
+                    modalTitle.textContent = "Password Change";
+                    emailInput.value = data.data.email;
+                    nameInput.value = data.data.name;
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
+
     /**
      *  Status_change function
      */
@@ -73,6 +112,48 @@
                     const nameInput = Status_change.querySelector("#floatingName");
                     const StatusInput = Status_change.querySelector("#statusName");
                     const modalBodyInput = Status_change.querySelector("#recipient-name");
+
+                    modalBodyInput.value = recipient;
+                    modalTitle.textContent = "Status Change";
+                    emailInput.value = data.data.email;
+                    nameInput.value = data.data.name;
+                    const status1=data.data.status;
+
+                    // Update the status input based on the received status value
+                    if (status1 === '1') {
+                        StatusInput.value = "Active";
+                    } else if (status1=== '2') {
+                        StatusInput.value = "Inactive";
+                    }
+
+                    // Populate the dropdown with the received status value
+                    populateDropdown(data.data.status);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
+    const Status_change_client = document.getElementById("Status_change_client");
+    if (Status_change_client) {
+        Status_change_client.addEventListener("show.bs.modal", (event) => {
+            // Button that triggered the modal
+            const button = event.relatedTarget;
+            // Extract info from data-bs-* attributes
+            const recipient = button.getAttribute("data-bs-whatever");
+
+            fetch("/client/passwordchange/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    // Update the modal's content with data received from the server
+                    const modalTitle = Status_change_client.querySelector(".modal-title");
+                    const emailInput = Status_change_client.querySelector("#floatingEmail");
+                    const nameInput = Status_change_client.querySelector("#floatingName");
+                    const StatusInput = Status_change_client.querySelector("#statusName");
+                    const modalBodyInput = Status_change_client.querySelector("#recipient-name");
 
                     modalBodyInput.value = recipient;
                     modalTitle.textContent = "Status Change";

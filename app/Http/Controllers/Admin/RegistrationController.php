@@ -461,54 +461,29 @@ class RegistrationController extends Controller
         }
     }
 
-//     public function client_profilebasic_suboffice(Request $request, $id): RedirectResponse
-// {
-//     $id = decrypt($id);
+    public function client_profile_main($id): view
+    {
 
-//     if (!empty($request->all())) {
-//         $adminUser = ClientUser::with('users')->find($id);
 
-//         if (($request->officedetails)) {
-//             $validationErrors = [];
+        $id = decrypt($id);
 
-//             foreach ($request->officedetails as $key => $officedetails) {
-//                 $validator = Validator::make($officedetails, [
-//                     'email_office' => 'required|email|max:255|unique:users,email',
-//                 ]);
+        $Adminusers = ClientUser::with('users')->where('user_id',$id)->first();
+      
 
-//                 if ($validator->fails()) {
-//                     $validationErrors[$key] = $validator->errors()->all();
-//                 } else {
-//                     $user = User::create([
-//                                       'name' => $officedetails['Sub_Office_Name'],
-//                           'email' => $officedetails['email_office'],
-//                            'password' => Hash::make($officedetails['password_office']),
-//                                    'user_type' => 'user',
-//                                    'status' => '1',
-//                                        ]);
+        $sub_office = ClientUser::with('users')->where('suboffice',$Adminusers->id)->get();
 
-//                                          $ClientUser = new ClientUser([
-//                                              'firstname' =>  $officedetails['Sub_Office_Name'],
-//                                             'lastname' =>  $officedetails['Sub_Office_Name'],
-//                                               'phonenumber' => $adminUser->phonenumber,
-//                                             'office' => $officedetails['Sub_Office_Name'],
-//                                              'location' => $officedetails['Location'],
-//                                         'suboffice' => $id,
-//                                 ]);
+        $officemain = "4gghjgj";
+        if (($Adminusers->suboffice) === 'main') {
+            $officemain = 'main';
+        } else {
+            $mainoffice = ClientUser::with('users')->find($Adminusers->suboffice);
+            $officemain = $mainoffice->office;
+        }
 
-//                                        $user->clientUser()->save($ClientUser);
-//                                           toastr()->success('Data has been saved successfully!');
-//                                             return redirect()->back();
-//                 }
-//             }
 
-//             if (!empty($validationErrors)) {
-//                 return response()->json(['status' => 'validation_failed', 'errors' => $validationErrors]);
-//             }
-//         }
-//     }
+        return view('client.profile_view.client_view', compact('Adminusers', 'sub_office', 'officemain'));
 
-//     return redirect()->back()->with('info', 'No Updation');
+    }
 // }
 
     //------------------------------------------tech-------------------------------------//
