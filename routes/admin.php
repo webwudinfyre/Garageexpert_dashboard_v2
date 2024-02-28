@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Equipments;
 use App\Http\Controllers\Admin\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,10 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::post('/registration/tech/profilebasic_details/{id}', [RegistrationController::class, 'tech_profilebasic_details'])->name('registration.tech.profilebasic_details');
     Route::get('/registration/tech/profile/{id}', [RegistrationController::class, 'tech_profile'])->name('registration.techprofile');
 
+
+
+    // ----------------------------------------equip---------------------------------
+    Route::get('/equipments/view', [Equipments::class, 'view'])->name('equipments.view');
 
 });
 
