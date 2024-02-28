@@ -56,6 +56,10 @@ Route::middleware(['auth', 'user.type:admin'])
 
     // ----------------------------------------equip---------------------------------
     Route::get('/equipments/view', [Equipments::class, 'view'])->name('equipments.view');
+    Route::post('/equipments/equipment_create', [Equipments::class, 'equipment_create'])->name('equipment.create');
+    Route::post('/equipments/equipment_update', [Equipments::class, 'equipment_update'])->name('equipment.update');
+    Route::get('/equipments_view/{id}', [Equipments::class, 'equipments_view']);
+    Route::post('/equipments/equipment_delete', [Equipments::class, 'equipment_delete'])->name('equipment.delete');
 
 });
 

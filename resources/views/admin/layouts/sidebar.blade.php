@@ -43,29 +43,19 @@
 
         <li class="nav-item {{ Request::is('admin/equipments/*') ? 'active' : '' }}">
             <a class="nav-link collapsed" data-bs-target="#Equipments" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>Equipments</span><i
-                    class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-layout-text-window-reverse"></i><span>Equipments</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+
             </a>
             <ul id="Equipments" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
 
                     <a class="{{ Request::is('admin/equipments/view') ? 'active' : '' }}"
-                    href="{{ route('admin.equipments.view') }}">
+                        href="{{ route('admin.equipments.view') }}">
                         <i class="bi bi-circle"></i><span>Equipments List</span>
                     </a>
                 </li>
-                <li>
-                    <a class="{{ Request::is('admin/registration/client') ? 'active' : '' }}"
-                        href="{{ route('admin.registration.clientdetails') }}">
-                        <i class="bi bi-circle"></i><span>Client</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="{{ Request::is('admin/registration/tech') ? 'active' : '' }}"
-                        href="{{ route('admin.registration.techdetails') }}">
-                        <i class="bi bi-circle"></i><span>Technicians</span>
-                    </a>
-                </li>
+
 
             </ul>
 
@@ -90,7 +80,8 @@
 
         {{--  --}}
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('admin.registration.admindprofilemain', ['id' => encrypt(Auth::user()->id)]) }}">
+            <a class="nav-link collapsed"
+                href="{{ route('admin.registration.admindprofilemain', ['id' => encrypt(Auth::user()->id)]) }}">
                 <i class="bi bi-person"></i>
                 <span>Profile</span>
             </a>

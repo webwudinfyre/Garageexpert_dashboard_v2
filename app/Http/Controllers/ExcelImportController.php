@@ -56,8 +56,8 @@ class ExcelImportController extends Controller
             );
         }
 
-
-        return redirect()->back()->with('success', 'Data imported and stored in the database successfully.');
+        toastr()->success('Data imported and stored in the database successfully.');
+        return redirect()->back();
     }
 
     private function extractItemName($itemName, $brand, $model, $size)
