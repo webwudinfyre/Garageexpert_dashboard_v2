@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Equipments;
+use App\Http\Controllers\Admin\JobAllocation;
 use App\Http\Controllers\Admin\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,12 +55,20 @@ Route::middleware(['auth', 'user.type:admin'])
 
 
 
-    // ----------------------------------------equip---------------------------------
+    // ----------------------------------------equip---------------------------------//
     Route::get('/equipments/view', [Equipments::class, 'view'])->name('equipments.view');
     Route::post('/equipments/equipment_create', [Equipments::class, 'equipment_create'])->name('equipment.create');
     Route::post('/equipments/equipment_update', [Equipments::class, 'equipment_update'])->name('equipment.update');
     Route::get('/equipments_view/{id}', [Equipments::class, 'equipments_view']);
     Route::post('/equipments/equipment_delete', [Equipments::class, 'equipment_delete'])->name('equipment.delete');
+
+
+    // ----------------------------------------Job Allocation---------------------------------//
+    Route::get('/joballocation/view', [JobAllocation::class, 'view'])->name('joballocation.view');
+    Route::get('/joballocation/find_client', [JobAllocation::class, 'find_client'])->name('joballocation.find_client');
+    Route::get('/joballocation/Equipment_job', [JobAllocation::class, 'Equipment_job'])->name('joballocation.Equipment_job');
+
+    Route::get('/joballocation/update', [JobAllocation::class, 'update'])->name('joballocation.update');
 
 });
 

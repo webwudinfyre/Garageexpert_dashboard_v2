@@ -30,6 +30,10 @@ class ClientUser extends Model
     {
         return $this->belongsTo(User::class ,'user_id','id');
     }
+    
+    public function Product_add() :BelongsTo {
+        return $this->belongsTo(Product_add::class,'client_id','id');
+    }
 
 
 

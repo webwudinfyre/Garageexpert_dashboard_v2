@@ -325,6 +325,9 @@ h6 {
     font-family: "Nunito", sans-serif;
     color: #899bbd;
     font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 5px;
+
 }
 
 .breadcrumb a {
@@ -731,7 +734,11 @@ i.bi.bi-check-circle {
     border-radius: 4px;
 }
 .sidebar-nav .nav-link.active {
-    background: #ffeee6;
+    background: #ff530a;
+}
+.sidebar-nav .nav-link.active i
+{
+    color: #ffffff;
 }
 
 .sidebar-nav .nav-link i {
@@ -1394,6 +1401,31 @@ span.icon-name {
     color: rgb(255, 0, 0);
     /* Add other styling properties as needed */
 }
+#floatingService .service_option_size
+{
+    font-size: 20px !important;
+    gap: 5px;
+}
+.form-select:focus {
+    border-color: #ff530a70;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem #ff530a66;
+}
+
+.form-control:focus {
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+    border-color: #ff530a70;
+    outline: 0;
+    border-color: #ff530a70;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem #ff530a66;
+}
+i.bi.bi-plus-square {
+    font-size: 22px;
+    color: #000000;
+}
+
 @media (max-width: 576px) {
     .datatable-top {
         gap: 15px;

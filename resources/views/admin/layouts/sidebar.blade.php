@@ -62,12 +62,31 @@
         </li><!-- End Tables Nav -->
 
 
-        <li class="nav-item">
+        <!-- Job Allocation Nav -->
+        <li class="nav-item {{ Request::is('admin/joballocation/*') ? 'active' : '' }}">
+            <a class="nav-link collapsed" data-bs-target="#Job_Allocation" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Job Allocation</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="Job_Allocation" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a class="{{ Request::is('admin/joballocation/view') ? 'active' : '' }}"
+                        href="{{ route('admin.joballocation.view') }}">
+                        <i class="bi bi-circle"></i><span>Add Job Allocation</span>
+                    </a>
+                </li>
+                <!-- Add more list items for other job allocation pages -->
+            </ul>
+        </li>
+
+
+
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Job Allocation</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
 
-        </li><!-- End Forms Nav -->
+        </li><!-- End Forms Nav --> --}}
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
@@ -120,3 +139,5 @@
     </ul>
 
 </aside><!-- End Sidebar-->
+
+

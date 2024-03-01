@@ -1,38 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('contents')
-    {{-- <style>
-    .bluck_add {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border: 1px solid #d1d1d1;
-        border-radius: 5px;
-        margin-top: 20px;
-    }
-
-    .bluck_add h4 {
-        margin-bottom: 20px;
-    }
-
-    .bluck_add form {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-
-    .bluck_add input[type="file"] {
-        flex: 1;
-    }
-
-    .bluck_add button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-</style> --}}
+   
     <style>
         .bluck_add {
 

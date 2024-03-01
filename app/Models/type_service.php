@@ -6,20 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Equipment extends Model
+class type_service extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'item_id',
-        'Brand',
-        'Model',
-        'Size',
-        'Item_name',
+        'service_name',
     ];
 
-
-
     public function Product_add() :BelongsTo {
-        return $this->belongsTo(Product_add::class,'equipment_id','id');
+        return $this->belongsTo(Product_add::class,'typeservices_id','id');
     }
 }
