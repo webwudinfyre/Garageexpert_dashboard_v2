@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('product_adds', function (Blueprint $table) {
-          
+        Schema::table('product_tasks', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('users');
-
+            $table->unsignedBigInteger('task_id');
+            $table->foreign('task_id')->references('id')->on('task_datas');
         });
     }
 
@@ -25,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('product_adds', function (Blueprint $table) {
+        Schema::table('product_tasks', function (Blueprint $table) {
             //
         });
     }

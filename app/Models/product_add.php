@@ -10,15 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class product_add extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'product_id';
     protected $fillable = [
         // Add other fillable attributes here
 
         'client_id',
-        'type_services_id',
+
         'equipment_id',
-        'date_of_schedule',
-        'Reamarks',
         'admin_id',
         'warranties_id',
         'product_code',
@@ -58,4 +56,14 @@ class product_add extends Model
     {
         return $this->belongsTo(User::class, 'admin_id', 'id');
     }
+    public function product_task(): BelongsTo
+    {
+        return $this->belongsTo(product_task::class, 'id', 'product_id');
+    }
+    public function client_pdt_1(): BelongsTo
+{
+    return $this->belongsTo(ClientUser::class, 'client_id', 'id');
+}
+
+
 }

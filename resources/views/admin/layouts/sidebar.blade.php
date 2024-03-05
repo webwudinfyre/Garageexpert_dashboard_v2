@@ -75,6 +75,12 @@
                         <i class="bi bi-circle"></i><span>Add Job Allocation</span>
                     </a>
                 </li>
+                <li>
+                    <a class="{{ Request::is('admin/joballocation/job_list') ? 'active' : '' }}"
+                        href="{{ route('admin.joballocation.job_list') }}">
+                        <i class="bi bi-circle"></i><span>Job List</span>
+                    </a>
+                </li>
                 <!-- Add more list items for other job allocation pages -->
             </ul>
         </li>

@@ -20,8 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('warranties_id');
             $table->foreign('warranties_id')->references('id')->on('warranties');
 
-            $table->unsignedBigInteger('type_services_id');
-            $table->foreign('type_services_id')->references('id')->on('type_services');
+
 
             $table->unsignedBigInteger('equipment_id');
             $table->foreign('equipment_id')->references('id')->on('equipment');

@@ -69,6 +69,7 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::get('/joballocation/Equipment_job', [JobAllocation::class, 'Equipment_job'])->name('joballocation.Equipment_job');
 
     Route::get('/joballocation/update', [JobAllocation::class, 'update'])->name('joballocation.update');
+    Route::get('/joballocation/job_list', [JobAllocation::class, 'job_list'])->name('joballocation.job_list');
 
 });
 
