@@ -71,5 +71,9 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::get('/joballocation/update', [JobAllocation::class, 'update'])->name('joballocation.update');
     Route::get('/joballocation/job_list', [JobAllocation::class, 'job_list'])->name('joballocation.job_list');
 
+    Route::get('/joballocation/job_list_view/{id}', [JobAllocation::class, 'job_list_view'])->name('joballocation.job_list_view');
+    Route::get('/joballocation/search/', [JobAllocation::class, 'job_search'])->name('joballocation.search');
+
+
 });
 

@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('contents')
-   
+
     <style>
         .bluck_add {
 
@@ -317,7 +317,7 @@
                                         autofocus value="{{ old('Item_name') }}">
                                     <label for="floatingItem_name">Item Name</label> --}}
                                     <textarea class="form-control" name="Item_name" placeholder="Address" id="floatingTextarea" style="height: 100px;"></textarea>
-                                    <label for="floatingTextarea">Address</label>
+                                    <label for="floatingTextarea">Item_name</label>
                                     @error('Item_name')
                                         <div class="alert-color" role="alert">
                                             {{ $message }}

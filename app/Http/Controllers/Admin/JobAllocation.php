@@ -56,9 +56,7 @@ class JobAllocation extends Controller
 
 
         $startDate = Carbon::createFromFormat('Y-m-d', $request->Date_Schedule);
-
         $endDate = $startDate->addMonths($request->Warranty_month);
-
         $endDate = $endDate->format('Y-m-d');
         $month = $request->Warranty_month ?: '0';
         $warranty = warranty::create([
@@ -95,10 +93,60 @@ class JobAllocation extends Controller
 
     public function job_list(): view
     {
-        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt','Type_service','task'])
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt','Type_service','task'])->get();
+        $task=task_data::all();
 
+        return view('admin.joballocation.joblist',compact('prdt_task','task'));
+    }
+
+    public function job_list_view(Request $request,$id) :view
+    {
+        $id = decrypt($id);
+        $data = product_add::with(['equip_pdt', 'client_pdt','client_pdt.users','warranty'])->find($id);
+        $prdt_task = product_task::with(['Type_service','task','users_pdt'])->where('product_id',$data->product_id)->get();
+
+        return view('admin.joballocation.job_view', compact('data','prdt_task'));
+    }
+    public function job_search(Request $request): view
+    {
+        $start_date = $request->input('Start_date');
+        $end_date = $request->input('End_date');
+        $task_value = $request->input('Task_value');
+
+        // Only perform validation if Start_date and End_date are present
+        if ($start_date !== null || $end_date !== null) {
+            $request->validate([
+                'Start_date' => 'required|date',
+                'End_date' => 'required|date|after_or_equal:start_date',
+            ]);
+        }
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])
+        ->where(function ($query) use ($start_date, $end_date, $task_value) {
+            $query->when($start_date !== null && $end_date !== null, function ($query) use ($start_date, $end_date) {
+                $query->whereBetween('created_at', [
+                    $start_date . ' 00:00:00',
+                    $end_date . ' 23:59:59',
+                ]);
+            })
+            ->when($task_value !== null, function ($query) use ($task_value) {
+                $query->where('task_id', $task_value);
+            });
+        })
         ->get();
 
-        return view('admin.joballocation.joblist',compact('prdt_task'));
+        $search_page = [
+            'start_date' => $start_date,
+            'end_date'   => $end_date,
+            'Task_value' => $task_value,
+        ];
+
+        $task = task_data::all();
+
+        if ($start_date === null && $end_date === null && $task_value === null) {
+            return $this->job_list();
+        }
+
+        return view('admin.joballocation.joblist', compact('prdt_task', 'task', 'search_page'));
     }
+
 }

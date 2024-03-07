@@ -12,89 +12,121 @@
             return document.querySelector(el);
         }
     };
-     /**
+    /**
      * equiipments edit
      */
-     const view_equip = document.getElementById("view_equip");
+    const view_equip = document.getElementById("view_equip");
 
-     if (view_equip) {
-         view_equip.addEventListener("show.bs.modal", (event) => {
-             // Button that triggered the modal
-             const button = event.relatedTarget;
-             // Extract info from data-bs-* attributes
-             const recipient = button.getAttribute("data-bs-whatever");
+    if (view_equip) {
+        view_equip.addEventListener("show.bs.modal", (event) => {
+            // Button that triggered the modal
+            const button = event.relatedTarget;
+            // Extract info from data-bs-* attributes
+            const recipient = button.getAttribute("data-bs-whatever");
 
-             fetch("/admin/equipments_view/" + recipient, {
-                 method: "get",
-             })
-                 .then((response) => response.json())
-                 .then((data) => {
-                     console.log(data);
-                     // Update the modal's content with data received from the server
-                     const modalTitle = view_equip.querySelector(".modal-title");
-                     const itemIDInput = view_equip.querySelector("#floatingitem_id");
-                     const brandInput = view_equip.querySelector("#floatingBrand");
-                     const modelInput = view_equip.querySelector("#floatingModel");
-                     const addressTextarea = view_equip.querySelector("#floatingTextarea");
-                     const itemID = view_equip.querySelector("#recipient_name");
+            fetch("/admin/equipments_view/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    // Update the modal's content with data received from the server
+                    const modalTitle = view_equip.querySelector(".modal-title");
+                    const itemIDInput =
+                        view_equip.querySelector("#floatingitem_id");
+                    const brandInput =
+                        view_equip.querySelector("#floatingBrand");
+                    const modelInput =
+                        view_equip.querySelector("#floatingModel");
+                    const addressTextarea =
+                        view_equip.querySelector("#floatingTextarea");
+                    const itemID = view_equip.querySelector("#recipient_name");
 
-                     modalTitle.textContent = "Equipment Edit";
+                    modalTitle.textContent = "Equipment Edit";
 
-                     itemID.value = data.data.id;
-                     itemIDInput.value = data.data.item_id;
-                     brandInput.value = data.data.Brand;
-                     modelInput.value = data.data.Model;
-                     addressTextarea.value = data.data.Item_name;
-                 })
-                 .catch((error) => {
-                     console.error("Error:", error);
-                 });
-         });
-     }
+                    itemID.value = data.data.id;
+                    itemIDInput.value = data.data.item_id;
+                    brandInput.value = data.data.Brand;
+                    modelInput.value = data.data.Model;
+                    addressTextarea.value = data.data.Item_name;
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
+
+    /**
+     * view_details product
+     */
+    const view_details = document.getElementById("view_details");
+
+    if (view_details) {
+        view_details.addEventListener("show.bs.modal", (event) => {
+
+            const button = event.relatedTarget;
+            const recipient = button.getAttribute("data-bs-whatever");
+
+            fetch("/admin/joballocation/job_list_view", {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    const id = data;
+                    const brandInput =view_details.querySelector("#floatingModel");
+                    brandInput.value = id;
+                    document.getElementById("demo").innerHTML = `${id}`;
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
 
 
-     /**
+
+    /**
      * delet conformation
      */
 
-     const view_delete = document.getElementById("view_delete");
+    const view_delete = document.getElementById("view_delete");
 
-     if (view_delete) {
-         view_delete.addEventListener("show.bs.modal", (event) => {
-             // Button that triggered the modal
-             const button = event.relatedTarget;
-             // Extract info from data-bs-* attributes
-             const recipient = button.getAttribute("data-bs-whatever");
+    if (view_delete) {
+        view_delete.addEventListener("show.bs.modal", (event) => {
+            // Button that triggered the modal
+            const button = event.relatedTarget;
+            // Extract info from data-bs-* attributes
+            const recipient = button.getAttribute("data-bs-whatever");
 
-             fetch("/admin/equipments_view/" + recipient, {
-                 method: "get",
-             })
-                 .then((response) => response.json())
-                 .then((data) => {
-                     console.log(data);
-                     // Update the modal's content with data received from the server
-                     const modalTitle = view_delete.querySelector(".modal-title");
-                     const itemID = view_delete.querySelector("#Item_ID");
-                     const brand = view_delete.querySelector("#Brand");
-                     const model = view_delete.querySelector("#Model");
-                     const itemName = view_delete.querySelector("#Item_Name");
+            fetch("/admin/equipments_view/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    // Update the modal's content with data received from the server
+                    const modalTitle =
+                        view_delete.querySelector(".modal-title");
+                    const itemID = view_delete.querySelector("#Item_ID");
+                    const brand = view_delete.querySelector("#Brand");
+                    const model = view_delete.querySelector("#Model");
+                    const itemName = view_delete.querySelector("#Item_Name");
 
-                     const id = view_delete.querySelector("#recipient_name");
+                    const id = view_delete.querySelector("#recipient_name");
 
-                     modalTitle.textContent = "Confirm equipment deletion?";
-                     id.value = data.data.id;
-                     itemID.textContent = data.data.item_id;
-                     brand.textContent = data.data.Brand;
-                     model.textContent = data.data.Model;
-                     itemName.textContent = data.data.Item_name;
-                 })
-                 .catch((error) => {
-                     console.error("Error:", error);
-                 });
-         });
-     }
-
-
+                    modalTitle.textContent = "Confirm equipment deletion?";
+                    id.value = data.data.id;
+                    itemID.textContent = data.data.item_id;
+                    brand.textContent = data.data.Brand;
+                    model.textContent = data.data.Model;
+                    itemName.textContent = data.data.Item_name;
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
 
     /**
      * Password_change function
@@ -133,9 +165,6 @@
                 });
         });
     }
-
-
-
 
     const Password_change_api = document.getElementById("Password_change_api");
     if (Password_change_api) {
@@ -190,22 +219,27 @@
                 .then((data) => {
                     console.log(data);
                     // Update the modal's content with data received from the server
-                    const modalTitle = Status_change.querySelector(".modal-title");
-                    const emailInput = Status_change.querySelector("#floatingEmail");
-                    const nameInput = Status_change.querySelector("#floatingName");
-                    const StatusInput = Status_change.querySelector("#statusName");
-                    const modalBodyInput = Status_change.querySelector("#recipient-name");
+                    const modalTitle =
+                        Status_change.querySelector(".modal-title");
+                    const emailInput =
+                        Status_change.querySelector("#floatingEmail");
+                    const nameInput =
+                        Status_change.querySelector("#floatingName");
+                    const StatusInput =
+                        Status_change.querySelector("#statusName");
+                    const modalBodyInput =
+                        Status_change.querySelector("#recipient-name");
 
                     modalBodyInput.value = recipient;
                     modalTitle.textContent = "Status Change";
                     emailInput.value = data.data.email;
                     nameInput.value = data.data.name;
-                    const status1=data.data.status;
+                    const status1 = data.data.status;
 
                     // Update the status input based on the received status value
-                    if (status1 === '1') {
+                    if (status1 === "1") {
                         StatusInput.value = "Active";
-                    } else if (status1=== '2') {
+                    } else if (status1 === "2") {
                         StatusInput.value = "Inactive";
                     }
 
@@ -217,7 +251,9 @@
                 });
         });
     }
-    const Status_change_client = document.getElementById("Status_change_client");
+    const Status_change_client = document.getElementById(
+        "Status_change_client"
+    );
     if (Status_change_client) {
         Status_change_client.addEventListener("show.bs.modal", (event) => {
             // Button that triggered the modal
@@ -232,22 +268,27 @@
                 .then((data) => {
                     console.log(data);
                     // Update the modal's content with data received from the server
-                    const modalTitle = Status_change_client.querySelector(".modal-title");
-                    const emailInput = Status_change_client.querySelector("#floatingEmail");
-                    const nameInput = Status_change_client.querySelector("#floatingName");
-                    const StatusInput = Status_change_client.querySelector("#statusName");
-                    const modalBodyInput = Status_change_client.querySelector("#recipient-name");
+                    const modalTitle =
+                        Status_change_client.querySelector(".modal-title");
+                    const emailInput =
+                        Status_change_client.querySelector("#floatingEmail");
+                    const nameInput =
+                        Status_change_client.querySelector("#floatingName");
+                    const StatusInput =
+                        Status_change_client.querySelector("#statusName");
+                    const modalBodyInput =
+                        Status_change_client.querySelector("#recipient-name");
 
                     modalBodyInput.value = recipient;
                     modalTitle.textContent = "Status Change";
                     emailInput.value = data.data.email;
                     nameInput.value = data.data.name;
-                    const status1=data.data.status;
+                    const status1 = data.data.status;
 
                     // Update the status input based on the received status value
-                    if (status1 === '1') {
+                    if (status1 === "1") {
                         StatusInput.value = "Active";
-                    } else if (status1=== '2') {
+                    } else if (status1 === "2") {
                         StatusInput.value = "Inactive";
                     }
 
@@ -261,21 +302,25 @@
     }
 
     function populateDropdown(status) {
-        var dropdown = $('#myDropdown');
+        var dropdown = $("#myDropdown");
         // Clear previous dropdown options
         dropdown.empty();
 
         // Add options for "Active" and "Inactive"
-        dropdown.append($('<option>', {
-            value: 1,
-            text: 'Active',
-            selected: status === 1
-        }));
-        dropdown.append($('<option>', {
-            value: 2,
-            text: 'Inactive',
-            selected: status === 2
-        }));
+        dropdown.append(
+            $("<option>", {
+                value: 1,
+                text: "Active",
+                selected: status === 1,
+            })
+        );
+        dropdown.append(
+            $("<option>", {
+                value: 2,
+                text: "Inactive",
+                selected: status === 2,
+            })
+        );
     }
 
     /**
@@ -644,5 +689,4 @@
             });
         });
     });
-
 })();

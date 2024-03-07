@@ -226,7 +226,7 @@ class RegistrationController extends Controller
             'officedetails.*.Sub_Office_Name' => 'required|string|max:255',
             'officedetails.*.Location' => 'required|string|max:255',
             'officedetails.*.email_office' => 'required|email|max:255|unique:users,email',
-            'officedetails.*.password_office' => 'required|string|min:6|max:255',
+            
         ]);
 
         try {
@@ -468,7 +468,7 @@ class RegistrationController extends Controller
         $id = decrypt($id);
 
         $Adminusers = ClientUser::with('users')->where('user_id',$id)->first();
-      
+
 
         $sub_office = ClientUser::with('users')->where('suboffice',$Adminusers->id)->get();
 
