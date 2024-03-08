@@ -57,7 +57,7 @@
                     <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                                <img src="{{ asset('admin/assets/img/Login_banner.webp') }}"
                                     alt="login form" class="img-fluid"
                                     style="border-radius: 1rem 0 0 1rem; height:100%" />
                             </div>

@@ -1374,7 +1374,9 @@ i.bi.bi-check-circle {
 .error-message {
     color: red;
 }
-
+i.bi.bi-envelope-paper {
+    color: var(--main-color);
+}
 .edit-profile {
     display: flex;
     padding: 10px;

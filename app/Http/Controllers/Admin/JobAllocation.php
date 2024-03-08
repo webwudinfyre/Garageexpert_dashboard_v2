@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\NewProjectAdded;
 use App\Http\Controllers\Controller;
 use App\Models\ClientUser;
 use App\Models\Equipment;
+use App\Models\Notification;
 use App\Models\product_add;
 use App\Models\product_task;
 use App\Models\task_data;
@@ -17,6 +19,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\DatabaseNotification;
+
 
 class JobAllocation extends Controller
 {
@@ -86,6 +90,9 @@ class JobAllocation extends Controller
             'admin_id' => Auth::user()->id,
 
         ]);
+        // event(new NewProjectAdded($prdt_task));
+   
+        NewProjectAdded::dispatch($prdt_task);
 
         toastr()->success('Data has been saved successfully!');
         return redirect()->back();
@@ -147,6 +154,25 @@ class JobAllocation extends Controller
         }
 
         return view('admin.joballocation.joblist', compact('prdt_task', 'task', 'search_page'));
+    }
+    public function notificationmarak(Request $request): view
+    {
+        $notifications=Notification::where('admin_id',Auth::user()->id)->first();
+        auth()->user()->unreadNotifications->markAsRead();
+        print_r('ha');die();
+    }
+    public function mark_as_read(Request $request,$id): view
+    {
+        $id = decrypt($id);
+        $notifications=Notification::with('prdt_task')->find($id);
+
+
+        $notifications->read_at = now();
+        $notifications->save();
+
+        return $this->job_list_view($request, encrypt($notifications->prdt_task->product_id));
+
+
     }
 
 }

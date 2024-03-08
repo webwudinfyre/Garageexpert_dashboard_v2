@@ -57,6 +57,15 @@ class User extends Authenticatable
     {
        return $this->hasMany(ClientUser::class,'user_id','id');
     }
+    public function notifications() : HasMany
+    {
+       return $this->hasMany(Notification::class,'admin_id','id');
+    }
+    public function unreadNotifications(): HasMany
+    {
+        return $this->hasMany(Notification::class, 'admin_id', 'id')
+            ->whereNull('read_at');
+    }
     // public function adminUser1()
     // {
     //     return $this->hasOne(AdminUser::class,'user_id','id');

@@ -8,6 +8,7 @@
             justify-content: space-between;
         }
     </style>
+
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
             <div class="row d-flex justify-content-between align-items-center">
@@ -129,7 +130,7 @@
 
     </section>
 
-    
+    {{-- $notifications = auth()->user()->notifications; --}}
     <section class="section pt-3" id="section_Search">
         <div class="row">
             <div class="col-lg-12">
