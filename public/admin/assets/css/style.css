@@ -1393,6 +1393,11 @@ i.bi.bi-pencil-square {
 #profile i {
     color: var(--main-color);
 }
+.task_name
+{
+    color: var(--main-color);
+    margin-bottom: 25px;
+}
 span.icon-name {
     gap: 2px;
     margin: 0px 10px;
@@ -1427,7 +1432,9 @@ i.bi.bi-plus-square {
     font-size: 22px;
     color: #000000;
 }
-
+i.bi.bi-journal-plus{
+    color: var(--main-color);
+}
 @media (max-width: 576px) {
     .datatable-top {
         gap: 15px;

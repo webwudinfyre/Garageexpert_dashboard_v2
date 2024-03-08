@@ -26,10 +26,7 @@
 
             <li class="nav-item dropdown">
 
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary_expert badge-number">4</span>
-                </a><!-- End Notification Icon -->
+                @include('components.notification-sidebar_tech')<!-- End Notification Icon -->
 
 
             </li><!-- End Notification Nav -->

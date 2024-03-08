@@ -59,11 +59,31 @@
     /**
      * view_details product
      */
+
+    const taken_by = document.getElementById("taken_by");
+    taken_by.addEventListener("show.bs.modal", (event) => {
+        // Button that triggered the modal
+        const button = event.relatedTarget;
+        // Extract info from data-bs-* attributes
+        const recipient = button.getAttribute("data-bs-whatever");
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        const modalTitle = taken_by.querySelector(".modal-title");
+        const modalBodyInput = taken_by.querySelector(".modal-body input");
+
+        modalTitle.textContent = `New message to ${recipient}`;
+        modalBodyInput.value = recipient;
+    });
+
+    /**
+     * view_details product
+     */
     const view_details = document.getElementById("view_details");
 
     if (view_details) {
         view_details.addEventListener("show.bs.modal", (event) => {
-
             const button = event.relatedTarget;
             const recipient = button.getAttribute("data-bs-whatever");
 
@@ -74,7 +94,8 @@
                 .then((data) => {
                     console.log(data);
                     const id = data;
-                    const brandInput =view_details.querySelector("#floatingModel");
+                    const brandInput =
+                        view_details.querySelector("#floatingModel");
                     brandInput.value = id;
                     document.getElementById("demo").innerHTML = `${id}`;
                 })
@@ -83,8 +104,6 @@
                 });
         });
     }
-
-
 
     /**
      * delet conformation

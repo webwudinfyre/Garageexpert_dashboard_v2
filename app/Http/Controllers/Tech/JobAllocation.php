@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\tech;
+
+use App\Http\Controllers\Controller;
 
 use App\Events\NewProjectAdded;
-use App\Http\Controllers\Controller;
+
 use App\Models\ClientUser;
 use App\Models\Equipment;
 use App\Models\Notification;
@@ -21,7 +23,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\DatabaseNotification;
 
-
 class JobAllocation extends Controller
 {
     public function view(): View
@@ -29,7 +30,7 @@ class JobAllocation extends Controller
 
         $service = type_service::all();
 
-        return view('admin.joballocation.joballoctaion_view', compact('service'));
+        return view('tech.joballocation.joballoctaion_view', compact('service'));
     }
 
     public function find_client(Request $request): JsonResponse
@@ -105,22 +106,26 @@ class JobAllocation extends Controller
 
     public function job_list(): view
     {
-        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->get();
-        $task = task_data::all();
 
-        return view('admin.joballocation.joblist', compact('prdt_task', 'task'));
+        $task = task_data::all();
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('taken_by', '1')->get()
+            ->groupBy('task.task_name');
+
+        return view('tech.joballocation.joblist', compact('prdt_task', 'task'));
     }
 
     public function job_list_view(Request $request, $id): view
     {
         $id = decrypt($id);
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
-        $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt'])->where('product_id', $data->product_id)->get();
+        $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt'])->where('product_id', $data->product_id)
+            ->latest('created_at')->get();
 
 
 
 
-        return view('admin.joballocation.job_view', compact('data', 'prdt_task'));
+
+        return view('tech.joballocation.job_view', compact('data', 'prdt_task'));
     }
     public function job_search(Request $request): view
     {
@@ -135,7 +140,7 @@ class JobAllocation extends Controller
                 'End_date' => 'required|date|after_or_equal:start_date',
             ]);
         }
-        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('taken_by', '1')
             ->where(function ($query) use ($start_date, $end_date, $task_value) {
                 $query->when($start_date !== null && $end_date !== null, function ($query) use ($start_date, $end_date) {
                     $query->whereBetween('created_at', [
@@ -147,7 +152,7 @@ class JobAllocation extends Controller
                         $query->where('task_id', $task_value);
                     });
             })
-            ->get();
+            ->get()->groupBy('task.task_name');
 
         $search_page = [
             'start_date' => $start_date,
@@ -161,7 +166,7 @@ class JobAllocation extends Controller
             return $this->job_list();
         }
 
-        return view('admin.joballocation.joblist', compact('prdt_task', 'task', 'search_page'));
+        return view('tech.joballocation.joblist', compact('prdt_task', 'task', 'search_page'));
     }
     public function notificationmarak(Request $request): view
     {

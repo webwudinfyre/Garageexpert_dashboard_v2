@@ -13,12 +13,12 @@ class product_task extends Model
     use HasFactory;
 
     protected $fillable = [
- 'type_services_id',
-  'date_of_schedule',
-     'Reamarks',
-     'admin_id',
-     'product_id',
-'task_id',
+        'type_services_id',
+        'date_of_schedule',
+        'Reamarks',
+        'admin_id',
+        'product_id',
+        'task_id', 'taskhistory',
     ];
 
     public function users_pdt(): BelongsTo
@@ -39,7 +39,7 @@ class product_task extends Model
     {
         return $this->hasOne(product_add::class, 'product_id', 'product_id');
     }
-    public function product_add_not():  HasOne
+    public function product_add_not(): HasOne
     {
         return $this->hasOne(product_add::class, 'product_id', 'product_id');
     }

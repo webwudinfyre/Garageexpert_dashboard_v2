@@ -4,19 +4,35 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link" href="/tech/dashboard">
+                <a class="nav-link  {{ Request::is('tech/dashboard') ? 'active' : '' }}" href="/tech/dashboard">
                     <i class="bi bi-grid"></i>
                     <span>Tech Dashboard</span>
                 </a>
             </li><!-- End Dashboard Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Job list</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+            <li class="nav-item {{ Request::is('tech/joballocation/*') ? 'active' : '' }}">
+                <a class="nav-link collapsed" data-bs-target="#Job_Allocation" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-layout-text-window-reverse"></i><span>Job Allocation</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
+                <ul id="Job_Allocation" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
-            </li><!-- End Components Nav -->
+                    <li>
+                        <a class="{{ Request::is('tech/joballocation/job_list') ? 'active' : '' }}"
+                            href="{{ route('tech.joballocation.job_list') }}">
+                            <i class="bi bi-circle"></i><span>Job List</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="{{ Request::is('tech/joballocation/job_list') ? 'active' : '' }}"
+                            href="{{ route('tech.joballocation.job_list') }}">
+                            <i class="bi bi-circle"></i><span>My Job List</span>
+                        </a>
+                    </li>
+                    <!-- Add more list items for other job allocation pages -->
+                </ul>
+            </li>
+    <!-- End Components Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
