@@ -122,8 +122,8 @@ class JobAllocation extends Controller
             }
 
 
-
-        return view('tech.joballocation.job_view', compact('data', 'prdt_task','admin_id','pdut_id'));
+            $tech=techUser::all();
+        return view('tech.joballocation.job_view', compact('data', 'prdt_task','admin_id','pdut_id','tech'));
     }
     public function job_list(): view
     {
