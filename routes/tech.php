@@ -40,14 +40,27 @@ Route::middleware(['auth', 'user.type:tech'])
 
             Route::get('/joballocation/update', [JobAllocation::class, 'update'])->name('joballocation.update');
 
-            
+
             Route::get('/joballocation/job_list', [JobAllocation::class, 'job_list'])->name('joballocation.job_list');
 
             Route::get('/joballocation/job_list_view/{id}', [JobAllocation::class, 'job_list_view'])->name('joballocation.job_list_view');
             Route::get('/joballocation/search/', [JobAllocation::class, 'job_search'])->name('joballocation.search');
 
 
+
             Route::get('/joballocation/notification/', [JobAllocation::class, 'notificationmarak'])->name('joballocation.notification');
             Route::get('/joballocation/mark_as_read/{id}', [JobAllocation::class, 'mark_as_read'])->name('joballocation.mark_as_read');
+
+            Route::get('/joballocation/job_view/{id}', [JobAllocation::class, 'job_view'])->name('joballocation.job_view');
+
+            Route::get('/joballocation/job_taken/', [JobAllocation::class, 'job_taken'])->name('joballocation.job_taken');
+            Route::get('/joballocation/Technician_name/', [JobAllocation::class, 'Technician_name'])->name('joballocation.Technician_name');
+            Route::get('/joballocation/job_assign/', [JobAllocation::class, 'job_assign'])->name('joballocation.job_assign');
+
+
+            Route::get('/joballocation/myjob_list', [JobAllocation::class, 'myjob_list'])->name('joballocation.myjob_list');
+            Route::get('/joballocation/myjob_search/', [JobAllocation::class, 'myjob_search'])->name('joballocation.myjobsearch');
+
+
         }
     );

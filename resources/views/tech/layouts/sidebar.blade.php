@@ -24,8 +24,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="{{ Request::is('tech/joballocation/job_list') ? 'active' : '' }}"
-                            href="{{ route('tech.joballocation.job_list') }}">
+                        <a class="{{ Request::is('tech/joballocation/myjob_list') ? 'active' : '' }}"
+                            href="{{ route('tech.joballocation.myjob_list') }}">
                             <i class="bi bi-circle"></i><span>My Job List</span>
                         </a>
                     </li>

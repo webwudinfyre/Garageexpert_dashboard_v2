@@ -80,12 +80,17 @@ class JobAllocation extends Controller
         $productId = $product->product_id;
 
         $task = task_data::select('id')->where('id', 1)->first();
-
+        $already='admin';
         $taskHistory = [
             'task_id' => $task->id,
             'date_time' => $request->Date_Schedule,
             'user_id' => Auth::user()->id,
+            'already'=>$already,
+            'assign'=>'admin'
         ];
+        $existingTaskHistory['new_key'] = $taskHistory;
+        $updatedJsonString = json_encode($existingTaskHistory);
+
         $prdt_task = product_task::create([
             'product_id' => $productId,
             'type_services_id' => $request->type_services_id,
@@ -93,7 +98,9 @@ class JobAllocation extends Controller
             'date_of_schedule' => $request->Date_Schedule,
             'Reamarks' => $request->Remarks,
             'admin_id' => Auth::user()->id,
-            'taskhistory' => json_encode($taskHistory),
+            'already'=>$already,
+            'taskhistory' => $updatedJsonString,
+
         ]);
         // event(new NewProjectAdded($prdt_task));
 

@@ -43,7 +43,7 @@
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
             <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-12  align-items-center ">
+                <div class="col-8  align-items-center ">
                     <h1>Job Details</h1>
                     <nav>
                         <ol class="breadcrumb ">
@@ -51,6 +51,38 @@
                             <li class="breadcrumb-item active">Job Details</li>
                         </ol>
                     </nav>
+                </div>
+
+                <div class="col-4 d-flex justify-content-end">
+                    <div id="view_job_l" class="action_icon ">
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View" href="">
+                            <button type="button" class="btn">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </a>
+
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Assign tp Job">
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#assign_to">
+                               <i class="bi bi-lightning"></i>
+                            </button>
+                        </a>
+                        @if($admin_id !== Auth::user()->id)
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add My Job">
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#taken_by" >
+                                <i class="bi bi-person-fill-add"></i>
+                            </button>
+                        </a>
+                        @endif
+
+
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Assign tp Job">
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#assign_to" >
+                                <i class="bi bi-person-fill-up"></i>
+                            </button>
+                        </a>
+
+
+                    </div>
                 </div>
 
             </div>

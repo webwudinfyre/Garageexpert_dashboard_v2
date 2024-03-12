@@ -38,13 +38,13 @@
     <div id="pagetitle" class="pagetitle">
         <div class="row d-flex justify-content-between align-items-center">
             <div class="col-12  align-items-center ">
-                <h1>Job List</h1>
+                <h1>My Job List</h1>
                 <nav>
                     <ol class="breadcrumb ">
                         <li class="breadcrumb-item"><a href="{{ route('tech.dashboard.index') }}">Home</a></li>
 
                         @if (!empty($search_page))
-                        <li class="breadcrumb-item active"><a href="{{ route('tech.joballocation.job_list') }}">Job
+                        <li class="breadcrumb-item active"><a href="{{ route('tech.joballocation.job_list') }}">My Job
                                 List</a></li>
                         <li class="breadcrumb-item active">Job Serach Result</li>
                         @else
@@ -162,7 +162,7 @@
                 <div class="card-body ">
                     <div class="row gy-3 mt-3">
 
-                        <form action="{{ route('tech.joballocation.search') }}" class="row g-3" method="GET">
+                        <form action="{{ route('tech.joballocation.myjobsearch') }}" class="row g-3" method="GET">
 
                             <div class="col-xxl-3 col-md-6 ">
                                 <div class="row">
@@ -289,19 +289,14 @@
                                                         <i class="bi bi-eye"></i>
                                                     </button>
                                                 </a>
-                                                
+
                                                 <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Assign tp Job">
                                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#assign_to" data-bs-whatever={{
                                                         $prdt_task->product_id }}>
                                                        <i class="bi bi-lightning"></i>
                                                     </button>
                                                 </a>
-                                                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add My Job">
-                                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#taken_by" data-bs-whatever={{ $prdt_task->id
-                                                        }}>
-                                                        <i class="bi bi-person-fill-add"></i>
-                                                    </button>
-                                                </a>
+
 
                                                 <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Assign tp Job">
                                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#assign_to" data-bs-whatever={{

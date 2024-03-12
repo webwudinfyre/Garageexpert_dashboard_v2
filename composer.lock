@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e389ec2511ed3cd7d40f6b7fcf44cfdb",
+    "content-hash": "0516d9178b252893bca60ff0b1c4da83",
     "packages": [
         {
             "name": "brick/math",
@@ -3864,6 +3864,50 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.12.0"
             },
             "time": "2023-12-20T15:28:09+00:00"
+        },
+        {
+            "name": "qcubed/plugin_signaturepad",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qcubed/plugin_signaturepad.git",
+                "reference": "0f890c2d0ab6dc7934437684e9d45fbc3c6edbe6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qcubed/plugin_signaturepad/zipball/0f890c2d0ab6dc7934437684e9d45fbc3c6edbe6",
+                "reference": "0f890c2d0ab6dc7934437684e9d45fbc3c6edbe6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "qcubed-plugin",
+            "extra": {
+                "examples": [
+                    "signaturepad.php"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "QCubed\\Plugin\\": "includes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "QCubed wrapper for the HTML5 canvas based smooth signature drawing http://szimek.github.io/signature_pad/.",
+            "keywords": [
+                "digital signature",
+                "qcubed",
+                "signature"
+            ],
+            "support": {
+                "issues": "https://github.com/qcubed/plugin_signaturepad/issues",
+                "source": "https://github.com/qcubed/plugin_signaturepad/tree/master"
+            },
+            "time": "2016-08-08T16:21:23+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

@@ -1435,6 +1435,53 @@ i.bi.bi-plus-square {
 i.bi.bi-journal-plus{
     color: var(--main-color);
 }
+i.bi.bi-person-fill-add {
+    color: var(--main-color);
+}
+i.bi.bi-person-fill-up {
+    color: var(--main-color);
+}
+.bluck_add {
+
+    padding: 20px;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.bluck_add_v1
+{
+    border-bottom:1px solid #d1d1d1 ;
+    padding: 20px 20px 20px 20px;
+
+}
+
+.custom-border {
+    border-bottom: 1px solid;
+    border-image: linear-gradient(to right, #d1d1d1 98%, white 98%);
+    border-image-slice: 1;
+    margin-bottom: 5px;
+}
+select.form-select option.slected {
+    background-color: #ff0000;
+    /* Change this to your desired color */
+    color: #ffffff;
+    /* Change this to your desired text color */
+}
+
+.ui-widget.ui-widget-content {
+    border: 1px solid #c5c5c5;
+    border-radius: 5px;
+    padding: 5px !important;
+}
+
+ul#ui-id-2 {
+    position: relative;
+    width: 300px;
+    top: -275.531px;
+    left: 40px;
+}
 @media (max-width: 576px) {
     .datatable-top {
         gap: 15px;
@@ -1459,5 +1506,13 @@ i.bi.bi-journal-plus{
         gap: 20px;
         align-items: center;
         flex-wrap: wrap;
+    }
+    .Confirm_assign{
+        margin-top: 20px;
+
+    }
+    div#view_job_l {
+        display: flex;
+        gap: 1px !important;
     }
 }

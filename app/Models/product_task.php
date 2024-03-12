@@ -18,7 +18,10 @@ class product_task extends Model
         'Reamarks',
         'admin_id',
         'product_id',
-        'task_id', 'taskhistory',
+        'task_id',
+         'taskhistory',
+         'already',
+         'taken',
     ];
 
     public function users_pdt(): BelongsTo
