@@ -61,6 +61,8 @@ Route::middleware(['auth', 'user.type:tech'])
             Route::get('/joballocation/myjob_list', [JobAllocation::class, 'myjob_list'])->name('joballocation.myjob_list');
             Route::get('/joballocation/myjob_search/', [JobAllocation::class, 'myjob_search'])->name('joballocation.myjobsearch');
 
+            Route::get('/joballocation/jobinstall/{id}', [JobAllocation::class, 'jobinstall'])->name('joballocation.jobinstall');
+
 
         }
     );

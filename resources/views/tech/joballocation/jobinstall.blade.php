@@ -61,14 +61,11 @@
                             </button>
                         </a>
 
-                        <a data-bs-toggle="tooltip" data-bs-placement="top"
-                        data-bs-title="Start Work" href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($pdut_id)]) }}">
-                        <button type="button" class="btn">
-
-
-                            <i class="bi bi-lightning"></i>
-                        </button>
-                    </a>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Assign tp Job">
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#assign_to">
+                               <i class="bi bi-lightning"></i>
+                            </button>
+                        </a>
                         @if($admin_id !== Auth::user()->id)
                         <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add My Job">
                             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#taken_by" >
@@ -352,60 +349,14 @@
 
                                     </div>
                                     <div class="row gy-3">
+<div class="col-6">
+    <div class="di" style="border: 1px solid  red">
+        <canvas id="signature-pad" width="400px" height="200px"  style="border: 1px solid #000; background-color: #f8f8f8;" ></canvas>
+        <button id="save">Save</button>
+        <button id="clear">Clear</button>
+    </div>
+</div>
 
-
-
-                                        <div class="table-responsive">
-                                            <table id="admin_table" class="table datatable table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>sl.no</th>
-                                                        <th>Services</th>
-                                                        <th>Date Of Schedule</th>
-                                                        <th>Technician Name</th>
-                                                        <th>Date Reached</th>
-                                                        <th>Reamarks</th>
-                                                        <th>Task status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($prdt_task as $prdt_task)
-                                                        <tr>
-                                                            <td>{{ $loop->iteration }}</td>
-                                                            <td>{{ $prdt_task->type_service->service_name }}</td>
-                                                            <td>{{ $prdt_task->date_of_schedule }}</td>
-                                                            <td>
-
-                                                                @if ($prdt_task->users_pdt->user_type == 'user')
-                                                                    <span class="">{{ $prdt_task->users_pdt->name }}
-                                                                        &nbsp
-                                                                        (A)
-                                                                    </span>
-                                                                @elseif($prdt_task->users_pdt->user_type == 'tech')
-                                                                    <span class="">{{ $prdt_task->users_pdt->name }}
-                                                                        &nbsp
-                                                                        (T)</span>
-                                                                @elseif($prdt_task->users_pdt->user_type == 'admin')
-                                                                    <span class="">{{ $prdt_task->users_pdt->name }}
-                                                                        &nbsp
-                                                                        (A)</span>
-                                                                @endif
-                                                            </td>
-                                                            <td>{{ $prdt_task->created_at->format('Y-m-d') }}</td>
-
-
-                                                            <td>
-                                                                {{ $prdt_task->Reamarks }}
-
-                                                            </td>
-                                                            <td>{{ $prdt_task->task->task_name }}</td>
-                                                        </tr>
-                                                    @endforeach
-
-
-                                                </tbody>
-                                            </table>
-                                        </div>
 
 
                                     </div>
@@ -422,4 +373,38 @@
             </div>
         </div>
     </section>
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <script>
+        var canvas = document.getElementById('signature-pad');
+        var signaturePad = new SignaturePad(canvas);
+        document.getElementById('clear').addEventListener('click', function () {
+  signaturePad.clear();
+});
+        document.getElementById('save').addEventListener('click', function () {
+            if (signaturePad.isEmpty()) {
+                alert("Please provide a signature first.");
+            } else {
+                var data = signaturePad.toDataURL('image/svg+xml');
+                // Send the SVG data to the server
+                fetch('/save-signature', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ signature: data })
+                }).then(response => {
+                    if (response.ok) {
+                        alert('Signature saved successfully.');
+                    } else {
+                        alert('Failed to save signature.');
+                    }
+                });
+            }
+        });
+    </script>
+
+    @endpush
 @endsection

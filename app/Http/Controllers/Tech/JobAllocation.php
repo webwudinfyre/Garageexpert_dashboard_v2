@@ -117,13 +117,13 @@ class JobAllocation extends Controller
             foreach ($prdt_task as $task) {
 
                 $admin_id = $task->admin_id;
-
+                $pdut_id=$task->id;
 
             }
 
 
 
-        return view('tech.joballocation.job_view', compact('data', 'prdt_task','admin_id'));
+        return view('tech.joballocation.job_view', compact('data', 'prdt_task','admin_id','pdut_id'));
     }
     public function job_list(): view
     {
@@ -330,5 +330,25 @@ class JobAllocation extends Controller
 
         return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task', 'search_page','tech'));
     }
+    public function jobinstall(Request $request, $id): view
+    {
+        $id = decrypt($id);
 
+        $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt'])->where('id', $id)
+            ->latest('created_at')->get();
+
+            foreach ($prdt_task as $task) {
+
+                $admin_id = $task->admin_id;
+                $pdut_id=$task->id;
+                $product_id=$task->product_id;
+
+            }
+        $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($product_id);
+
+
+
+
+        return view('tech.joballocation.jobinstall', compact('data', 'prdt_task','admin_id'));
+    }
 }

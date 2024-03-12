@@ -1441,6 +1441,10 @@ i.bi.bi-person-fill-add {
 i.bi.bi-person-fill-up {
     color: var(--main-color);
 }
+i.bi.bi-lightning
+{
+    color: var(--main-color);
+}
 .bluck_add {
 
     padding: 20px;
