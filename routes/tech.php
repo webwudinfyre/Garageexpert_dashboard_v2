@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Tech\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\tech\JobAllocation;
+use App\Http\Controllers\Tech\JobAllocation;
 use App\Http\Controllers\Tech\profile;
 use Illuminate\Support\Facades\Route;
 
