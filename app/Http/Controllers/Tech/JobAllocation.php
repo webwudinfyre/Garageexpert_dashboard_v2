@@ -11,6 +11,7 @@ use App\Models\Equipment;
 use App\Models\Notification;
 use App\Models\product_add;
 use App\Models\product_task;
+use App\Models\signatures;
 use App\Models\task_data;
 use App\Models\techUser;
 use App\Models\type_service;
@@ -111,29 +112,67 @@ class JobAllocation extends Controller
     {
         $id = decrypt($id);
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
-        $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt'])->where('product_id', $data->product_id)
-            ->latest('created_at')->get();
+        $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt', 'sign'])->where('product_id', $data->product_id)->get();
+        $prdt_task_2 = product_task::where('product_id', $data->product_id)
+        ->orderBy('created_at', 'desc') // Sort by created_at in descending order
+        ->first();
 
-            foreach ($prdt_task as $task) {
+        foreach ($prdt_task as $task) {
 
-                $admin_id = $task->admin_id;
-                $pdut_id=$task->id;
+            $admin_id = $task->admin_id;
+            $pdut_id = $task->id;
 
+            $product_id_job = $task->product_id;
+        }
+        $taskHistoryArray = [];
+
+        foreach ($prdt_task as $task) {
+
+            $taskHistory = json_decode($task->taskhistory, true);
+
+
+            foreach ($taskHistory as $key => $details) {
+                $details['name'] =  $key;
+                $details['task_name_status'] = task_data::find($details['task_id'])->task_name;
+                $details['user_name'] = User::find($details['user_id'])->name;
+                $details['assign_name'] = User::find($details['assign'])->name;
+                $details['Services'] = $task->type_service->service_name;
+                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                $dateTime = Carbon::parse($details['date_time']);
+                $details['date'] = $dateTime->toDateString();
+                $details['time'] = $dateTime->toTimeString();
+
+
+                if ($key === 'install') {
+                    $details['sign_name'] = $task->sign->name;
+                    $details['sign_postion'] = $task->sign->postion;
+                    // $details['sign_signature_data'] = 'l';
+                    $details['sign_signature_data'] = $task->sign->signature_data;
+                }
+                $mergedArray[$key] = $details;
             }
 
+            $taskHistoryArray[] = $mergedArray;
 
-            $tech=techUser::all();
-        return view('tech.joballocation.job_view', compact('data', 'prdt_task','admin_id','pdut_id','tech'));
+
+            $mergedArray = [];
+        }
+
+
+
+
+        $tech = techUser::all();
+        return view('tech.joballocation.job_view', compact('data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job','prdt_task_2'));
     }
     public function job_list(): view
     {
 
         $task = task_data::all();
-        $tech=techUser::all();
+        $tech = techUser::all();
         $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('already', 'admin')->get()
             ->groupBy('task.task_name');
 
-        return view('tech.joballocation.joblist', compact('prdt_task', 'task','tech'));
+        return view('tech.joballocation.joblist', compact('prdt_task', 'task', 'tech'));
     }
 
     public function job_search(Request $request): view
@@ -170,12 +209,12 @@ class JobAllocation extends Controller
         ];
 
         $task = task_data::all();
-        $tech=techUser::all();
+        $tech = techUser::all();
         if ($start_date === null && $end_date === null && $task_value === null) {
             return $this->job_list();
         }
 
-        return view('tech.joballocation.joblist', compact('prdt_task', 'task', 'search_page','tech'));
+        return view('tech.joballocation.joblist', compact('prdt_task', 'task', 'search_page', 'tech'));
     }
 
 
@@ -207,19 +246,21 @@ class JobAllocation extends Controller
     }
     public function job_taken(Request $request): RedirectResponse
     {
-        $already=Auth::user()->id;
+        $already = Auth::user()->id;
+        $task = task_data::select('id')->where('id', 1)->first();
         $taskHistory = [
-            'task_id' => $request->pdt_id_name,
+            'task_id' =>  $task->id,
             'date_time' => now(),
             'user_id' => Auth::user()->id,
-            'already'=>$already,
-            'assign'=>'my self'
+            'already' => $already,
+            'assign' => Auth::user()->id,
+            'Remarks' => 'job taken',
         ];
         $data = product_task::find($request->pdt_id_name);;
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
 
-        $existingTaskHistory['new_key1'] = $taskHistory;
+        $existingTaskHistory['Job_Myself'] = $taskHistory;
 
 
         $updatedJsonString = json_encode($existingTaskHistory);
@@ -227,40 +268,42 @@ class JobAllocation extends Controller
         $takenby = Auth::user()->id;
         $admin_id = Auth::user()->id;
 
-        $data->update(['taskhistory' => $updatedJsonString, 'taken' =>$takenby  , 'admin_id' => $admin_id,'already'=>$already]);
+        $data->update(['taskhistory' => $updatedJsonString, 'taken' => $takenby, 'admin_id' => $admin_id, 'already' => $already]);
 
         toastr()->success('Job has been saved successfully!');
         return redirect()->back();
-
     }
-    public function job_assign(Request $request) :RedirectResponse
+    public function job_assign(Request $request): RedirectResponse
     {
-        $already=$request->Technician_name_assign;
+        $already = $request->Technician_name_assign;
+
+        $task = task_data::select('id')->where('id', 1)->first();
         $taskHistory = [
-            'task_id' => $request->pdt_id_name_assign,
+            'task_id' => $task->id,
             'date_time' => now(),
             'user_id' => Auth::user()->id,
-            'already'=>$already,
-            'assign'=>'assign to other'
+            'already' => $already,
+            'assign' =>  $request->Technician_name_assign,
+            'Remarks' => 'job_assign',
         ];
         $data = product_task::find($request->pdt_id_name_assign);;
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
 
-        $existingTaskHistory['new_key2'] = $taskHistory;
+        $existingTaskHistory['job_assign'] = $taskHistory;
 
 
         $updatedJsonString = json_encode($existingTaskHistory);
 
-        $takenby =$already;
+        $takenby = $already;
         $admin_id = $already;
 
-        $data->update(['taskhistory' => $updatedJsonString, 'taken' =>$takenby  , 'admin_id' => $admin_id,'already'=>$already]);
+        $data->update(['taskhistory' => $updatedJsonString, 'taken' => $takenby, 'admin_id' => $admin_id, 'already' => $already]);
 
         toastr()->success('Job has been Assign successfully!');
         return redirect()->back();
     }
-    public function Technician_name(Request $request) :JsonResponse
+    public function Technician_name(Request $request): JsonResponse
     {
 
 
@@ -268,7 +311,6 @@ class JobAllocation extends Controller
         $res = techUser::where(function ($query) use ($keyword) {
             $query->where('firstname', 'LIKE', '%' . $keyword . '%')
                 ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');
-
         })->get();
 
         return response()->json($res);
@@ -280,12 +322,12 @@ class JobAllocation extends Controller
     {
 
         $task = task_data::all();
-        $tech=techUser::all();
-        $techname=Auth::user()->id;
-        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('already',$techname )->get()
+        $tech = techUser::all();
+        $techname = Auth::user()->id;
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('already', $techname)->get()
             ->groupBy('task.task_name');
 
-        return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task','tech'));
+        return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task', 'tech'));
     }
 
     public function myjob_search(Request $request): view
@@ -294,7 +336,7 @@ class JobAllocation extends Controller
         $start_date = $request->input('Start_date');
         $end_date = $request->input('End_date');
         $task_value = $request->input('Task_value');
-        $techname=Auth::user()->id;
+        $techname = Auth::user()->id;
         // Only perform validation if Start_date and End_date are present
         if ($start_date !== null || $end_date !== null) {
             $request->validate([
@@ -323,12 +365,12 @@ class JobAllocation extends Controller
         ];
 
         $task = task_data::all();
-        $tech=techUser::all();
+        $tech = techUser::all();
         if ($start_date === null && $end_date === null && $task_value === null) {
             return $this->myjob_list();
         }
 
-        return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task', 'search_page','tech'));
+        return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task', 'search_page', 'tech'));
     }
     public function jobinstall(Request $request, $id): view
     {
@@ -337,18 +379,71 @@ class JobAllocation extends Controller
         $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt'])->where('id', $id)
             ->latest('created_at')->get();
 
-            foreach ($prdt_task as $task) {
+        foreach ($prdt_task as $task) {
 
-                $admin_id = $task->admin_id;
-                $pdut_id=$task->id;
-                $product_id=$task->product_id;
-
-            }
+            $admin_id = $task->admin_id;
+            $pdut_id = $task->id;
+            $product_id = $task->product_id;
+            $prdt_task_id = $task->id;
+        }
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($product_id);
 
 
 
 
-        return view('tech.joballocation.jobinstall', compact('data', 'prdt_task','admin_id'));
+        return view('tech.joballocation.jobinstall', compact('data', 'prdt_task', 'admin_id', 'prdt_task_id'));
+    }
+    public function signature_save(Request $request) : RedirectResponse
+    {
+
+
+        $signatures_data = signatures::create([
+            'product_tasks_id' => $request->producttask_id,
+            'name' => $request->name_client,
+            'postion' => $request->Postion,
+            'signature_data' => $request->signature,
+
+
+        ]);
+        $task = task_data::select('id')->where('id', 3)->first();
+        $already = Auth::user()->id;
+        $taskHistory = [
+            'task_id' =>  $task->id,
+            'date_time' => now(),
+            'user_id' => Auth::user()->id,
+            'already' => $already,
+            'assign' =>  Auth::user()->id,
+            'Remarks' => $request->Remarks,
+        ];
+
+        $data = product_task::find($request->producttask_id);
+        $slnum = product_add::where('product_id', $data->product_id)->update(['serial_no' => $request->Serial_no]);
+        $pduct_id = product_add::find($data->product_id);
+        $existingTaskHistory = json_decode($data->taskhistory, true);
+
+
+        $existingTaskHistory['install'] = $taskHistory;
+
+
+        $updatedJsonString = json_encode($existingTaskHistory);
+
+        $takenby = $already;
+        $admin_id = $already;
+
+        $data->update([
+            'taskhistory' => $updatedJsonString,
+            'task_id' => $task->id,
+            'Reamarks' => $request->Remarks,
+            'taken' => $takenby,
+            'admin_id' => $admin_id,
+            'already' => $already
+        ]);
+        $pduct_id=encrypt($pduct_id->product_id);
+
+        toastr()->success('Job has been Assign successfully!');
+
+        return redirect()->route('tech.joballocation.job_list_view', ['id' => $pduct_id]);
+
+
     }
 }

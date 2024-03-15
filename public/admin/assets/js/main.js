@@ -150,6 +150,48 @@
                  });
        });
    }
+   /**
+     * view_details assign_job
+     */
+
+//    const assign_to_job_button = document.getElementById("assign_to_job_button");
+//    const assign_to_job_modal = document.getElementById("assign_to_job_modal");
+
+//    if (assign_to_job_button && assign_to_job_modal) {
+//        assign_to_job_button.addEventListener("click", () => {
+//            fetch("/tech/joballocation/job_view/" + recipient, {
+//                method: "get",
+//            })
+//            .then((response) => response.json())
+//            .then((data) => {
+//                console.log(data);
+
+//                const Office_Name = document.querySelector("#Office_Name_assign_job");
+//                const Location_Name = document.querySelector("#Location_Name_assign_job");
+//                const Email = document.querySelector("#Email_assign_job");
+//                const Phone_Number= document.querySelector("#Phone_Number_assign_job");
+//                const Product_Code= document.querySelector("#Product_Code_assign_job");
+//                const Brand_Name= document.querySelector("#Brand_Name_assign_job");
+//                const Model= document.querySelector("#Model_assign_job");
+//                const Product_Name= document.querySelector("#Product_Name_assign_job");
+//                const pdt_id_name= document.querySelector("#pdt_id_name_assign_job");
+
+//             //    Office_Name.textContent = data.product_add.client_pdt.office;
+//             //    Location_Name.textContent = data.product_add.client_pdt.location;
+//             //    Email.textContent = data.product_add.client_pdt.users.email;
+//             //    Phone_Number.textContent = data.product_add.client_pdt.phonenumber;
+
+//                Product_Code.textContent = data.product_add.product_code;
+//                Brand_Name.textContent = data.product_add.equip_pdt.Brand;
+//                Model.textContent = data.product_add.equip_pdt.Model;
+//             //    Product_Name.textContent = data.product_add.client_pdt.product_name; // Corrected typo
+//                pdt_id_name.value = data.id; // Setting value property for input field
+//            })
+//            .catch((error) => {
+//                console.error("Error:", error);
+//            });
+//        });
+//    }
 
     /**
      * view_details product

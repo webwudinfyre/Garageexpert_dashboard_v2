@@ -1486,6 +1486,9 @@ ul#ui-id-2 {
     top: -275.531px;
     left: 40px;
 }
+span.assign_to {
+   color: var(--main-color);
+}
 @media (max-width: 576px) {
     .datatable-top {
         gap: 15px;

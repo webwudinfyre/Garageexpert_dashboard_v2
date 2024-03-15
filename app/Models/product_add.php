@@ -20,6 +20,7 @@ class product_add extends Model
         'admin_id',
         'warranties_id',
         'product_code',
+        'serial_no',
     ];
 
     protected static function boot()

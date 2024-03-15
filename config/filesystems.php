@@ -48,7 +48,12 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-
+        'signature' => [
+            'driver' => 'local',
+            'root' => storage_path('app/signature'), // Define the storage path for the 'signature' disk
+            'url' => env('APP_URL').'/storage/signature',
+            'visibility' => 'public',
+        ],
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -86,9 +86,10 @@ class JobAllocation extends Controller
             'date_time' => $request->Date_Schedule,
             'user_id' => Auth::user()->id,
             'already'=>$already,
-            'assign'=>'admin'
+            'assign'=>Auth::user()->id,
+            'Remarks' => $request->Remarks,
         ];
-        $existingTaskHistory['new_key'] = $taskHistory;
+        $existingTaskHistory['Add_Job'] = $taskHistory;
         $updatedJsonString = json_encode($existingTaskHistory);
 
         $prdt_task = product_task::create([

@@ -295,7 +295,7 @@
                                                                     <i class="bi bi-eye"></i>
                                                                 </button>
                                                             </a>
-
+                                                            @if($productId !=='Completed')
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-title="Start Work"
                                                                 href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($prdt_task->product_id)]) }}">
@@ -308,14 +308,14 @@
 
 
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Assign tp Job">
+                                                                data-bs-title="Assign to Job">
                                                                 <button type="button" class="btn"
                                                                     data-bs-toggle="modal" data-bs-target="#assign_to"
                                                                     data-bs-whatever={{ $prdt_task->product_id }}>
                                                                     <i class="bi bi-person-fill-up"></i>
                                                                 </button>
                                                             </a>
-
+                                                            @endif
 
                                                         </div>
 

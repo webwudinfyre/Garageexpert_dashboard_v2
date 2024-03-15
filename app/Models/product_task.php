@@ -46,4 +46,8 @@ class product_task extends Model
     {
         return $this->hasOne(product_add::class, 'product_id', 'product_id');
     }
+    public function sign(): HasOne
+    {
+        return $this->hasOne(signatures::class, 'product_tasks_id', 'id');
+    }
 }
