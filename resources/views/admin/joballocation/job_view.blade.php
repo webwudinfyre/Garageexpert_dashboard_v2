@@ -30,20 +30,20 @@
         }
 
         /* .custom-border::before {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    height: 1px;
-                    background: linear-gradient(to right, black 90%, white 90%);
-                }
-             */
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        height: 1px;
+                        background: linear-gradient(to right, black 90%, white 90%);
+                    }
+                 */
     </style>
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
             <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-12  align-items-center ">
+                <div class="col-8  align-items-center ">
                     <h1>Job Details</h1>
                     <nav>
                         <ol class="breadcrumb ">
@@ -51,6 +51,27 @@
                             <li class="breadcrumb-item active">Job Details</li>
                         </ol>
                     </nav>
+                </div>
+
+                <div class="col-4 d-flex justify-content-end">
+                    <div id="view_job_l" class="action_icon ">
+
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"
+                            href="{{ route('admin.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}">
+                            <button type="button" class="btn">
+
+
+                                <i class="bi bi-download"></i></i>
+                            </button>
+                        </a>
+
+
+
+
+
+
+
+                    </div>
                 </div>
 
             </div>
@@ -309,7 +330,7 @@
 
 
 
-                            <div class="col-12">
+                            {{-- <div class="col-12">
 
                                 <div id="job_deatail_v2" class="bluck_add mb-4">
                                     <div class="head-profie">
@@ -377,6 +398,233 @@
 
 
                                 </div>
+
+                            </div> --}}
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="section pt-3" id="section_admin">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="card_head">
+                            <div class="row d-flex justify-content-between align-items-center">
+                                <div class="col-12">
+                                    <h5 class="card-title">Task History </h5>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 ps-4 pe-4">
+
+
+                                <div class="row gy-3">
+
+
+                                    @php
+                                        use Carbon\Carbon;
+
+                                        // Flatten the array and sort it by 'date_time'
+                                        $sortedArray = collect($taskHistoryArray)
+                                            ->flatten(1)
+                                            ->sortBy(function ($item) {
+                                                return Carbon::parse($item['date']);
+                                            });
+                                    @endphp
+                                    @foreach ($sortedArray as $data)
+                                        <div class="bluck_add mb-4">
+                                            <div class="head-profie">
+                                                <h5 class="card-title">
+                                                    {{ ucfirst(str_replace('_', ' ', $data['name'])) }}</h5>
+
+                                            </div>
+
+
+
+                                            <div class="row gy-3">
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
+
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">Services</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    {{ $data['Services'] }}
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                @if ($data['assign'] === $data['user_id'])
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Technician name</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['user_name'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Technician name</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        [{{ $data['user_name'] }}] <span
+                                                                            class="assign_to">Assign To </span>
+                                                                        [{{ $data['assign_name'] }}]
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                @endif
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
+
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">Date Of Schedule</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    {{ $data['Date_Of_Schedule'] }}
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
+
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">Date Of Action</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    {{ $data['date'] }} {{ $data['time'] }}
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
+
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">Remarks</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    {{ $data['Remarks'] }}
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                @if ($data['name'] === 'install')
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Signature person</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['sign_name'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">postion</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['sign_postion'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">signature</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        <img src="{{ $data['sign_signature_data'] }}"
+                                                                            width="150px" height="40px" />
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+
+
+                                </div>
+
+
+
 
                             </div>
                         </div>

@@ -1445,6 +1445,10 @@ i.bi.bi-lightning
 {
     color: var(--main-color);
 }
+i.bi.bi-download
+{
+    color: var(--main-color);
+}
 .bluck_add {
 
     padding: 20px;
@@ -1489,6 +1493,23 @@ ul#ui-id-2 {
 span.assign_to {
    color: var(--main-color);
 }
+.bluck_add {
+
+    padding: 20px;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+.custom-border {
+    border-bottom: 1px solid;
+    border-image: linear-gradient(to right, #d1d1d1 98%, white 98%);
+    border-image-slice: 1;
+    margin-bottom: 5px;
+}
 @media (max-width: 576px) {
     .datatable-top {
         gap: 15px;
@@ -1521,5 +1542,8 @@ span.assign_to {
     div#view_job_l {
         display: flex;
         gap: 1px !important;
+    }
+    #warranty_type_data .bluck_add {
+        max-height:  none !important;
     }
 }

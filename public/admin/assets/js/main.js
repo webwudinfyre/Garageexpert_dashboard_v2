@@ -142,7 +142,7 @@
                      Product_Code.textContent = data.product_add.product_code;
                      Brand_Name.textContent = data.product_add.equip_pdt.Brand;
                      Model.textContent = data.product_add.equip_pdt.Model;
-                     Product_Name.textContent = data.product_add.client_pdt.phonenumber;
+                     Product_Name.textContent = data.product_add.equip_pdt.Item_name;
                      pdt_id_name.value = data.id;
                  })
                  .catch((error) => {

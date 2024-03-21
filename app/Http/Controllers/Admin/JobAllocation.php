@@ -10,9 +10,11 @@ use App\Models\Notification;
 use App\Models\product_add;
 use App\Models\product_task;
 use App\Models\task_data;
+use App\Models\techUser;
 use App\Models\type_service;
 use App\Models\User;
 use App\Models\warranty;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -20,7 +22,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\DatabaseNotification;
-
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class JobAllocation extends Controller
 {
@@ -40,6 +42,16 @@ class JobAllocation extends Controller
 
         return response()->json($res);
     }
+    public function product_code(Request $request): JsonResponse
+    {
+
+        $res = product_add::with(['client_pdt', 'client_pdt.users', 'equip_pdt', 'warranty'])
+            ->where("product_code", "LIKE", "%{$request->term}%")
+            ->get();
+
+        return response()->json($res);
+    }
+
     public function Equipment_job(Request $request): JsonResponse
     {
 
@@ -56,59 +68,90 @@ class JobAllocation extends Controller
 
     public function  update(Request $request): RedirectResponse
     {
+        if ($request->Product_id) {
+            $task = task_data::select('id')->where('id', 1)->first();
+            $already = 'admin';
+            $taskHistory = [
+                'task_id' => $task->id,
+                'date_time' => $request->Date_Schedule,
+                'user_id' => Auth::user()->id,
+                'already' => $already,
+                'assign' => Auth::user()->id,
+                'Remarks' => $request->Remarks,
+            ];
+            $existingTaskHistory['Add_Job'] = $taskHistory;
+            $updatedJsonString = json_encode($existingTaskHistory);
 
+            $prdt_task = product_task::create([
+                'product_id' => $request->Product_id,
+                'type_services_id' => $request->type_services_id,
+                'task_id' => $task->id,
+                'date_of_schedule' => $request->Date_Schedule,
+                'Reamarks' => $request->Remarks,
+                'admin_id' => Auth::user()->id,
+                'already' => $already,
+                'taskhistory' => $updatedJsonString,
 
+            ]);
+            NewProjectAdded::dispatch($prdt_task);
 
-        $startDate = Carbon::createFromFormat('Y-m-d', $request->Date_Schedule);
-        $endDate = $startDate->addMonths($request->Warranty_month);
-        $endDate = $endDate->format('Y-m-d');
-        $month = $request->Warranty_month ?: '0';
-        $warranty = warranty::create([
-            'month' => $month,
-            'Start_date' => $request->Date_Schedule,
-            'end_date' => $endDate,
-            'warranty_type' => $request->warranty_type,
-        ]);
-        $WarrantyId = $warranty->id;
+            toastr()->success('Data has been saved successfully!');
+            return redirect()->back();
 
-        $product = product_add::create([
-            'client_id' => $request->client_id,
-            'equipment_id' => $request->Equipment_id,
-            'admin_id' => Auth::user()->id,
-            'warranties_id' => $WarrantyId,
-        ]);
-        $productId = $product->product_id;
+        } else {
+            print_r('kkkkk');
+            die();
+            $startDate = Carbon::createFromFormat('Y-m-d', $request->Date_Schedule);
+            $endDate = $startDate->addMonths($request->Warranty_month);
+            $endDate = $endDate->format('Y-m-d');
+            $month = $request->Warranty_month ?: '0';
+            $warranty = warranty::create([
+                'month' => $month,
+                'Start_date' => $request->Date_Schedule,
+                'end_date' => $endDate,
+                'warranty_type' => $request->warranty_type,
+            ]);
+            $WarrantyId = $warranty->id;
 
-        $task = task_data::select('id')->where('id', 1)->first();
-        $already='admin';
-        $taskHistory = [
-            'task_id' => $task->id,
-            'date_time' => $request->Date_Schedule,
-            'user_id' => Auth::user()->id,
-            'already'=>$already,
-            'assign'=>Auth::user()->id,
-            'Remarks' => $request->Remarks,
-        ];
-        $existingTaskHistory['Add_Job'] = $taskHistory;
-        $updatedJsonString = json_encode($existingTaskHistory);
+            $product = product_add::create([
+                'client_id' => $request->client_id,
+                'equipment_id' => $request->Equipment_id,
+                'admin_id' => Auth::user()->id,
+                'warranties_id' => $WarrantyId,
+            ]);
+            $productId = $product->product_id;
 
-        $prdt_task = product_task::create([
-            'product_id' => $productId,
-            'type_services_id' => $request->type_services_id,
-            'task_id' => $task->id,
-            'date_of_schedule' => $request->Date_Schedule,
-            'Reamarks' => $request->Remarks,
-            'admin_id' => Auth::user()->id,
-            'already'=>$already,
-            'taskhistory' => $updatedJsonString,
+            $task = task_data::select('id')->where('id', 1)->first();
+            $already = 'admin';
+            $taskHistory = [
+                'task_id' => $task->id,
+                'date_time' => $request->Date_Schedule,
+                'user_id' => Auth::user()->id,
+                'already' => $already,
+                'assign' => Auth::user()->id,
+                'Remarks' => $request->Remarks,
+            ];
+            $existingTaskHistory['Add_Job'] = $taskHistory;
+            $updatedJsonString = json_encode($existingTaskHistory);
 
-        ]);
-        // event(new NewProjectAdded($prdt_task));
+            $prdt_task = product_task::create([
+                'product_id' => $productId,
+                'type_services_id' => $request->type_services_id,
+                'task_id' => $task->id,
+                'date_of_schedule' => $request->Date_Schedule,
+                'Reamarks' => $request->Remarks,
+                'admin_id' => Auth::user()->id,
+                'already' => $already,
+                'taskhistory' => $updatedJsonString,
 
-        NewProjectAdded::dispatch($prdt_task);
+            ]);
+            // event(new NewProjectAdded($prdt_task));
 
-        toastr()->success('Data has been saved successfully!');
-        return redirect()->back();
+            NewProjectAdded::dispatch($prdt_task);
+
+            toastr()->success('Data has been saved successfully!');
+            return redirect()->back();
+        }
     }
 
     public function job_list(): view
@@ -125,11 +168,149 @@ class JobAllocation extends Controller
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
         $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt'])->where('product_id', $data->product_id)->get();
 
+        $prdt_task_2 = product_task::where('product_id', $data->product_id)
+            ->orderBy('created_at', 'desc') // Sort by created_at in descending order
+            ->first();
+
+        foreach ($prdt_task as $task) {
+
+            $admin_id = $task->admin_id;
+            $pdut_id = $task->id;
+
+            $product_id_job = $task->product_id;
+        }
+        $taskHistoryArray = [];
+
+        foreach ($prdt_task as $task) {
+
+            $taskHistory = json_decode($task->taskhistory, true);
+
+
+            foreach ($taskHistory as $key => $details) {
+                $details['name'] =  $key;
+                $details['task_name_status'] = task_data::find($details['task_id'])->task_name;
+                $details['user_name'] = User::find($details['user_id'])->name;
+                $details['assign_name'] = User::find($details['assign'])->name;
+                $details['Services'] = $task->type_service->service_name;
+                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                $dateTime = Carbon::parse($details['date_time']);
+                $details['date'] = $dateTime->toDateString();
+                $details['time'] = $dateTime->toTimeString();
+
+
+                if ($key === 'install') {
+                    $details['sign_name'] = $task->sign->name;
+                    $details['sign_postion'] = $task->sign->postion;
+                    // $details['sign_signature_data'] = 'l';
+                    $details['sign_signature_data'] = $task->sign->signature_data;
+                }
+                $mergedArray[$key] = $details;
+            }
+
+            $taskHistoryArray[] = $mergedArray;
+
+
+            $mergedArray = [];
+        }
 
 
 
-        return view('admin.joballocation.job_view', compact('data', 'prdt_task'));
+
+        $tech = techUser::all();
+
+
+        return view('admin.joballocation.job_view', compact('data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job', 'prdt_task_2'));
     }
+
+    public function jobpdfdowmload(Request $request, $id)
+    {
+        $id = decrypt($id);
+        $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
+        $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt', 'sign'])->where('product_id', $data->product_id)->get();
+        $prdt_task_2 = product_task::where('product_id', $data->product_id)
+            ->orderBy('created_at', 'desc') // Sort by created_at in descending order
+            ->first();
+
+        foreach ($prdt_task as $task) {
+
+            $admin_id = $task->admin_id;
+            $pdut_id = $task->id;
+
+            $product_id_job = $task->product_id;
+        }
+        $taskHistoryArray = [];
+
+        foreach ($prdt_task as $task) {
+
+            $taskHistory = json_decode($task->taskhistory, true);
+
+
+            foreach ($taskHistory as $key => $details) {
+                $details['name'] =  $key;
+                $details['task_name_status'] = task_data::find($details['task_id'])->task_name;
+                $details['user_name'] = User::find($details['user_id'])->name;
+                $details['assign_name'] = User::find($details['assign'])->name;
+                $details['Services'] = $task->type_service->service_name;
+                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                $dateTime = Carbon::parse($details['date_time']);
+                $details['date'] = $dateTime->toDateString();
+                $details['time'] = $dateTime->toTimeString();
+
+
+                if ($key === 'install') {
+                    $details['sign_name'] = $task->sign->name;
+                    $details['sign_postion'] = $task->sign->postion;
+                    // $details['sign_signature_data'] = 'l';
+                    $details['sign_signature_data'] = $task->sign->signature_data;
+                }
+                $mergedArray[$key] = $details;
+            }
+
+            $taskHistoryArray[] = $mergedArray;
+
+
+            $mergedArray = [];
+        }
+
+
+        $tech = techUser::all();
+
+        $imagePaths = array(
+            public_path() . '/admin/assets/img/header@4x.png',
+            public_path() . '/admin/assets/img/Garage-Logo-White.png',
+            public_path() . '/admin/assets/img/watermark.png',
+            public_path() . '/admin/assets/img/Footer_1@4x.png',
+
+        );
+
+        // Associative array to store base64 encoded images
+        $base64Images = array();
+
+        foreach ($imagePaths as $key => $path1) {
+            $type = pathinfo($path1, PATHINFO_EXTENSION);
+            $imagePathsdata = file_get_contents($path1);
+            $base64Image = 'data:image/' . $type . ';base64,' . base64_encode($imagePathsdata);
+            $base64Images["image$key"] = $base64Image;
+        }
+
+        $path = public_path() . '/admin/assets/img/header@4x.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data1 = file_get_contents($path);
+        $image = 'data:image/' . $type . ';base64,' . base64_encode($data1);
+
+        // $tech = techUser::all();
+        $data2 = ['base64Images' => $base64Images, 'image' => $image, 'data' =>  $data, 'prdt_task' => $prdt_task, 'admin_id' => $admin_id, 'pdut_id' => $pdut_id, 'tech' => $tech, 'taskHistoryArray' => $taskHistoryArray, 'product_id_job' => $product_id_job, 'prdt_task_2' => $prdt_task_2];
+
+
+        $html = view('.pdf.pdfdownload', $data2)->render();
+        $pdf = PDF::loadHTML($html);
+        return $pdf->download($data->product_code . '.pdf');
+
+        
+
+    }
+
+
     public function job_search(Request $request): view
     {
         $start_date = $request->input('Start_date');

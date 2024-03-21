@@ -291,13 +291,16 @@
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-title="View"
                                                                 href="{{ route('tech.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}">
+                                                               
                                                                 <button type="button" class="btn">
                                                                     <i class="bi bi-eye"></i>
                                                                 </button>
                                                             </a>
 
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Start Work" href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($prdt_task->product_id)]) }}">
+                                                                data-bs-title="Start Work"
+
+                                                                href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($prdt_task->id)]) }}">
                                                                 <button type="button" class="btn">
 
 
@@ -314,10 +317,10 @@
                                                             </a>
 
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Assign tp Job">
+                                                                data-bs-title="Assign to Job">
                                                                 <button type="button" class="btn"
                                                                     data-bs-toggle="modal" data-bs-target="#assign_to"
-                                                                    data-bs-whatever={{ $prdt_task->product_id }}>
+                                                                    data-bs-whatever={{ $prdt_task->id }}>
                                                                     <i class="bi bi-person-fill-up"></i>
                                                                 </button>
                                                             </a>

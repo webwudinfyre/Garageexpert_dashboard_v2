@@ -66,6 +66,7 @@ Route::middleware(['auth', 'user.type:admin'])
     // ----------------------------------------Job Allocation---------------------------------//
     Route::get('/joballocation/view', [JobAllocation::class, 'view'])->name('joballocation.view');
     Route::get('/joballocation/find_client', [JobAllocation::class, 'find_client'])->name('joballocation.find_client');
+    Route::get('/joballocation/product_code', [JobAllocation::class, 'product_code'])->name('joballocation.product_code');
     Route::get('/joballocation/Equipment_job', [JobAllocation::class, 'Equipment_job'])->name('joballocation.Equipment_job');
 
     Route::get('/joballocation/update', [JobAllocation::class, 'update'])->name('joballocation.update');
@@ -77,8 +78,8 @@ Route::middleware(['auth', 'user.type:admin'])
 
     Route::get('/joballocation/notification/', [JobAllocation::class, 'notificationmarak'])->name('joballocation.notification');
     Route::get('/joballocation/mark_as_read/{id}', [JobAllocation::class, 'mark_as_read'])->name('joballocation.mark_as_read');
+    Route::get('/joballocation/job_pdf_dowmload/{id}', [JobAllocation::class, 'jobpdfdowmload'])->name('joballocation.job_pdf_dowmload');
 
-    
 
     // href="{{ route('admin.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}"
 });

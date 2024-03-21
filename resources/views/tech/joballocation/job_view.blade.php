@@ -11,14 +11,7 @@
             margin-bottom: 20px;
         }
 
-        .under_line {
-
-
-
-
-
-            /* Optional: Adjust padding for spacing */
-        }
+        .under_line {}
 
         #job_deatail_v2 .under_line {}
 
@@ -28,18 +21,6 @@
             border-image-slice: 1;
             margin-bottom: 5px;
         }
-
-
-        /* .custom-border::before {
-                                            content: "";
-                                            position: absolute;
-                                            top: 0;
-                                            left: 0;
-                                            right: 0;
-                                            height: 1px;
-                                            background: linear-gradient(to right, black 90%, white 90%);
-                                        }
-                                     */
     </style>
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
@@ -61,6 +42,12 @@
                                 <i class="bi bi-eye"></i>
                             </button>
                         </a>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"
+                            href="{{ route('tech.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}">
+                            <button type="button" class="btn">
+                                <i class="bi bi-download"></i></i>
+                            </button>
+                        </a>
                         @if ($prdt_task_2->task_id !== 3)
                             <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Start Work"
                                 href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($pdut_id)]) }}">
@@ -72,7 +59,7 @@
                             </a>
                             <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Assign to Job">
                                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#assign_to"
-                                    data-bs-whatever={{ $product_id_job }}>
+                                    data-bs-whatever={{ $pdut_id }}>
                                     <i class="bi bi-person-fill-up"></i>
                                 </button>
                             </a>
@@ -98,7 +85,6 @@
 
         </div>
     </section>
-
 
     <section class="section pt-3" id="section_admin">
         <div class="row">
@@ -359,7 +345,6 @@
             </div>
         </div>
     </section>
-
 
     <section class="section pt-3" id="section_admin">
         <div class="row">
@@ -830,6 +815,7 @@
             </div>
         </div>
     </section>
+
     <section id='assign'>
         <div class="modal fade" id="assign_to" tabindex="-1" aria-labelledby="assign_to" aria-hidden="true">
             <div class="modal-dialog modal-lg">

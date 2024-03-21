@@ -17,6 +17,7 @@ use App\Models\techUser;
 use App\Models\type_service;
 use App\Models\User;
 use App\Models\warranty;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -25,6 +26,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\DatabaseNotification;
 use PhpParser\Node\Expr\Print_;
+use Dompdf\Dompdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class JobAllocation extends Controller
 {
@@ -114,8 +117,8 @@ class JobAllocation extends Controller
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
         $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt', 'sign'])->where('product_id', $data->product_id)->get();
         $prdt_task_2 = product_task::where('product_id', $data->product_id)
-        ->orderBy('created_at', 'desc') // Sort by created_at in descending order
-        ->first();
+            ->orderBy('created_at', 'desc') // Sort by created_at in descending order
+            ->first();
 
         foreach ($prdt_task as $task) {
 
@@ -162,7 +165,97 @@ class JobAllocation extends Controller
 
 
         $tech = techUser::all();
-        return view('tech.joballocation.job_view', compact('data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job','prdt_task_2'));
+        return view('tech.joballocation.job_view', compact('data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job', 'prdt_task_2'));
+    }
+
+    public function jobpdfdowmload(Request $request, $id)
+    {
+        // {
+        $id = decrypt($id);
+        $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
+        $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt', 'sign'])->where('product_id', $data->product_id)->get();
+        $prdt_task_2 = product_task::where('product_id', $data->product_id)
+            ->orderBy('created_at', 'desc') // Sort by created_at in descending order
+            ->first();
+
+        foreach ($prdt_task as $task) {
+
+            $admin_id = $task->admin_id;
+            $pdut_id = $task->id;
+
+            $product_id_job = $task->product_id;
+        }
+        $taskHistoryArray = [];
+
+        foreach ($prdt_task as $task) {
+
+            $taskHistory = json_decode($task->taskhistory, true);
+
+
+            foreach ($taskHistory as $key => $details) {
+                $details['name'] =  $key;
+                $details['task_name_status'] = task_data::find($details['task_id'])->task_name;
+                $details['user_name'] = User::find($details['user_id'])->name;
+                $details['assign_name'] = User::find($details['assign'])->name;
+                $details['Services'] = $task->type_service->service_name;
+                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                $dateTime = Carbon::parse($details['date_time']);
+                $details['date'] = $dateTime->toDateString();
+                $details['time'] = $dateTime->toTimeString();
+
+
+                if ($key === 'install') {
+                    $details['sign_name'] = $task->sign->name;
+                    $details['sign_postion'] = $task->sign->postion;
+                    // $details['sign_signature_data'] = 'l';
+                    $details['sign_signature_data'] = $task->sign->signature_data;
+                }
+                $mergedArray[$key] = $details;
+            }
+
+            $taskHistoryArray[] = $mergedArray;
+
+
+            $mergedArray = [];
+        }
+
+
+        $tech = techUser::all();
+
+        $imagePaths = array(
+            public_path() . '/admin/assets/img/header@4x.png',
+            public_path() . '/admin/assets/img/Garage-Logo-White.png',
+            public_path() . '/admin/assets/img/watermark.png',
+            public_path() . '/admin/assets/img/Footer_1@4x.png',
+
+        );
+
+        // Associative array to store base64 encoded images
+        $base64Images = array();
+
+        foreach ($imagePaths as $key => $path1) {
+            $type = pathinfo($path1, PATHINFO_EXTENSION);
+            $imagePathsdata = file_get_contents($path1);
+            $base64Image = 'data:image/' . $type . ';base64,' . base64_encode($imagePathsdata);
+            $base64Images["image$key"] = $base64Image;
+        }
+
+        $path = public_path() . '/admin/assets/img/header@4x.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data1 = file_get_contents($path);
+        $image = 'data:image/' . $type . ';base64,' . base64_encode($data1);
+
+        $tech = techUser::all();
+        $data2 = ['base64Images' => $base64Images, 'image' => $image, 'data' =>  $data, 'prdt_task' => $prdt_task, 'admin_id' => $admin_id, 'pdut_id' => $pdut_id, 'tech' => $tech, 'taskHistoryArray' => $taskHistoryArray, 'product_id_job' => $product_id_job, 'prdt_task_2' => $prdt_task_2];
+
+        $html = view('tech.pdf.pdfdownload', $data2)->render();
+        $pdf = PDF::loadHTML($html);
+        return $pdf->download($data->product_code . '.pdf');
+
+
+
+
+        //  return view('tech.pdf.pdfdownload', $data2);
     }
     public function job_list(): view
     {
@@ -385,15 +478,16 @@ class JobAllocation extends Controller
             $pdut_id = $task->id;
             $product_id = $task->product_id;
             $prdt_task_id = $task->id;
+            $type_services = $task->Type_service->service_name;
         }
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($product_id);
 
 
 
 
-        return view('tech.joballocation.jobinstall', compact('data', 'prdt_task', 'admin_id', 'prdt_task_id'));
+        return view('tech.joballocation.jobinstall', compact('data', 'prdt_task', 'admin_id', 'prdt_task_id', 'type_services'));
     }
-    public function signature_save(Request $request) : RedirectResponse
+    public function signature_save(Request $request): RedirectResponse
     {
 
 
@@ -438,12 +532,10 @@ class JobAllocation extends Controller
             'admin_id' => $admin_id,
             'already' => $already
         ]);
-        $pduct_id=encrypt($pduct_id->product_id);
+        $pduct_id = encrypt($pduct_id->product_id);
 
         toastr()->success('Job has been Assign successfully!');
 
         return redirect()->route('tech.joballocation.job_list_view', ['id' => $pduct_id]);
-
-
     }
 }

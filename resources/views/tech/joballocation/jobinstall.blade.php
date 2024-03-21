@@ -363,7 +363,7 @@
 
                                 <div id="job_deatail_v2" class="bluck_add mb-4">
                                     <div class="head-profie">
-                                        <h5 class="card-title">Inst Details</h5>
+                                        <h5 class="card-title">{{ $type_services }} Details</h5>
 
                                     </div>
                                     <form id="signature-form" action="/tech/save-signature" method="post">

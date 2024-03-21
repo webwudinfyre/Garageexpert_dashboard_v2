@@ -22,8 +22,6 @@ return new class extends Migration
             ['service_name' => 'Installation'],
             ['service_name' => 'Insception'],
             ['service_name' => 'Complaint'],
-            ['service_name' => 'Repair'],
-            ['service_name' => 'Warranty'],
             ['service_name' => 'AMC'],
 
         ]);
