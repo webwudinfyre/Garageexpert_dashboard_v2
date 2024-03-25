@@ -13,5 +13,7 @@ class signatures extends Model
         'name',
         'postion',
         'signature_data',
+        'email_id_sign',
+        'phone_sign',
     ];
 }

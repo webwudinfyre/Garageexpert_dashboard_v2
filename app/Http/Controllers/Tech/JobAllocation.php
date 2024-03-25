@@ -28,6 +28,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use PhpParser\Node\Expr\Print_;
 use Dompdf\Dompdf;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Validator;
 
 class JobAllocation extends Controller
 {
@@ -65,6 +66,9 @@ class JobAllocation extends Controller
     {
 
 
+        $time = Carbon::now()->toTimeString();
+        $date_of_sch = $request->Date_Schedule;
+        $req_date = Carbon::parse($date_of_sch)->setTimeFromTimeString($time);
 
         $startDate = Carbon::createFromFormat('Y-m-d', $request->Date_Schedule);
         $endDate = $startDate->addMonths($request->Warranty_month);
@@ -90,7 +94,7 @@ class JobAllocation extends Controller
 
         $taskHistory = [
             'task_id' => $task->id,
-            'date_time' => $request->Date_Schedule,
+            'date_time' => $req_date,
             'user_id' => Auth::user()->id,
         ];
         $prdt_task = product_task::create([
@@ -149,6 +153,8 @@ class JobAllocation extends Controller
                 if ($key === 'install') {
                     $details['sign_name'] = $task->sign->name;
                     $details['sign_postion'] = $task->sign->postion;
+                    $details['sign_Email'] = $task->sign->email_id_sign;
+                    $details['sign_Phone'] = $task->sign->phone_sign;
                     // $details['sign_signature_data'] = 'l';
                     $details['sign_signature_data'] = $task->sign->signature_data;
                 }
@@ -156,8 +162,6 @@ class JobAllocation extends Controller
             }
 
             $taskHistoryArray[] = $mergedArray;
-
-
             $mergedArray = [];
         }
 
@@ -207,6 +211,8 @@ class JobAllocation extends Controller
                 if ($key === 'install') {
                     $details['sign_name'] = $task->sign->name;
                     $details['sign_postion'] = $task->sign->postion;
+                    $details['sign_Email'] = $task->sign->email_id_sign;
+                    $details['sign_Phone'] = $task->sign->phone_sign;
                     // $details['sign_signature_data'] = 'l';
                     $details['sign_signature_data'] = $task->sign->signature_data;
                 }
@@ -339,6 +345,9 @@ class JobAllocation extends Controller
     }
     public function job_taken(Request $request): RedirectResponse
     {
+
+
+
         $already = Auth::user()->id;
         $task = task_data::select('id')->where('id', 1)->first();
         $taskHistory = [
@@ -489,12 +498,42 @@ class JobAllocation extends Controller
     }
     public function signature_save(Request $request): RedirectResponse
     {
+        $data = product_task::find($request->producttask_id);
 
+        $slnum1 = product_add::where('product_id', $data->product_id)->first();
+        if (empty($slnum1->serial_number)) {
+            $validator = Validator::make($request->all(), [
+                'Serial_no' => 'required|unique:product_adds,serial_number',
+
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput()
+                    ->with('error', 'Serial number already taken'); // Add an error message
+            }
+        }
+
+
+        $notifications = Notification::where('product_tasks_id', $request->producttask_id)
+            ->get();
+
+        $notificationsToUpdate = $notifications->reject(function ($notification) {
+            return $notification->tech_admin === null;
+        });
+        foreach ($notificationsToUpdate as $notification) {
+
+
+            $notification->update(['read_at' => now()]);
+        }
 
         $signatures_data = signatures::create([
             'product_tasks_id' => $request->producttask_id,
             'name' => $request->name_client,
             'postion' => $request->Postion,
+            'email_id_sign' => $request->Email_client,
+            'phone_sign' => $request->phone_client,
             'signature_data' => $request->signature,
 
 
@@ -511,7 +550,7 @@ class JobAllocation extends Controller
         ];
 
         $data = product_task::find($request->producttask_id);
-        $slnum = product_add::where('product_id', $data->product_id)->update(['serial_no' => $request->Serial_no]);
+        $slnum = product_add::where('product_id', $data->product_id)->update(['serial_number' => $request->Serial_no]);
         $pduct_id = product_add::find($data->product_id);
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
@@ -533,6 +572,12 @@ class JobAllocation extends Controller
             'already' => $already
         ]);
         $pduct_id = encrypt($pduct_id->product_id);
+
+
+
+
+
+
 
         toastr()->success('Job has been Assign successfully!');
 

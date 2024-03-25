@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A4 Sheet</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     {{-- <link href="{{ asset('admin/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> --}}
 
@@ -31,6 +32,7 @@
         .pt-3 {
             padding-top: 1rem !important;
         }
+
         .card {
             border: 0px solid rgba(0, 0, 0, .125);
         }
@@ -119,28 +121,28 @@
 
 
 
-table {
-        width: 100%;
-        border-collapse: collapse;
+        table {
+            width: 100%;
+            border-collapse: collapse;
 
-    }
+        }
 
-    th, td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: left;
-        width:100%;
-    }
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            width: 100%;
+        }
 
-    th {
-        background-color: #f0f0f0;
-    }
-
+        th {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 
 <body>
-    <div class="content " >
+    <div class="content ">
 
         <div class="header">
             <div class="header_image">
@@ -159,7 +161,7 @@ table {
 
             </div>
         </section>
-        <section class="section " id="section_admin" >
+        <section class="section " id="section_admin">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -213,6 +215,10 @@ table {
                                                             <td>{{ $data->product_code }}</td>
                                                         </tr>
                                                         <tr>
+                                                            <td>Serial Number</td>
+                                                            <td>{{ $data->serial_number }}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td>Brand Name</td>
                                                             <td>{{ $data->equip_pdt->Brand }}</td>
                                                         </tr>
@@ -226,7 +232,8 @@ table {
                                                         </tr>
                                                         <tr>
                                                             <td>Warranty</td>
-                                                            <td>{{ $data->warranty->warranty_type === '1' ? 'Yes' : 'No' }}</td>
+                                                            <td>{{ $data->warranty->warranty_type === '1' ? 'Yes' : 'No' }}
+                                                            </td>
                                                         </tr>
                                                         @if ($data->warranty->warranty_type === '1')
                                                             @php
@@ -291,102 +298,110 @@ table {
         $totalPages = ceil($sortedArray->count() / 2);
     @endphp
 
-@for ($page = 0; $page < $totalPages; $page++)
-<div class="content">
-    <div class="header">
-        <div class="header_image">
-            <img class="header_image_top" src="{{ $base64Images['image0'] }}" alt="">
-            <div class="header_logo">
-                <img src="{{ $base64Images['image1'] }}" alt="">
-            </div>
-        </div>
-    </div>
-
-    @php
-        // Slice the array to get sections for the current page
-        $currentPageSections = $sortedArray->slice($page * 2, 2);
-    @endphp
-    <section class="section pt-1" id="section_admin" style="padding: 0px 20px 0px 20px ;">
-        <div class="row text-center">
-            <div class="col-12 ">
-                <h2 class="card-title">Task History</h2>
-            </div>
-        </div>
-    </section>
-    @foreach ($currentPageSections as $data)
-        <section class="section pt-3 pe-4 ps-5" id="section_admin" style="padding: 0px 20px 0px 20px ;">
-            <div class="bluck_add ">
-                <div class="head-profie">
-                    <h5 class="card-title  pb-2">
-                        {{ ucfirst(str_replace('_', ' ', $data['name'])) }}</h5>
-
+    @for ($page = 0; $page < $totalPages; $page++)
+        <div class="content">
+            <div class="header">
+                <div class="header_image">
+                    <img class="header_image_top" src="{{ $base64Images['image0'] }}" alt="">
+                    <div class="header_logo">
+                        <img src="{{ $base64Images['image1'] }}" alt="">
+                    </div>
                 </div>
-
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td>Services</td>
-                            <td>{{ $data['Services'] }}</td>
-                        </tr>
-                        @if ($data['assign'] === $data['user_id'])
-                            <tr>
-                                <td>Technician name</td>
-                                <td>{{ $data['user_name'] }}</td>
-                            </tr>
-                        @else
-                            <tr>
-                                <td>Technician name</td>
-                                <td>[{{ $data['user_name'] }}] <span class="assign_to">Assign To</span>
-                                    [{{ $data['assign_name'] }}]</td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <td>Date Of Schedule</td>
-                            <td>{{ $data['Date_Of_Schedule'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Date Of Action</td>
-                            <td>{{ $data['date'] }} {{ $data['time'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Remarks</td>
-                            <td>{{ $data['Remarks'] }}</td>
-                        </tr>
-                        @if ($data['name'] === 'install')
-                            <tr>
-                                <td>Signature person</td>
-                                <td>{{ $data['sign_name'] }}</td>
-                            </tr>
-                            <tr>
-                                <td>Postion</td>
-                                <td>{{ $data['sign_postion'] }}</td>
-                            </tr>
-                            <tr>
-                                <td>Signature</td>
-                                <td><img src="{{ $data['sign_signature_data'] }}" width="150px"
-                                        height="40px" /></td>
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
             </div>
-        </section>
-    @endforeach
 
-    <div class="watermark">
-        <img src="{{ $base64Images['image2'] }}" alt="">
-    </div>
+            @php
+                // Slice the array to get sections for the current page
+                $currentPageSections = $sortedArray->slice($page * 2, 2);
+            @endphp
+            <section class="section pt-1" id="section_admin" style="padding: 0px 20px 0px 20px ;">
+                <div class="row text-center">
+                    <div class="col-12 ">
+                        <h2 class="card-title">Task History</h2>
+                    </div>
+                </div>
+            </section>
+            @foreach ($currentPageSections as $data)
+                <section class="section pt-3 pe-4 ps-5" id="section_admin" style="padding: 0px 20px 0px 20px ;">
+                    <div class="bluck_add ">
+                        <div class="head-profie">
+                            <h5 class="card-title  pb-2">
+                                {{ ucfirst(str_replace('_', ' ', $data['name'])) }}</h5>
 
-    <div class="footer">
-        <img src="{{ $base64Images['image3'] }}" alt="">
-    </div>
-</div>
+                        </div>
 
-@if ($page < $totalPages - 1)
-    <!-- Add a page break if there are more pages -->
-    <div style="page-break-after: always;"></div>
-@endif
-@endfor
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Services</td>
+                                    <td>{{ $data['Services'] }}</td>
+                                </tr>
+                                @if ($data['assign'] === $data['user_id'])
+                                    <tr>
+                                        <td>Technician name</td>
+                                        <td>{{ $data['user_name'] }}</td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td>Technician name</td>
+                                        <td>[{{ $data['user_name'] }}] <span class="assign_to">Assign To</span>
+                                            [{{ $data['assign_name'] }}]</td>
+                                    </tr>
+                                @endif
+                                <tr>
+                                    <td>Date Of Schedule</td>
+                                    <td>{{ $data['Date_Of_Schedule'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date Of Action</td>
+                                    <td>{{ $data['date'] }} {{ $data['time'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Remarks</td>
+                                    <td>{{ $data['Remarks'] }}</td>
+                                </tr>
+                                @if ($data['name'] === 'install')
+                                <tr>
+                                    <td>Signature person</td>
+                                    <td>{{ $data['sign_name'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Postion</td>
+                                    <td>{{ $data['sign_postion'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{ $data['sign_Email'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone no:</td>
+                                    <td>{{ $data['sign_Phone'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Signature</td>
+                                    <td><img src="{{ $data['sign_signature_data'] }}" width="150px"
+                                            height="40px" /></td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            @endforeach
+
+            <div class="watermark">
+                <img src="{{ $base64Images['image2'] }}" alt="">
+            </div>
+
+            <div class="footer">
+                <img src="{{ $base64Images['image3'] }}" alt="">
+            </div>
+        </div>
+
+        @if ($page < $totalPages - 1)
+            <!-- Add a page break if there are more pages -->
+            <div style="page-break-after: always;"></div>
+        @endif
+    @endfor
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">

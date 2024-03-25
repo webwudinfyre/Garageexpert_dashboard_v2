@@ -30,15 +30,15 @@
         }
 
         /* .custom-border::before {
-                        content: "";
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        height: 1px;
-                        background: linear-gradient(to right, black 90%, white 90%);
-                    }
-                 */
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            height: 1px;
+                            background: linear-gradient(to right, black 90%, white 90%);
+                        }
+                     */
     </style>
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
@@ -188,6 +188,20 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <p class="text-muted job_detatil_v3">{{ $data->product_code }}</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 custom-border ">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Serial number</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3"> @nullOrValue($data->serial_number, 'Serial number')</p>
                                                     </div>
 
                                                 </div>
@@ -561,59 +575,94 @@
 
                                                 </div>
                                                 @if ($data['name'] === 'install')
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
 
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Signature person</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['sign_name'] }}
-                                                                    </p>
-                                                                </div>
-
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">Signature person</p>
                                                             </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">postion</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['sign_postion'] }}
-                                                                    </p>
-                                                                </div>
-
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    {{ $data['sign_name'] }}
+                                                                </p>
                                                             </div>
+
                                                         </div>
-
                                                     </div>
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
 
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">signature</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        <img src="{{ $data['sign_signature_data'] }}"
-                                                                            width="150px" height="40px" />
-                                                                    </p>
-                                                                </div>
+                                                </div>
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
 
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">postion</p>
                                                             </div>
-                                                        </div>
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    {{ $data['sign_postion'] }}
+                                                                </p>
+                                                            </div>
 
+                                                        </div>
                                                     </div>
-                                                @endif
+
+                                                </div>
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
+
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">Email</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    {{ $data['sign_Email'] }}
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
+
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">Phone</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    {{ $data['sign_Phone'] }}
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 custom-border">
+                                                    <div class="under_line ">
+
+                                                        <div class="row ">
+                                                            <div class="col-6 ">
+                                                                <p class="mb-0">signature</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="text-muted job_detatil_v3">
+                                                                    <img src="{{ $data['sign_signature_data'] }}"
+                                                                        width="150px" height="40px" />
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            @endif
+
 
                                             </div>
                                         </div>

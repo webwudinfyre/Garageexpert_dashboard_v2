@@ -106,14 +106,14 @@
                                             value="{{ old('Product_code') }}">
                                         <label for="name">Product Code</label>
 
-                                        <input type="hidden" id="Product_id" name="Product_id" readonly >
+                                        <input type="hidden" id="Product_id" name="Product_id" readonly>
                                     </div>
                                 </div>
                                 <div id="serial_no_col" class="col-md-6">
                                     <div class="form-floating">
 
                                         <input type="text" class="form-control" id="serial_no" name="serial_no"
-                                            placeholder="Serial no"  autocomplete="serial_no"  readonly
+                                            placeholder="Serial no" autocomplete="serial_no" readonly
                                             value="{{ old('serial_no') }}">
                                         <label for="serial_no">Serial no</label>
 
@@ -527,7 +527,7 @@
                                         label: obj.product_code,
                                         productcode: obj.product_code,
                                         value: obj.id,
-                                        serial_no: obj.serial_no,
+                                        serial_no: obj.serial_number,
                                         office: obj.client_pdt.office,
                                         phonenumber: obj.client_pdt.phonenumber,
                                         location: obj.client_pdt.location,
@@ -543,7 +543,7 @@
                                         Start_date: obj.warranty.Start_date,
                                         end_date: obj.warranty.Start_date,
                                         month: obj.warranty.month,
-                                        Product_id:obj.product_id,
+                                        Product_id: obj.product_id,
 
 
                                     };

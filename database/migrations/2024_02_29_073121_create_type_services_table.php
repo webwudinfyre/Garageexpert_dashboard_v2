@@ -20,7 +20,7 @@ return new class extends Migration
 
         DB::table('type_services')->insert([
             ['service_name' => 'Installation'],
-            ['service_name' => 'Insception'],
+            ['service_name' => 'Inspection'],
             ['service_name' => 'Complaint'],
             ['service_name' => 'AMC'],
 

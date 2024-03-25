@@ -24,4 +24,20 @@ class Notification extends Model
     {
         return $this->HasOne(product_task::class, 'id', 'product_tasks_id');
     }
+    public function clinet_id(): HasOne
+    {
+        return $this->HasOne(ClientUser::class, 'id', 'admin_id');
+    }
+    public function tech(): HasOne
+    {
+        return $this->HasOne(techUser::class, 'id', 'admin_id');
+    }
+    public function users(): HasOne
+    {
+        return $this->HasOne(User::class, 'id', 'admin_id');
+    }
+    public function tech_admin(): HasOne
+    {
+        return $this->HasOne(techUser::class, 'user_id', 'admin_id');
+    }
 }

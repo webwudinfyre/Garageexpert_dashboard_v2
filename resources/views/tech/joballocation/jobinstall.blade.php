@@ -30,15 +30,15 @@
         }
 
         /* .custom-border::before {
-                                        content: "";
-                                        position: absolute;
-                                        top: 0;
-                                        left: 0;
-                                        right: 0;
-                                        height: 1px;
-                                        background: linear-gradient(to right, black 90%, white 90%);
-                                    }
-                                 */
+                                            content: "";
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            right: 0;
+                                            height: 1px;
+                                            background: linear-gradient(to right, black 90%, white 90%);
+                                        }
+                                     */
 
         .signature-container {
             width: 100%;
@@ -224,6 +224,21 @@
                                             </div>
 
                                         </div>
+                                        <div class="col-md-6 custom-border ">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Serial number</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3"> @nullOrValue($data->serial_number, 'Serial number')</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
 
                                         <div class="col-md-6 custom-border">
                                             <div class="under_line">
@@ -372,16 +387,28 @@
 
                                             <div class="col-md-6">
                                                 <div class="row gy-3">
-                                                    <div class="col-12">
-                                                        <div class="form-floating">
+                                                    @if (empty($data->serial_number))
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
 
-                                                            <input type="text" class="form-control" id="Serial_no"
-                                                                name="Serial_no" placeholder="Serial no" required>
-                                                            <label for="Serial no">Serial no</label>
-
-
+                                                                <input type="text" class="form-control" id="Serial_no"
+                                                                    name="Serial_no" placeholder="Serial no" required
+                                                                    autocomplete="Serial_no" autofocus
+                                                                    value="{{ $data->serial_number }}">
+                                                                <label for="Serial no">Serial no</label>
+                                                                @if ($errors->has('Serial_no'))
+                                                                    <span
+                                                                        class="text-danger">{{ $errors->first('Serial_no') }}</span>
+                                                                @endif
+                                                                @error('Serial_no')
+                                                                    <div class="alert-color" role="alert">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
+
                                                     <div class="col-12">
                                                         <div class="form-floating">
                                                             <textarea class="form-control" placeholder="Remarks" id="floatingRemarks" style="height: 200px;" name="Remarks"
@@ -413,7 +440,27 @@
                                                                     <input type="text" class="form-control"
                                                                         id="Postion" name="Postion"
                                                                         placeholder="Postion" required>
-                                                                    <label for="phone_client">Postion</label>
+                                                                    <label for="Postion_client">Postion</label>
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-floating">
+                                                                    <input type="text" class="form-control"
+                                                                        id="Email" name="Email_client"
+                                                                        placeholder="Email" required>
+                                                                    <label for="Email_client">Email</label>
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-floating">
+                                                                    <input type="text" class="form-control"
+                                                                        id="Phone" name="phone_client"
+                                                                        placeholder="Phone" required>
+                                                                    <label for="phone_client">Phone</label>
                                                                 </div>
 
 
@@ -454,7 +501,8 @@
                                                 <hr>
                                                 <div class="save_sig">
                                                     <input type="hidden" name="signature" id="signature_data">
-                                                    <input type="hidden" name="producttask_id" id="producttask_id" value="{{$prdt_task_id  }}">
+                                                    <input type="hidden" name="producttask_id" id="producttask_id"
+                                                        value="{{ $prdt_task_id }}">
 
                                                     <button type="submit" class="btn bg-primary_expert btn-style"
                                                         id="save-signature">Submit</button>

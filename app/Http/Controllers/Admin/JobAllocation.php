@@ -51,6 +51,15 @@ class JobAllocation extends Controller
 
         return response()->json($res);
     }
+    public function serial_no(Request $request): JsonResponse
+    {
+
+        $res = product_add::with(['client_pdt', 'client_pdt.users', 'equip_pdt', 'warranty'])
+            ->where("serial_number", "LIKE", "%{$request->term}%")
+            ->get();
+
+        return response()->json($res);
+    }
 
     public function Equipment_job(Request $request): JsonResponse
     {
@@ -68,12 +77,15 @@ class JobAllocation extends Controller
 
     public function  update(Request $request): RedirectResponse
     {
+        $time = Carbon::now()->toTimeString();
+        $date_of_sch=$request->Date_Schedule;
+        $req_date = Carbon::parse($date_of_sch)->setTimeFromTimeString($time);
         if ($request->Product_id) {
             $task = task_data::select('id')->where('id', 1)->first();
             $already = 'admin';
             $taskHistory = [
                 'task_id' => $task->id,
-                'date_time' => $request->Date_Schedule,
+                'date_time' => $req_date,
                 'user_id' => Auth::user()->id,
                 'already' => $already,
                 'assign' => Auth::user()->id,
@@ -99,8 +111,7 @@ class JobAllocation extends Controller
             return redirect()->back();
 
         } else {
-            print_r('kkkkk');
-            die();
+
             $startDate = Carbon::createFromFormat('Y-m-d', $request->Date_Schedule);
             $endDate = $startDate->addMonths($request->Warranty_month);
             $endDate = $endDate->format('Y-m-d');
@@ -125,7 +136,7 @@ class JobAllocation extends Controller
             $already = 'admin';
             $taskHistory = [
                 'task_id' => $task->id,
-                'date_time' => $request->Date_Schedule,
+                'date_time' => $req_date,
                 'user_id' => Auth::user()->id,
                 'already' => $already,
                 'assign' => Auth::user()->id,
@@ -201,6 +212,8 @@ class JobAllocation extends Controller
                 if ($key === 'install') {
                     $details['sign_name'] = $task->sign->name;
                     $details['sign_postion'] = $task->sign->postion;
+                    $details['sign_Email'] = $task->sign->email_id_sign;
+                    $details['sign_Phone'] = $task->sign->phone_sign;
                     // $details['sign_signature_data'] = 'l';
                     $details['sign_signature_data'] = $task->sign->signature_data;
                 }
@@ -257,9 +270,12 @@ class JobAllocation extends Controller
                 $details['time'] = $dateTime->toTimeString();
 
 
+
                 if ($key === 'install') {
                     $details['sign_name'] = $task->sign->name;
                     $details['sign_postion'] = $task->sign->postion;
+                    $details['sign_Email'] = $task->sign->email_id_sign;
+                    $details['sign_Phone'] = $task->sign->phone_sign;
                     // $details['sign_signature_data'] = 'l';
                     $details['sign_signature_data'] = $task->sign->signature_data;
                 }
@@ -302,11 +318,11 @@ class JobAllocation extends Controller
         $data2 = ['base64Images' => $base64Images, 'image' => $image, 'data' =>  $data, 'prdt_task' => $prdt_task, 'admin_id' => $admin_id, 'pdut_id' => $pdut_id, 'tech' => $tech, 'taskHistoryArray' => $taskHistoryArray, 'product_id_job' => $product_id_job, 'prdt_task_2' => $prdt_task_2];
 
 
-        $html = view('.pdf.pdfdownload', $data2)->render();
+        $html = view('admin.pdf.pdfdownload', $data2)->render();
         $pdf = PDF::loadHTML($html);
         return $pdf->download($data->product_code . '.pdf');
 
-        
+
 
     }
 

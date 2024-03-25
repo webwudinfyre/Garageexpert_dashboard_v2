@@ -200,6 +200,20 @@
                                             </div>
 
                                         </div>
+                                        <div class="col-md-6 custom-border ">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Serial number</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3"> @nullOrValue($data->serial_number, 'Serial number')</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
 
                                         <div class="col-md-6 custom-border">
                                             <div class="under_line">
@@ -526,6 +540,40 @@
                                                                 <div class="col-6">
                                                                     <p class="text-muted job_detatil_v3">
                                                                         {{ $data['sign_postion'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Email</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['sign_Email'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Phone</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['sign_Phone'] }}
                                                                     </p>
                                                                 </div>
 

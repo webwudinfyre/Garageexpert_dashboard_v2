@@ -67,6 +67,7 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::get('/joballocation/view', [JobAllocation::class, 'view'])->name('joballocation.view');
     Route::get('/joballocation/find_client', [JobAllocation::class, 'find_client'])->name('joballocation.find_client');
     Route::get('/joballocation/product_code', [JobAllocation::class, 'product_code'])->name('joballocation.product_code');
+    Route::get('/joballocation/serial_no', [JobAllocation::class, 'serial_no'])->name('joballocation.serial_no');
     Route::get('/joballocation/Equipment_job', [JobAllocation::class, 'Equipment_job'])->name('joballocation.Equipment_job');
 
     Route::get('/joballocation/update', [JobAllocation::class, 'update'])->name('joballocation.update');
