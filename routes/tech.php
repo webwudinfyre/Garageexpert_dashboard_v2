@@ -65,6 +65,9 @@ Route::middleware(['auth', 'user.type:tech'])
 
             Route::get('/joballocation/job_pdf_dowmload/{id}', [JobAllocation::class, 'jobpdfdowmload'])->name('joballocation.job_pdf_dowmload');
 
+            Route::get('/joballocation/myjob_list_each_task/{id}', [JobAllocation::class, 'myjob_list_each_task'])->name('joballocation.myjob_list_each_task');
+
+
 
             Route::post('/save-signature', [JobAllocation::class, 'signature_save'])->name('signature.save');
         }

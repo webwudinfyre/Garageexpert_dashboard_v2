@@ -81,6 +81,7 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::get('/joballocation/mark_as_read/{id}', [JobAllocation::class, 'mark_as_read'])->name('joballocation.mark_as_read');
     Route::get('/joballocation/job_pdf_dowmload/{id}', [JobAllocation::class, 'jobpdfdowmload'])->name('joballocation.job_pdf_dowmload');
 
+    Route::get('/joballocation/job_list_each_task/{id}', [JobAllocation::class, 'job_list_each_task'])->name('joballocation.job_list_each_task');
 
     // href="{{ route('admin.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}"
 });

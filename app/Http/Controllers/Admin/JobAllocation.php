@@ -172,6 +172,13 @@ class JobAllocation extends Controller
 
         return view('admin.joballocation.joblist', compact('prdt_task', 'task'));
     }
+    public function job_list_each_task($task_id): view
+    {
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('task_id',$task_id)->get() ->sortBy('task_id');;
+        $task = task_data::all();
+
+        return view('admin.joballocation.joblist', compact('prdt_task', 'task','task_id'));
+    }
 
     public function job_list_view(Request $request, $id): view
     {

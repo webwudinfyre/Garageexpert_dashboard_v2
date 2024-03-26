@@ -435,6 +435,18 @@ class JobAllocation extends Controller
 
         return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task', 'tech'));
     }
+    public function myjob_list_each_task($task_id): view
+    {
+
+        $task = task_data::all();
+        $tech = techUser::all();
+        $techname = Auth::user()->id;
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('already', $techname)->where('task_id',$task_id)->get()
+            ->groupBy('task.task_name')
+            ->sortBy('task.task_name');
+
+        return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task','task_id' ,'tech'));
+    }
 
     public function myjob_search(Request $request): view
     {

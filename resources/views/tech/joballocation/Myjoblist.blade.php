@@ -42,12 +42,26 @@
                             <li class="breadcrumb-item"><a href="{{ route('tech.dashboard.index') }}">Home</a></li>
 
                             @if (!empty($search_page))
-                                <li class="breadcrumb-item active"><a href="{{ route('tech.joballocation.job_list') }}">My Job
+                                <li class="breadcrumb-item active"><a href="{{ route('tech.joballocation.myjob_list') }}">My Job
                                         List</a></li>
                                 <li class="breadcrumb-item active">Job Serach Result</li>
+                            @elseif (!empty($task_id))
+                                <li class="breadcrumb-item active"><a href="{{ route('tech.joballocation.myjob_list') }}">My
+                                        Job
+                                        List</a></li>
+
+                                <li class="breadcrumb-item active">
+                                    @foreach ($task as $item_list)
+                                        @if ($item_list->id == $task_id)
+                                            {{ $item_list->task_name }}
+                                        @endif
+                                    @endforeach
+                                </li>
                             @else
                                 <li class="breadcrumb-item active">Job List</li>
                             @endif
+
+
                         </ol>
                     </nav>
                 </div>

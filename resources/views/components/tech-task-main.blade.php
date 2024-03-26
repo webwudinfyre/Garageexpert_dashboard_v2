@@ -11,9 +11,10 @@
                 <div class="card info-card sales-card text-center">
 
 
+
                     <div class="card-body ">
-                        <a  href="{{ route('tech.joballocation.myjob_list_each_task', ['id' => $data_id1['New Task']]) }}" >
-                            <h5 class="card-title">New Task</h5>
+                        <h5 class="card-title">New Task </h5>
+
                         <div class=" d-flex text-center align-items-center justify-content-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                 <i class="bi bi-cart"></i>
@@ -22,7 +23,6 @@
                                 <h6>{{ $taskCounts['New Task'] }}</h6>
                             </div>
                         </div>
-                        </a>
                     </div>
 
                 </div>
@@ -33,7 +33,6 @@
 
 
                     <div class="card-body ">
-                        <a  href="{{ route('tech.joballocation.myjob_list_each_task', ['id' => $data_id1['Pending']]) }}" >
                         <h5 class="card-title">Pending Task</h5>
 
                         <div class=" d-flex text-center align-items-center justify-content-center">
@@ -46,7 +45,6 @@
 
                             </div>
                         </div>
-                        </a>
                     </div>
 
                 </div>
@@ -57,7 +55,6 @@
 
 
                     <div class="card-body ">
-                        <a  href="{{ route('tech.joballocation.myjob_list_each_task', ['id' => $data_id1['Completed']]) }}" >
                         <h5 class="card-title">Completed Task</h5>
 
                         <div class=" d-flex text-center align-items-center justify-content-center">
@@ -70,7 +67,6 @@
 
                             </div>
                         </div>
-                        </a>
                     </div>
 
                 </div>
@@ -81,7 +77,6 @@
 
 
                     <div class="card-body ">
-                        <a  href="{{ route('tech.joballocation.myjob_list_each_task', ['id' => $data_id1['Quotation']]) }}" >
                         <h5 class="card-title">Quotation</h5>
 
                         <div class=" d-flex text-center align-items-center justify-content-center">
@@ -94,7 +89,6 @@
 
                             </div>
                         </div>
-                    </a>
                     </div>
 
                 </div>
@@ -103,3 +97,5 @@
 
     </section>
 </div>
+
+
