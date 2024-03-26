@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\CustomServiceProvider::class,
+        App\Providers\TaskStatusServiceProvider::class,
 
     ])->toArray(),
 
@@ -188,6 +189,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'DataTables'=>\Yajra\DataTables\Facades\DataTables::class,
         
+
     ])->toArray(),
 
 ];

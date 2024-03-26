@@ -574,7 +574,7 @@
                                                     </div>
 
                                                 </div>
-                                                @if ($data['name'] === 'install')
+                                                @if ($data['name'] === 'Installation')
                                                 <div class="col-md-6 custom-border">
                                                     <div class="under_line ">
 

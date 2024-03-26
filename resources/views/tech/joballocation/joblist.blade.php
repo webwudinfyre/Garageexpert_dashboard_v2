@@ -58,98 +58,7 @@
     </section>
 
 
-    <section class="section dashboard">
-
-        <div class="row">
-
-            <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card text-center">
-
-
-
-                    <div class="card-body ">
-                        <h5 class="card-title">New Task </h5>
-
-                        <div class=" d-flex text-center align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card text-center">
-
-
-
-                    <div class="card-body ">
-                        <h5 class="card-title">Pending Task</h5>
-
-                        <div class=" d-flex text-center align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card text-center">
-                    <div class="card-body ">
-                        <h5 class="card-title">Completed Task</h5>
-
-                        <div class=" d-flex text-center align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card text-center">
-
-
-
-                    <div class="card-body ">
-                        <h5 class="card-title">Asign To Other</h5>
-
-                        <div class=" d-flex text-center align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-    </section>
+    @include('components.task_status_admin')
 
     {{-- $notifications = auth()->user()->notifications; --}}
     <section class="section pt-3" id="section_Search">
@@ -291,7 +200,7 @@
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-title="View"
                                                                 href="{{ route('tech.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}">
-                                                               
+
                                                                 <button type="button" class="btn">
                                                                     <i class="bi bi-eye"></i>
                                                                 </button>
@@ -299,7 +208,6 @@
 
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-title="Start Work"
-
                                                                 href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($prdt_task->id)]) }}">
                                                                 <button type="button" class="btn">
 

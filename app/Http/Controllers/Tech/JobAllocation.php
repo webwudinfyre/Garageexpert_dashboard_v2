@@ -145,12 +145,15 @@ class JobAllocation extends Controller
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
                 $details['Date_Of_Schedule'] = $task->date_of_schedule;
+
+              //  $details['Quotation_value'] = $details['Quotation_value'];
+
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
                 $details['time'] = $dateTime->toTimeString();
 
 
-                if ($key === 'install') {
+                if ($key === 'Installation') {
                     $details['sign_name'] = $task->sign->name;
                     $details['sign_postion'] = $task->sign->postion;
                     $details['sign_Email'] = $task->sign->email_id_sign;
@@ -208,7 +211,7 @@ class JobAllocation extends Controller
                 $details['time'] = $dateTime->toTimeString();
 
 
-                if ($key === 'install') {
+                if ($key === 'Installation') {
                     $details['sign_name'] = $task->sign->name;
                     $details['sign_postion'] = $task->sign->postion;
                     $details['sign_Email'] = $task->sign->email_id_sign;
@@ -427,7 +430,8 @@ class JobAllocation extends Controller
         $tech = techUser::all();
         $techname = Auth::user()->id;
         $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('already', $techname)->get()
-            ->groupBy('task.task_name');
+            ->groupBy('task.task_name')
+            ->sortBy('task.task_name');
 
         return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task', 'tech'));
     }
@@ -458,7 +462,8 @@ class JobAllocation extends Controller
                         $query->where('task_id', $task_value);
                     });
             })
-            ->get()->groupBy('task.task_name');
+            ->get()->groupBy('task.task_name')
+            ->sortBy('task.task_name');
 
         $search_page = [
             'start_date' => $start_date,
@@ -498,7 +503,8 @@ class JobAllocation extends Controller
     }
     public function signature_save(Request $request): RedirectResponse
     {
-        $data = product_task::find($request->producttask_id);
+
+        $data = product_task::with('Type_service')->find($request->producttask_id);
 
         $slnum1 = product_add::where('product_id', $data->product_id)->first();
         if (empty($slnum1->serial_number)) {
@@ -516,6 +522,8 @@ class JobAllocation extends Controller
         }
 
 
+
+
         $notifications = Notification::where('product_tasks_id', $request->producttask_id)
             ->get();
 
@@ -528,6 +536,9 @@ class JobAllocation extends Controller
             $notification->update(['read_at' => now()]);
         }
 
+
+
+
         $signatures_data = signatures::create([
             'product_tasks_id' => $request->producttask_id,
             'name' => $request->name_client,
@@ -538,8 +549,19 @@ class JobAllocation extends Controller
 
 
         ]);
-        $task = task_data::select('id')->where('id', 3)->first();
+
+        $quotationValue = $request->Quotation_value === '1' ? 'Send Quotation' : "Don't Send Quotation";
+
+        if ($quotationValue === 'Send Quotation') {
+            $task = task_data::select('id')->where('id', 5)->first();
+        } else {
+            $task = task_data::select('id')->where('id', 3)->first();
+        }
+
+
+
         $already = Auth::user()->id;
+
         $taskHistory = [
             'task_id' =>  $task->id,
             'date_time' => now(),
@@ -547,15 +569,17 @@ class JobAllocation extends Controller
             'already' => $already,
             'assign' =>  Auth::user()->id,
             'Remarks' => $request->Remarks,
+            'Quotation_value'=> $quotationValue,
+
         ];
 
-        $data = product_task::find($request->producttask_id);
+        $data = product_task::with('Type_service')->find($request->producttask_id);
         $slnum = product_add::where('product_id', $data->product_id)->update(['serial_number' => $request->Serial_no]);
         $pduct_id = product_add::find($data->product_id);
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
 
-        $existingTaskHistory['install'] = $taskHistory;
+        $existingTaskHistory[$data->Type_service->service_name] = $taskHistory;
 
 
         $updatedJsonString = json_encode($existingTaskHistory);

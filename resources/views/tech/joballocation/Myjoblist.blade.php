@@ -58,99 +58,8 @@
     </section>
 
 
-    <section class="section dashboard">
 
-        <div class="row">
-
-            <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card text-center">
-
-
-
-                    <div class="card-body ">
-                        <h5 class="card-title">New Task </h5>
-
-                        <div class=" d-flex text-center align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card text-center">
-
-
-
-                    <div class="card-body ">
-                        <h5 class="card-title">Pending Task</h5>
-
-                        <div class=" d-flex text-center align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card text-center">
-                    <div class="card-body ">
-                        <h5 class="card-title">Completed Task</h5>
-
-                        <div class=" d-flex text-center align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-xxl-3 col-md-6">
-                <div class="card info-card sales-card text-center">
-
-
-
-                    <div class="card-body ">
-                        <h5 class="card-title">Asign To Other</h5>
-
-                        <div class=" d-flex text-center align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-    </section>
-
+    <x-example-component adminId='{{ Auth::user()->id }}' />
     {{-- $notifications = auth()->user()->notifications; --}}
     <section class="section pt-3" id="section_Search">
         <div class="row">
@@ -260,6 +169,7 @@
                             </div>
                         </div>
                         <hr>
+
                         @foreach ($prdt_task as $productId => $groupedItems)
                             <div class="bluck_add mb-5 mt-2">
                                 <h6 class="task_name mb-2 mt-2">Task : {{ $productId }}</h6>
@@ -295,28 +205,28 @@
                                                                     <i class="bi bi-eye"></i>
                                                                 </button>
                                                             </a>
-                                                            @if($productId !=='Completed')
-                                                            <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Start Work"
-                                                                href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($prdt_task->id)]) }}">
-                                                                <button type="button" class="btn">
+                                                            @if ($productId !== 'Completed' && $productId !== 'Quotation')
+                                                                <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Start Work"
+                                                                    href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($prdt_task->id)]) }}">
+                                                                    <button type="button" class="btn">
 
 
-                                                                    <i class="bi bi-lightning"></i>
-                                                                </button>
-                                                            </a>
+                                                                        <i class="bi bi-lightning"></i>
+                                                                    </button>
+                                                                </a>
 
 
-                                                            <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Assign to Job">
-                                                                <button type="button" class="btn"
-                                                                    data-bs-toggle="modal" data-bs-target="#assign_to"
-                                                                    data-bs-whatever={{ $prdt_task->id }}>
-                                                                    <i class="bi bi-person-fill-up"></i>
-                                                                </button>
-                                                            </a>
+                                                                <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Assign to Job">
+                                                                    <button type="button" class="btn"
+                                                                        data-bs-toggle="modal" data-bs-target="#assign_to"
+                                                                        data-bs-whatever={{ $prdt_task->id }}>
+                                                                        <i class="bi bi-person-fill-up"></i>
+                                                                    </button>
+                                                                </a>
                                                             @endif
-                 
+
 
                                                         </div>
 

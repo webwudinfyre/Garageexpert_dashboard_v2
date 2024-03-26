@@ -167,7 +167,7 @@ class JobAllocation extends Controller
 
     public function job_list(): view
     {
-        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->get();
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->get() ->sortBy('task_id');;
         $task = task_data::all();
 
         return view('admin.joballocation.joblist', compact('prdt_task', 'task'));
@@ -209,7 +209,7 @@ class JobAllocation extends Controller
                 $details['time'] = $dateTime->toTimeString();
 
 
-                if ($key === 'install') {
+                if ($key === 'Installation') {
                     $details['sign_name'] = $task->sign->name;
                     $details['sign_postion'] = $task->sign->postion;
                     $details['sign_Email'] = $task->sign->email_id_sign;
@@ -271,7 +271,7 @@ class JobAllocation extends Controller
 
 
 
-                if ($key === 'install') {
+                if ($key === 'Installation') {
                     $details['sign_name'] = $task->sign->name;
                     $details['sign_postion'] = $task->sign->postion;
                     $details['sign_Email'] = $task->sign->email_id_sign;

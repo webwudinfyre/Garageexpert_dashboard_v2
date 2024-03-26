@@ -30,15 +30,15 @@
         }
 
         /* .custom-border::before {
-                                            content: "";
-                                            position: absolute;
-                                            top: 0;
-                                            left: 0;
-                                            right: 0;
-                                            height: 1px;
-                                            background: linear-gradient(to right, black 90%, white 90%);
-                                        }
-                                     */
+                                                content: "";
+                                                position: absolute;
+                                                top: 0;
+                                                left: 0;
+                                                right: 0;
+                                                height: 1px;
+                                                background: linear-gradient(to right, black 90%, white 90%);
+                                            }
+                                         */
 
         .signature-container {
             width: 100%;
@@ -418,6 +418,42 @@
 
                                                         </div>
                                                     </div>
+
+                                                    @php
+                                                        $isInstallation = $type_services === 'Installation';
+                                                    @endphp
+
+                                                    @if ($type_services !== 'Installation')
+                                                        <div class="col-12">
+                                                            <fieldset class="row mb-3 ms-.5 gy-3">
+                                                                <div class="col-12">
+                                                                    <legend class="col-form-label col-sm-12 pt-0">Quotation
+                                                                        Product</legend>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="Quotation_value" id="gridRadios1"
+                                                                            value="1" checked>
+                                                                        <label class="form-check-label" for="gridRadios1">
+                                                                            Send Quotation
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="Quotation_value" id="gridRadios2"
+                                                                            value="2">
+                                                                        <label class="form-check-label" for="gridRadios2">
+                                                                            Don't Send Quotation
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+
+                                                            </fieldset>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
 
@@ -526,9 +562,19 @@
     @push('scripts')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 
-
-
         <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var isInstallation = {{ $isInstallation ? 'true' : 'false' }};
+                var radios = document.querySelectorAll('input[type="radio"][name="gridRadios"]');
+
+                if (!isInstallation) {
+                    radios.forEach(function(radio) {
+                        radio.setAttribute('required', 'required');
+                    });
+                }
+            });
+
+
             document.addEventListener('DOMContentLoaded', () => {
                 const canvas = document.getElementById('signature-pad');
                 const signaturePad = new SignaturePad(canvas);

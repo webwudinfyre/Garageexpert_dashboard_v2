@@ -288,11 +288,7 @@
         use Carbon\Carbon;
 
         // Flatten the array and sort it by 'date_time'
-        $sortedArray = collect($taskHistoryArray)
-            ->flatten(1)
-            ->sortBy(function ($item) {
-                return Carbon::parse($item['date']);
-            });
+        $sortedArray = collect($taskHistoryArray)->flatten(1);
 
         // Calculate the total number of pages
         $totalPages = ceil($sortedArray->count() / 2);
@@ -359,29 +355,30 @@
                                     <td>Remarks</td>
                                     <td>{{ $data['Remarks'] }}</td>
                                 </tr>
-                                @if ($data['name'] === 'install')
-                                <tr>
-                                    <td>Signature person</td>
-                                    <td>{{ $data['sign_name'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Postion</td>
-                                    <td>{{ $data['sign_postion'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Email</td>
-                                    <td>{{ $data['sign_Email'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Phone no:</td>
-                                    <td>{{ $data['sign_Phone'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Signature</td>
-                                    <td><img src="{{ $data['sign_signature_data'] }}" width="150px"
-                                            height="40px" /></td>
-                                </tr>
-                            @endif
+                                @if ($data['name'] === 'Installation')
+                                    <tr>
+                                        <td>Signature person</td>
+                                        <td>{{ $data['sign_name'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Postion</td>
+                                        <td>{{ $data['sign_postion'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{ $data['sign_Email'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone no:</td>
+                                        <td>{{ $data['sign_Phone'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Signature</td>
+                                        <td><img src="{{ $data['sign_signature_data'] }}" width="150px"
+                                                height="40px" /></td>
+                                    </tr>
+                                @endif
+
                             </tbody>
                         </table>
                     </div>

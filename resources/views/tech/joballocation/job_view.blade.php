@@ -386,12 +386,8 @@
                                     @php
                                         use Carbon\Carbon;
 
-                                        // Flatten the array and sort it by 'date_time'
-                                        $sortedArray = collect($taskHistoryArray)
-                                            ->flatten(1)
-                                            ->sortBy(function ($item) {
-                                                return Carbon::parse($item['date']);
-                                            });
+                                        // Flatten the array and sort it by 'date' and 'time'
+                                        $sortedArray = collect($taskHistoryArray)->flatten(1);
                                     @endphp
                                     @foreach ($sortedArray as $data)
                                         <div class="bluck_add mb-4">
@@ -512,7 +508,7 @@
                                                     </div>
 
                                                 </div>
-                                                @if ($data['name'] === 'install')
+                                                @if ($data['name'] === 'Installation')
                                                     <div class="col-md-6 custom-border">
                                                         <div class="under_line ">
 
@@ -600,6 +596,26 @@
 
                                                     </div>
                                                 @endif
+                                                @if ($data['name'] === 'Inspection' || $data['name'] === 'Complaint' || $data['name'] === 'AMC')
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Quotation Status</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['Quotation_value'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                @endif
+
 
                                             </div>
                                         </div>

@@ -359,7 +359,7 @@
                                     <td>Remarks</td>
                                     <td>{{ $data['Remarks'] }}</td>
                                 </tr>
-                                @if ($data['name'] === 'install')
+                                @if ($data['name'] === 'Installation')
                                     <tr>
                                         <td>Signature person</td>
                                         <td>{{ $data['sign_name'] }}</td>

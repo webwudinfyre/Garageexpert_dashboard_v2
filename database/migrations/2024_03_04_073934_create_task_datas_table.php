@@ -20,8 +20,10 @@ return new class extends Migration
         DB::table('task_datas')->insert([
             ['task_name' => 'New Task'],
             ['task_name' => 'Pending'],
+            ['task_name' => 'Quotation'],
             ['task_name' => 'Completed'],
             ['task_name' => 'Assign To Other'],
+
 
         ]);
     }

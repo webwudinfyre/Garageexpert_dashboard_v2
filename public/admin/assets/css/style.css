@@ -1502,7 +1502,10 @@ span.assign_to {
     margin-bottom: 20px;
 }
 
-
+.form-check-input:checked {
+    background-color: var(--main-color)  !important;
+    border-color: var(--main-color) !important;
+}
 
 .custom-border {
     border-bottom: 1px solid;
