@@ -74,7 +74,7 @@
 
 
     <x-example-component adminId='{{ Auth::user()->id }}' />
-    {{-- $notifications = auth()->user()->notifications; --}}
+   
     <section class="section pt-3" id="section_Search">
         <div class="row">
             <div class="col-lg-12">

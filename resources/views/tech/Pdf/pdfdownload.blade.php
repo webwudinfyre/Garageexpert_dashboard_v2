@@ -130,7 +130,7 @@
         th,
         td {
             border: 1px solid #ccc;
-            padding: 8px;
+            padding: 5px;
             text-align: left;
             width: 100%;
         }
@@ -288,7 +288,8 @@
         use Carbon\Carbon;
 
         // Flatten the array and sort it by 'date_time'
-        $sortedArray = collect($taskHistoryArray)->flatten(1);
+        $sortedArray = collect($taskHistoryArray)
+            ->flatten(1);
 
         // Calculate the total number of pages
         $totalPages = ceil($sortedArray->count() / 2);
@@ -317,11 +318,17 @@
                 </div>
             </section>
             @foreach ($currentPageSections as $data)
-                <section class="section pt-3 pe-4 ps-5" id="section_admin" style="padding: 0px 20px 0px 20px ;">
+                <section class="section pt-1 pe-4 ps-5" id="section_admin" style="padding: 0px 20px 0px 20px ;">
                     <div class="bluck_add ">
                         <div class="head-profie">
+                            @php
+
+                                $nameParts = explode('_next', $data['name']);
+                                $firstPart = ucfirst(str_replace('_', ' ', $nameParts[0]));
+
+                            @endphp
                             <h5 class="card-title  pb-2">
-                                {{ ucfirst(str_replace('_', ' ', $data['name'])) }}</h5>
+                                {{ $firstPart }}</h5>
 
                         </div>
 
@@ -351,34 +358,35 @@
                                     <td>Date Of Action</td>
                                     <td>{{ $data['date'] }} {{ $data['time'] }}</td>
                                 </tr>
+                                @if (!empty($data['Remarks']))
                                 <tr>
                                     <td>Remarks</td>
                                     <td>{{ $data['Remarks'] }}</td>
                                 </tr>
-                                @if ($data['name'] === 'Installation')
-                                    <tr>
-                                        <td>Signature person</td>
-                                        <td>{{ $data['sign_name'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Postion</td>
-                                        <td>{{ $data['sign_postion'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td>{{ $data['sign_Email'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phone no:</td>
-                                        <td>{{ $data['sign_Phone'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Signature</td>
-                                        <td><img src="{{ $data['sign_signature_data'] }}" width="150px"
-                                                height="40px" /></td>
-                                    </tr>
                                 @endif
-
+                                @if (!empty($data['signatures_data']))
+                                <tr>
+                                    <td>Signature person</td>
+                                    <td>  {{$data['signatures_data']->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Postion</td>
+                                    <td> {{$data['signatures_data']->postion}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td> {{$data['signatures_data']->email_id_sign}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone no:</td>
+                                    <td> {{$data['signatures_data']->phone_sign }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Signature</td>
+                                    <td><img src="{{  $data['signatures_data']->signature_data }}" width="150px"
+                                            height="40px" /></td>
+                                </tr>
+                            @endif
                             </tbody>
                         </table>
                     </div>

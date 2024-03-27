@@ -186,7 +186,19 @@
                                                             <i class="bi bi-eye"></i>
                                                         </button>
                                                     </a>
+                                                    @if (!empty($task_id) && $prdt_task->task_id == '3')
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Quotation">
+
+                                                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#Quotation_aproval"
+                                                        data-bs-whatever={{ $prdt_task->id }}>
+                                                        <i class="bi bi-arrow-right"></i>
+                                                    </button>
+                                                    </a>
+
+                                                    @endif
+
                                                 </div>
+
 
                                             </td>
 
@@ -202,6 +214,203 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </section>
+    <section id='assign'>
+        <div class="modal fade" id="Quotation_aproval" tabindex="-1" aria-labelledby="Quotation_aproval" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Quotation Aproval</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mb-5">
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div id="job_deatail_v1" class="">
+                                    <div class="head-profie">
+                                        <h5 class="card-title">Client Details</h5>
+
+                                    </div>
+                                    <div class="row gy-3 gx-1">
+
+                                        <div class="col-md-6  custom-border">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Office Name</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3" id='Office_Name_assign'>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 custom-border">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Location Name</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3" id='Location_Name_assign'>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6  custom-border">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Email</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3" id='Email_assign'>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 custom-border ">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Phone Number</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3" id='Phone_Number_assign'>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+
+                                <div id="job_deatail_v1" class="">
+                                    <div class="head-profie">
+                                        <h5 class="card-title">Product Details</h5>
+
+                                    </div>
+                                    <div class="row gy-3 gx-1">
+
+                                        <div class="col-md-6  custom-border">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Product Code</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3" id="Product_Code_assign">
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 custom-border">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Brand Name</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3" id="Brand_Name_assign">
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6  custom-border">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Model</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3" id="Model_assign">
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 custom-border ">
+                                            <div class="under_line">
+                                                <div class="row ">
+                                                    <div class="col-6 ">
+                                                        <p class="mb-0">Product Name</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="text-muted job_detatil_v3" id="Product_Name_assign">
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <form action="{{ route('admin.joballocation.Quotation_aproval') }}" method="GET">
+                            <div id="assign_to" class="row">
+                                <div class="mb-3">
+
+                                    <input type="hidden" class="form-control" name="pdt_id_name_assign"
+                                        id="pdt_id_name_assign">
+                                </div>
+                                <div class="mb-3">
+
+                                    <input type="hidden" class="form-control" id="user_id" name="user_id"
+                                        value="{{ Auth::user()->id }}">
+                                </div>
+
+
+                                <div class="col-md-12 "
+                                    style="
+                                display: flex;
+                                align-content: center;
+                                justify-content: space-around;
+                            ">
+                                    <div class="Confirm_assign d-flex "
+                                        style="justify-content: space-around; align-items:center">
+                                        <button type="submit" class="btn bg-primary_expert ">Confirm To Quotation </button>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>

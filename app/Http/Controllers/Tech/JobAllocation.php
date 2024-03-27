@@ -133,6 +133,7 @@ class JobAllocation extends Controller
         }
         $taskHistoryArray = [];
 
+
         foreach ($prdt_task as $task) {
 
             $taskHistory = json_decode($task->taskhistory, true);
@@ -146,21 +147,29 @@ class JobAllocation extends Controller
                 $details['Services'] = $task->type_service->service_name;
                 $details['Date_Of_Schedule'] = $task->date_of_schedule;
 
-              //  $details['Quotation_value'] = $details['Quotation_value'];
+                //  $details['Quotation_value'] = $details['Quotation_value'];
 
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
                 $details['time'] = $dateTime->toTimeString();
 
 
-                if ($key === 'Installation') {
-                    $details['sign_name'] = $task->sign->name;
-                    $details['sign_postion'] = $task->sign->postion;
-                    $details['sign_Email'] = $task->sign->email_id_sign;
-                    $details['sign_Phone'] = $task->sign->phone_sign;
-                    // $details['sign_signature_data'] = 'l';
-                    $details['sign_signature_data'] = $task->sign->signature_data;
+                if (isset($details['signatures_data'])) {
+                    // Quotation_value is available
+                    $details['signatures_data'] = signatures::find($details['signatures_data']);
                 }
+                if (isset($details['quotationValue_name'])) {
+                    // Quotation_value is available
+                    $details['quotationValue_value_data'] = $details['Quotation_value'];
+                }
+                // if ($key === 'Installation') {
+                //     $details['sign_name'] = $task->sign->name;
+                //     $details['sign_postion'] = $task->sign->postion;
+                //     $details['sign_Email'] = $task->sign->email_id_sign;
+                //     $details['sign_Phone'] = $task->sign->phone_sign;
+                //     // $details['sign_signature_data'] = 'l';
+                //     $details['sign_signature_data'] = $task->sign->signature_data;
+                // }
                 $mergedArray[$key] = $details;
             }
 
@@ -211,14 +220,18 @@ class JobAllocation extends Controller
                 $details['time'] = $dateTime->toTimeString();
 
 
-                if ($key === 'Installation') {
-                    $details['sign_name'] = $task->sign->name;
-                    $details['sign_postion'] = $task->sign->postion;
-                    $details['sign_Email'] = $task->sign->email_id_sign;
-                    $details['sign_Phone'] = $task->sign->phone_sign;
-                    // $details['sign_signature_data'] = 'l';
-                    $details['sign_signature_data'] = $task->sign->signature_data;
+                if (isset($details['signatures_data'])) {
+                    // Quotation_value is available
+                    $details['signatures_data'] = signatures::find($details['signatures_data']);
                 }
+                // if ($key === 'Installation') {
+                //     $details['sign_name'] = $task->sign->name;
+                //     $details['sign_postion'] = $task->sign->postion;
+                //     $details['sign_Email'] = $task->sign->email_id_sign;
+                //     $details['sign_Phone'] = $task->sign->phone_sign;
+                //     // $details['sign_signature_data'] = 'l';
+                //     $details['sign_signature_data'] = $task->sign->signature_data;
+                // }
                 $mergedArray[$key] = $details;
             }
 
@@ -441,11 +454,11 @@ class JobAllocation extends Controller
         $task = task_data::all();
         $tech = techUser::all();
         $techname = Auth::user()->id;
-        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('already', $techname)->where('task_id',$task_id)->get()
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('already', $techname)->where('task_id', $task_id)->get()
             ->groupBy('task.task_name')
             ->sortBy('task.task_name');
 
-        return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task','task_id' ,'tech'));
+        return view('tech.joballocation.Myjoblist', compact('prdt_task', 'task', 'task_id', 'tech'));
     }
 
     public function myjob_search(Request $request): view
@@ -519,6 +532,7 @@ class JobAllocation extends Controller
         $data = product_task::with('Type_service')->find($request->producttask_id);
 
         $slnum1 = product_add::where('product_id', $data->product_id)->first();
+
         if (empty($slnum1->serial_number)) {
             $validator = Validator::make($request->all(), [
                 'Serial_no' => 'required|unique:product_adds,serial_number',
@@ -531,6 +545,7 @@ class JobAllocation extends Controller
                     ->withInput()
                     ->with('error', 'Serial number already taken'); // Add an error message
             }
+            $slnum = product_add::where('product_id', $data->product_id)->update(['serial_number' => $request->Serial_no]);
         }
 
 
@@ -562,12 +577,15 @@ class JobAllocation extends Controller
 
         ]);
 
+
         $quotationValue = $request->Quotation_value === '1' ? 'Send Quotation' : "Don't Send Quotation";
 
         if ($quotationValue === 'Send Quotation') {
-            $task = task_data::select('id')->where('id', 5)->first();
-        } else {
             $task = task_data::select('id')->where('id', 3)->first();
+            $quotationValue_name = '1';
+        } else {
+            $task = task_data::select('id')->where('id', 4)->first();
+            $quotationValue_name = '1';
         }
 
 
@@ -581,21 +599,32 @@ class JobAllocation extends Controller
             'already' => $already,
             'assign' =>  Auth::user()->id,
             'Remarks' => $request->Remarks,
-            'Quotation_value'=> $quotationValue,
+            'quotationValue_name' => $quotationValue_name,
+            'Quotation_value' => $quotationValue,
+            'signatures_data' => $signatures_data->id,
 
         ];
 
         $data = product_task::with('Type_service')->find($request->producttask_id);
-        $slnum = product_add::where('product_id', $data->product_id)->update(['serial_number' => $request->Serial_no]);
+
+
         $pduct_id = product_add::find($data->product_id);
+
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
+        $serviceName = $data->Type_service->service_name;
+        $suffixedServiceName = $serviceName;
+        $dateTimeSuffix = date('Ymd_His');
+        $counter = 1;
+        while (array_key_exists($suffixedServiceName, $existingTaskHistory)) {
 
-        $existingTaskHistory[$data->Type_service->service_name] = $taskHistory;
+            $suffixedServiceName = $serviceName . '_next_' . $dateTimeSuffix;
+            $counter++;
+        }
 
 
+        $existingTaskHistory[$suffixedServiceName] = $taskHistory;
         $updatedJsonString = json_encode($existingTaskHistory);
-
         $takenby = $already;
         $admin_id = $already;
 
@@ -608,12 +637,6 @@ class JobAllocation extends Controller
             'already' => $already
         ]);
         $pduct_id = encrypt($pduct_id->product_id);
-
-
-
-
-
-
 
         toastr()->success('Job has been Assign successfully!');
 

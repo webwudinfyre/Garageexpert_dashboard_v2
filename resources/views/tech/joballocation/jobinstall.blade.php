@@ -396,10 +396,7 @@
                                                                     autocomplete="Serial_no" autofocus
                                                                     value="{{ $data->serial_number }}">
                                                                 <label for="Serial no">Serial no</label>
-                                                                @if ($errors->has('Serial_no'))
-                                                                    <span
-                                                                        class="text-danger">{{ $errors->first('Serial_no') }}</span>
-                                                                @endif
+                                                             
                                                                 @error('Serial_no')
                                                                     <div class="alert-color" role="alert">
                                                                         {{ $message }}

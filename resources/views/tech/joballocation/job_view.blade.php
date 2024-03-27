@@ -392,8 +392,14 @@
                                     @foreach ($sortedArray as $data)
                                         <div class="bluck_add mb-4">
                                             <div class="head-profie">
+                                                @php
+
+                                                    $nameParts = explode('_next', $data['name']);
+                                                    $firstPart = ucfirst(str_replace('_', ' ', $nameParts[0]));
+
+                                                @endphp
                                                 <h5 class="card-title">
-                                                    {{ ucfirst(str_replace('_', ' ', $data['name'])) }}</h5>
+                                                    {{ $firstPart }}</h5>
 
                                             </div>
 
@@ -491,24 +497,46 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="col-md-6 custom-border">
-                                                    <div class="under_line ">
+                                                @if (!empty($data['Remarks']))
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
 
-                                                        <div class="row ">
-                                                            <div class="col-6 ">
-                                                                <p class="mb-0">Remarks</p>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <p class="text-muted job_detatil_v3">
-                                                                    {{ $data['Remarks'] }}
-                                                                </p>
-                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Remarks</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['Remarks'] }}
+                                                                    </p>
+                                                                </div>
 
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                </div>
-                                                @if ($data['name'] === 'Installation')
+                                                    </div>
+                                                @endif
+
+                                                @if (!empty($data['quotationValue_value_data']))
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Quotation Status</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['quotationValue_value_data'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                @endif
+                                                @if (!empty($data['signatures_data']))
                                                     <div class="col-md-6 custom-border">
                                                         <div class="under_line ">
 
@@ -518,7 +546,7 @@
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['sign_name'] }}
+                                                                        {{ $data['signatures_data']->name }}
                                                                     </p>
                                                                 </div>
 
@@ -535,7 +563,7 @@
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['sign_postion'] }}
+                                                                        {{ $data['signatures_data']->postion }}
                                                                     </p>
                                                                 </div>
 
@@ -552,7 +580,7 @@
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['sign_Email'] }}
+                                                                        {{ $data['signatures_data']->email_id_sign }}
                                                                     </p>
                                                                 </div>
 
@@ -569,7 +597,7 @@
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['sign_Phone'] }}
+                                                                        {{ $data['signatures_data']->phone_sign }}
                                                                     </p>
                                                                 </div>
 
@@ -586,7 +614,7 @@
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <p class="text-muted job_detatil_v3">
-                                                                        <img src="{{ $data['sign_signature_data'] }}"
+                                                                        <img src="{{ $data['signatures_data']->signature_data }}"
                                                                             width="150px" height="40px" />
                                                                     </p>
                                                                 </div>
@@ -596,25 +624,7 @@
 
                                                     </div>
                                                 @endif
-                                                @if ($data['name'] === 'Inspection' || $data['name'] === 'Complaint' || $data['name'] === 'AMC')
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
 
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Quotation Status</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['Quotation_value'] }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                @endif
 
 
                                             </div>
