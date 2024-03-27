@@ -324,7 +324,7 @@ class JobAllocation extends Controller
         $data2 = ['base64Images' => $base64Images, 'image' => $image, 'data' =>  $data, 'prdt_task' => $prdt_task, 'admin_id' => $admin_id, 'pdut_id' => $pdut_id, 'tech' => $tech, 'taskHistoryArray' => $taskHistoryArray, 'product_id_job' => $product_id_job, 'prdt_task_2' => $prdt_task_2];
 
 
-        $html = view('admin.pdf.pdfdownload', $data2)->render();
+        $html = view('admin.Pdf.pdfdownload', $data2)->render();
         $pdf = PDF::loadHTML($html);
         return $pdf->download($data->product_code . '.pdf');
 
