@@ -238,6 +238,8 @@ class JobAllocation extends Controller
             $taskHistoryArray[] = $mergedArray;
 
 
+
+            
             $mergedArray = [];
         }
 
