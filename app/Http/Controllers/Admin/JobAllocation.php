@@ -169,7 +169,7 @@ class JobAllocation extends Controller
 
     public function job_list(): view
     {
-        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->get() ->sortBy('task_id');;
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->get() ->sortBy('task_id');
         $task = task_data::all();
 
         return view('admin.joballocation.joblist', compact('prdt_task', 'task'));
