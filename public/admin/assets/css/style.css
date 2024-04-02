@@ -1449,6 +1449,13 @@ i.bi.bi-download
 {
     color: var(--main-color);
 }
+i.bi
+{
+    color: var(--main-color);
+}
+i.bi.bi-arrow-up-short {
+    color: white;
+}
 .bluck_add {
 
     padding: 20px;
@@ -1513,6 +1520,9 @@ span.assign_to {
     border-image-slice: 1;
     margin-bottom: 5px;
 }
+#admin_table_task_view ul {
+    width: 200px;
+}
 @media (max-width: 576px) {
     .datatable-top {
         gap: 15px;
@@ -1548,5 +1558,11 @@ span.assign_to {
     }
     #warranty_type_data .bluck_add {
         max-height:  none !important;
+    }
+    #admin_table ul {
+        width: 300px;
+    }
+    #admin_table_task_view ul {
+        width: 200px;
     }
 }

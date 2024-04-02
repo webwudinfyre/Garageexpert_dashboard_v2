@@ -438,271 +438,268 @@
                             </div>
                         </div>
 
+
+
+
+
                         <div class="row">
                             <div class="col-12 ps-4 pe-4">
+                                @foreach ($taskHistoryArray as $taskId => $taskHistory)
+                                    {{-- <h2 class="sub_title"><x-tasknameid :taskId="$taskId" /></h2> --}}
+
+                                    @foreach ($taskHistory as $data)
+                                        <div class="row gy-3">
+                                            <div class="bluck_add mb-4">
+                                                <div class="head-profie">
+                                                    @php
+
+                                                        $name = explode('_next_', $data['name']);
+                                                        $serviceName = end($name);
+                                                    @endphp
+
+                                                    <h5 class="card-title">
+                                                        {{ ucfirst(str_replace('_', ' ', $serviceName)) }}</h5>
 
 
-                                <div class="row gy-3">
+                                                </div>
 
 
-                                    @php
-                                        use Carbon\Carbon;
 
-                                        // Flatten the array and sort it by 'date_time'
-                                        $sortedArray = collect($taskHistoryArray)->flatten(1);
-                                    @endphp
-                                    @foreach ($sortedArray as $data)
-                                        <div class="bluck_add mb-4">
-                                            <div class="head-profie">
-                                                @php
+                                                <div class="row gy-3">
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
 
-                                                    $nameParts = explode('_next', $data['name']);
-                                                    $firstPart = ucfirst(str_replace('_', ' ', $nameParts[0]));
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Services</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['Services'] }}
+                                                                    </p>
+                                                                </div>
 
-                                                @endphp
-                                                <h5 class="card-title">
-                                                    {{ $firstPart }}</h5>
+                                                            </div>
+                                                        </div>
 
+                                                    </div>
+
+                                                    @if ($data['assign'] === $data['user_id'])
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Technician name</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['user_name'] }}
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    @else
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Technician name</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            [{{ $data['user_name'] }}] <span
+                                                                                class="assign_to">Assign To
+                                                                            </span>
+                                                                            [{{ $data['assign_name'] }}]
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    @endif
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Date Of Schedule</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['Date_Of_Schedule'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6 custom-border">
+                                                        <div class="under_line ">
+
+                                                            <div class="row ">
+                                                                <div class="col-6 ">
+                                                                    <p class="mb-0">Date Of Action</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-muted job_detatil_v3">
+                                                                        {{ $data['date'] }} {{ $data['time'] }}
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    @if (!empty($data['Remarks']))
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Remarks</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['Remarks'] }}
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    @endif
+
+                                                    @if (!empty($data['quotationValue_value_data']))
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Quotation Status</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['quotationValue_value_data'] }}
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    @endif
+                                                    @if (!empty($data['signatures_data']))
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Signature person</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['signatures_data']->name }}
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">postion</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['signatures_data']->postion }}
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Email</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['signatures_data']->email_id_sign }}
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Phone</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['signatures_data']->phone_sign }}
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">signature</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            <img src="{{ $data['signatures_data']->signature_data }}"
+                                                                                width="150px" height="40px" />
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    @endif
+
+
+
+                                                </div>
                                             </div>
 
-
-                                            <div class="row gy-3">
-                                                <div class="col-md-6 custom-border">
-                                                    <div class="under_line ">
-
-                                                        <div class="row ">
-                                                            <div class="col-6 ">
-                                                                <p class="mb-0">Services</p>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <p class="text-muted job_detatil_v3">
-                                                                    {{ $data['Services'] }}
-                                                                </p>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                @if ($data['assign'] === $data['user_id'])
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Technician name</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['user_name'] }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                @else
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Technician name</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        [{{ $data['user_name'] }}] <span
-                                                                            class="assign_to">Assign To </span>
-                                                                        [{{ $data['assign_name'] }}]
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                @endif
-                                                <div class="col-md-6 custom-border">
-                                                    <div class="under_line ">
-
-                                                        <div class="row ">
-                                                            <div class="col-6 ">
-                                                                <p class="mb-0">Date Of Schedule</p>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <p class="text-muted job_detatil_v3">
-                                                                    {{ $data['Date_Of_Schedule'] }}
-                                                                </p>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-6 custom-border">
-                                                    <div class="under_line ">
-
-                                                        <div class="row ">
-                                                            <div class="col-6 ">
-                                                                <p class="mb-0">Date Of Action</p>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <p class="text-muted job_detatil_v3">
-                                                                    {{ $data['date'] }} {{ $data['time'] }}
-                                                                </p>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                @if (!empty($data['Remarks']))
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Remarks</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['Remarks'] }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                @endif
-
-
-                                                @if (!empty($data['quotationValue_value_data']))
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Quotation Status</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['quotationValue_value_data'] }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                @endif
-                                                @if (!empty($data['signatures_data']))
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Signature person</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['signatures_data']->name }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">postion</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['signatures_data']->postion }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Email</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['signatures_data']->email_id_sign }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Phone</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['signatures_data']->phone_sign }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
-
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">signature</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        <img src="{{ $data['signatures_data']->signature_data }}"
-                                                                            width="150px" height="40px" />
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                @endif
-
-
-
-                                            </div>
                                         </div>
                                     @endforeach
-
-
-
-                                </div>
-
-
-
-
+                                @endforeach
                             </div>
+
                         </div>
+
+                       
+
 
                     </div>
                 </div>

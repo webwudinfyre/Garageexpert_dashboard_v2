@@ -59,9 +59,9 @@
 
 
 
-    <x-tech-task-main  />
+    {{-- <x-tech-task-main  /> --}}
 
-
+    @include('components.task_status_admin')
     {{-- $notifications = auth()->user()->notifications; --}}
     <section class="section pt-3" id="section_Search">
         <div class="row">

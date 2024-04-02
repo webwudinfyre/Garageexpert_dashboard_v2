@@ -1,7 +1,7 @@
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
-  
+
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
@@ -95,12 +95,30 @@
 
         </li><!-- End Forms Nav --> --}}
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-bar-chart"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
 
-        </li><!-- End Charts Nav -->
+        <li class="nav-item {{ Request::is('admin/reports/*') ? 'active' : '' }}">
+            <a class="nav-link collapsed" data-bs-target="#Reports" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Reports</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="Reports" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a class="{{ Request::is('admin/reports/clientreport') ? 'active' : '' }}"
+                        href="{{ route('admin.reports.clientreport') }}">
+                        <i class="bi bi-circle"></i><span>Client Reports</span>
+                    </a>
+                </li>
+                {{-- <li>
+                    <a class="{{ Request::is('admin/reports/job_list') ? 'active' : '' }}"
+                        href="{{ route('admin.reports.job_list') }}">
+                        <i class="bi bi-circle"></i><span>Job List</span>
+                    </a>
+                </li> --}}
+                <!-- Add more list items for other job allocation pages -->
+            </ul>
+        </li>
+
+
 
         <li class="nav-heading">Pages</li>
 

@@ -13,6 +13,7 @@ use App\Models\product_add;
 use App\Models\product_task;
 use App\Models\signatures;
 use App\Models\task_data;
+use App\Models\task_tech_report;
 use App\Models\techUser;
 use App\Models\type_service;
 use App\Models\User;
@@ -121,7 +122,7 @@ class JobAllocation extends Controller
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
         $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt', 'sign'])->where('product_id', $data->product_id)->get();
         $prdt_task_2 = product_task::where('product_id', $data->product_id)
-            ->orderBy('created_at', 'desc') // Sort by created_at in descending order
+
             ->first();
 
         foreach ($prdt_task as $task) {
@@ -134,12 +135,30 @@ class JobAllocation extends Controller
         $taskHistoryArray = [];
 
 
-        foreach ($prdt_task as $task) {
+        $taskNames = [];
 
+        $taskHistoryArray = []; // Initialize the array outside the loop
+
+        foreach ($prdt_task as $task) {
+            $mergedArray = []; // Initialize the merged array for each task
+
+            $taskId = $task->id;
+
+            $task_id_name= $task->Type_service->service_name;
+            $taskNames[$taskId] = $task_id_name;
             $taskHistory = json_decode($task->taskhistory, true);
 
+            $keyNames = array_keys($taskHistory);
 
-            foreach ($taskHistory as $key => $details) {
+            // Sort task history items by date and time
+            usort($keyNames, function ($a, $b) use ($taskHistory) {
+                $dateTimeA = Carbon::parse($taskHistory[$a]['date_time']);
+                $dateTimeB = Carbon::parse($taskHistory[$b]['date_time']);
+                return $dateTimeA <=> $dateTimeB;
+            });
+
+            foreach ($keyNames as $key) {
+                $details = $taskHistory[$key];
                 $details['name'] =  $key;
                 $details['task_name_status'] = task_data::find($details['task_id'])->task_name;
                 $details['user_name'] = User::find($details['user_id'])->name;
@@ -147,41 +166,26 @@ class JobAllocation extends Controller
                 $details['Services'] = $task->type_service->service_name;
                 $details['Date_Of_Schedule'] = $task->date_of_schedule;
 
-                //  $details['Quotation_value'] = $details['Quotation_value'];
-
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
                 $details['time'] = $dateTime->toTimeString();
 
-
                 if (isset($details['signatures_data'])) {
-                    // Quotation_value is available
                     $details['signatures_data'] = signatures::find($details['signatures_data']);
                 }
                 if (isset($details['quotationValue_name'])) {
-                    // Quotation_value is available
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
                 }
-                // if ($key === 'Installation') {
-                //     $details['sign_name'] = $task->sign->name;
-                //     $details['sign_postion'] = $task->sign->postion;
-                //     $details['sign_Email'] = $task->sign->email_id_sign;
-                //     $details['sign_Phone'] = $task->sign->phone_sign;
-                //     // $details['sign_signature_data'] = 'l';
-                //     $details['sign_signature_data'] = $task->sign->signature_data;
-                // }
+
                 $mergedArray[$key] = $details;
             }
 
-            $taskHistoryArray[] = $mergedArray;
-            $mergedArray = [];
+            $taskHistoryArray[$taskId] = $mergedArray; // Use the task ID as the key in the task history array
         }
 
 
-
-
         $tech = techUser::all();
-        return view('tech.joballocation.job_view', compact('data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job', 'prdt_task_2'));
+        return view('tech.joballocation.job_view', compact('data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job', 'prdt_task_2', 'taskNames'));
     }
 
     public function jobpdfdowmload(Request $request, $id)
@@ -190,9 +194,7 @@ class JobAllocation extends Controller
         $id = decrypt($id);
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
         $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt', 'sign'])->where('product_id', $data->product_id)->get();
-        $prdt_task_2 = product_task::where('product_id', $data->product_id)
-            ->orderBy('created_at', 'desc') // Sort by created_at in descending order
-            ->first();
+        $prdt_task_2 = product_task::where('product_id', $data->product_id)->first();
 
         foreach ($prdt_task as $task) {
 
@@ -203,48 +205,58 @@ class JobAllocation extends Controller
         }
         $taskHistoryArray = [];
 
-        foreach ($prdt_task as $task) {
 
+        $taskNames = [];
+
+        $taskHistoryArray = []; // Initialize the array outside the loop
+
+        foreach ($prdt_task as $task) {
+            $mergedArray = []; // Initialize the merged array for each task
+
+            $taskId = $task->id;
+
+            $task_id_name= $task->Type_service->service_name;
+            $taskNames[$taskId] = $task_id_name;
             $taskHistory = json_decode($task->taskhistory, true);
 
+            $keyNames = array_keys($taskHistory);
 
-            foreach ($taskHistory as $key => $details) {
+            // Sort task history items by date and time
+            usort($keyNames, function ($a, $b) use ($taskHistory) {
+                $dateTimeA = Carbon::parse($taskHistory[$a]['date_time']);
+                $dateTimeB = Carbon::parse($taskHistory[$b]['date_time']);
+                return $dateTimeA <=> $dateTimeB;
+            });
+
+            foreach ($keyNames as $key) {
+                $details = $taskHistory[$key];
                 $details['name'] =  $key;
                 $details['task_name_status'] = task_data::find($details['task_id'])->task_name;
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
                 $details['Date_Of_Schedule'] = $task->date_of_schedule;
+
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
                 $details['time'] = $dateTime->toTimeString();
 
-
                 if (isset($details['signatures_data'])) {
-                    // Quotation_value is available
                     $details['signatures_data'] = signatures::find($details['signatures_data']);
                 }
-                // if ($key === 'Installation') {
-                //     $details['sign_name'] = $task->sign->name;
-                //     $details['sign_postion'] = $task->sign->postion;
-                //     $details['sign_Email'] = $task->sign->email_id_sign;
-                //     $details['sign_Phone'] = $task->sign->phone_sign;
-                //     // $details['sign_signature_data'] = 'l';
-                //     $details['sign_signature_data'] = $task->sign->signature_data;
-                // }
+                if (isset($details['quotationValue_name'])) {
+                    $details['quotationValue_value_data'] = $details['Quotation_value'];
+                }
+
                 $mergedArray[$key] = $details;
             }
 
-            $taskHistoryArray[] = $mergedArray;
-
-
-
-
-            $mergedArray = [];
+            $taskHistoryArray[$taskId] = $mergedArray; // Use the task ID as the key in the task history array
         }
 
 
         $tech = techUser::all();
+
 
         $imagePaths = array(
             public_path() . '/admin/assets/img/header@4x.png',
@@ -270,7 +282,7 @@ class JobAllocation extends Controller
         $image = 'data:image/' . $type . ';base64,' . base64_encode($data1);
 
         $tech = techUser::all();
-        $data2 = ['base64Images' => $base64Images, 'image' => $image, 'data' =>  $data, 'prdt_task' => $prdt_task, 'admin_id' => $admin_id, 'pdut_id' => $pdut_id, 'tech' => $tech, 'taskHistoryArray' => $taskHistoryArray, 'product_id_job' => $product_id_job, 'prdt_task_2' => $prdt_task_2];
+        $data2 = ['base64Images' => $base64Images, 'image' => $image, 'data' =>  $data, 'prdt_task' => $prdt_task, 'admin_id' => $admin_id, 'pdut_id' => $pdut_id, 'tech' => $tech, 'taskHistoryArray' => $taskHistoryArray, 'product_id_job' => $product_id_job, 'prdt_task_2' => $prdt_task_2,'taskNames'=>$taskNames];
 
         $html = view('tech.Pdf.pdfdownload', $data2)->render();
         $pdf = PDF::loadHTML($html);
@@ -278,8 +290,7 @@ class JobAllocation extends Controller
 
 
 
-
-        //  return view('tech.pdf.pdfdownload', $data2);
+//  return view('tech.pdf.pdfdownload', $data2);
     }
     public function job_list(): view
     {
@@ -376,14 +387,37 @@ class JobAllocation extends Controller
             'assign' => Auth::user()->id,
             'Remarks' => 'job taken',
         ];
-        $data = product_task::find($request->pdt_id_name);;
+        $data = product_task::find($request->pdt_id_name);
+
+
+        $dateTimeSuffix = date('Ymd_His');
+
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
+        $serviceName = $dateTimeSuffix . '_next_' . 'Job_Myself';
 
-        $existingTaskHistory['Job_Myself'] = $taskHistory;
+        $suffixedServiceName = $serviceName;
+
+        $counter = 1;
+        while (array_key_exists($suffixedServiceName, $existingTaskHistory)) {
+
+            $suffixedServiceName = $dateTimeSuffix . '_next_' . $serviceName;
+            $counter++;
+        }
 
 
+        $existingTaskHistory[$suffixedServiceName] = $taskHistory;
         $updatedJsonString = json_encode($existingTaskHistory);
+
+
+
+
+
+
+
+
+
+
 
         $takenby = Auth::user()->id;
         $admin_id = Auth::user()->id;
@@ -407,13 +441,29 @@ class JobAllocation extends Controller
             'Remarks' => 'job_assign',
         ];
         $data = product_task::find($request->pdt_id_name_assign);;
+
+
+        $dateTimeSuffix = date('Ymd_His');
+
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
+        $serviceName = $dateTimeSuffix . '_next_' . 'job_assign';
 
-        $existingTaskHistory['job_assign'] = $taskHistory;
+        $suffixedServiceName = $serviceName;
+
+        $counter = 1;
+        while (array_key_exists($suffixedServiceName, $existingTaskHistory)) {
+
+            $suffixedServiceName = $dateTimeSuffix . '_next_' . $serviceName;
+            $counter++;
+        }
 
 
+        $existingTaskHistory[$suffixedServiceName] = $taskHistory;
         $updatedJsonString = json_encode($existingTaskHistory);
+
+
+
 
         $takenby = $already;
         $admin_id = $already;
@@ -615,18 +665,21 @@ class JobAllocation extends Controller
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
         $serviceName = $data->Type_service->service_name;
+
         $suffixedServiceName = $serviceName;
         $dateTimeSuffix = date('Ymd_His');
         $counter = 1;
         while (array_key_exists($suffixedServiceName, $existingTaskHistory)) {
 
-            $suffixedServiceName = $serviceName . '_next_' . $dateTimeSuffix;
+            $suffixedServiceName = $dateTimeSuffix . '_next_' . $serviceName;
             $counter++;
         }
 
 
         $existingTaskHistory[$suffixedServiceName] = $taskHistory;
         $updatedJsonString = json_encode($existingTaskHistory);
+
+
         $takenby = $already;
         $admin_id = $already;
 
@@ -640,8 +693,20 @@ class JobAllocation extends Controller
         ]);
         $pduct_id = encrypt($pduct_id->product_id);
 
+       
+
+
+        $task = task_tech_report::create([
+            'product_task_id' => $request->producttask_id,
+            'tech_user_id' => $already,
+            'date_of_schedule'=> $data->date_of_schedule,
+            'date'=>now(),
+
+        ]);
+
         toastr()->success('Job has been Assign successfully!');
 
         return redirect()->route('tech.joballocation.job_list_view', ['id' => $pduct_id]);
     }
+
 }

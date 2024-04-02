@@ -288,11 +288,16 @@
         use Carbon\Carbon;
 
         // Flatten the array and sort it by 'date_time'
-        $sortedArray = collect($taskHistoryArray)
-            ->flatten(1);
+        $sortedArray = collect($taskHistoryArray)->flatten(1);
+
+        $itemsPerPage = 2; // Default value
+        if (isset($perPage) && is_numeric($perPage) && $perPage > 0) {
+            $itemsPerPage = $perPage;
+        }
 
         // Calculate the total number of pages
-        $totalPages = ceil($sortedArray->count() / 2);
+        $totalPages = ceil($sortedArray->count() / $itemsPerPage);
+
     @endphp
 
     @for ($page = 0; $page < $totalPages; $page++)
@@ -317,18 +322,19 @@
                     </div>
                 </div>
             </section>
-            @foreach ($currentPageSections as $data)
+
+            @foreach ($currentPageSections as $taskId => $data)
                 <section class="section pt-1 pe-4 ps-5" id="section_admin" style="padding: 0px 20px 0px 20px ;">
                     <div class="bluck_add ">
                         <div class="head-profie">
                             @php
 
-                                $nameParts = explode('_next', $data['name']);
-                                $firstPart = ucfirst(str_replace('_', ' ', $nameParts[0]));
-
+                                $name = explode('_next_', $data['name']);
+                                $serviceName = end($name);
                             @endphp
-                            <h5 class="card-title  pb-2">
-                                {{ $firstPart }}</h5>
+
+                            <h5 class="card-title">
+                                {{ ucfirst(str_replace('_', ' ', $serviceName)) }}</h5>
 
                         </div>
 
@@ -359,34 +365,34 @@
                                     <td>{{ $data['date'] }} {{ $data['time'] }}</td>
                                 </tr>
                                 @if (!empty($data['Remarks']))
-                                <tr>
-                                    <td>Remarks</td>
-                                    <td>{{ $data['Remarks'] }}</td>
-                                </tr>
+                                    <tr>
+                                        <td>Remarks</td>
+                                        <td>{{ $data['Remarks'] }}</td>
+                                    </tr>
                                 @endif
                                 @if (!empty($data['signatures_data']))
-                                <tr>
-                                    <td>Signature person</td>
-                                    <td>  {{$data['signatures_data']->name }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Postion</td>
-                                    <td> {{$data['signatures_data']->postion}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Email</td>
-                                    <td> {{$data['signatures_data']->email_id_sign}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Phone no:</td>
-                                    <td> {{$data['signatures_data']->phone_sign }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Signature</td>
-                                    <td><img src="{{  $data['signatures_data']->signature_data }}" width="150px"
-                                            height="40px" /></td>
-                                </tr>
-                            @endif
+                                    <tr>
+                                        <td>Signature person</td>
+                                        <td> {{ $data['signatures_data']->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Postion</td>
+                                        <td> {{ $data['signatures_data']->postion }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td> {{ $data['signatures_data']->email_id_sign }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone no:</td>
+                                        <td> {{ $data['signatures_data']->phone_sign }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Signature</td>
+                                        <td><img src="{{ $data['signatures_data']->signature_data }}" width="150px"
+                                                height="40px" /></td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Equipments;
 use App\Http\Controllers\Admin\JobAllocation;
 use App\Http\Controllers\Admin\RegistrationController;
+use App\Http\Controllers\admin\Reports;
 use Illuminate\Support\Facades\Route;
 
 
@@ -89,5 +90,15 @@ Route::middleware(['auth', 'user.type:admin'])
 
 
     // href="{{ route('admin.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}"
+
+    // ----------------------------------------Job Allocation---------------------------------//
+
+
+    Route::get('/reports/clientreport', [Reports::class, 'clientreport'])->name('reports.clientreport');
+    Route::post('/reports/clientreport/search', [Reports::class, 'clientreport_search'])->name('reports.client_report.search');
+    Route::get('report/prdct_view_task/{id}', [Reports::class, 'prdct_view_task'])->name('reports.prdct_view_task');
+
+    Route::get('/report/task_list_view/{id}', [Reports::class, 'task_list_view'])->name('report.task_list_view');
+    Route::get('/report/taskpdfdowmload/{id}', [Reports::class, 'taskpdfdowmload'])->name('report.taskpdfdowmload');
 });
 

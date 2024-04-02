@@ -60,19 +60,18 @@
      * view_details product
      */
 
-  /**
+    /**
      * view_details taken_by
      */
 
-  const taken_by = document.getElementById("taken_by");
+    const taken_by = document.getElementById("taken_by");
 
-  if (taken_by) {
-      taken_by.addEventListener("show.bs.modal", (event) => {
-          const button = event.relatedTarget;
-          const recipient = button.getAttribute("data-bs-whatever");
+    if (taken_by) {
+        taken_by.addEventListener("show.bs.modal", (event) => {
+            const button = event.relatedTarget;
+            const recipient = button.getAttribute("data-bs-whatever");
 
-
-          fetch("/tech/joballocation/job_view/" + recipient, {
+            fetch("/tech/joballocation/job_view/" + recipient, {
                 method: "get",
             })
                 .then((response) => response.json())
@@ -80,163 +79,363 @@
                     console.log(data);
 
                     const Office_Name = document.querySelector("#Office_Name");
-                    const Location_Name = document.querySelector("#Location_Name");
+                    const Location_Name =
+                        document.querySelector("#Location_Name");
                     const Email = document.querySelector("#Email");
-                    const Phone_Number= document.querySelector("#Phone_Number");
-                    const Product_Code= document.querySelector("#Product_Code");
-                    const Brand_Name= document.querySelector("#Brand_Name");
-                    const Model= document.querySelector("#Model");
-                    const Product_Name= document.querySelector("#Product_Name");
-                    const pdt_id_name= document.querySelector("#pdt_id_name");
+                    const Phone_Number =
+                        document.querySelector("#Phone_Number");
+                    const Product_Code =
+                        document.querySelector("#Product_Code");
+                    const Brand_Name = document.querySelector("#Brand_Name");
+                    const Model = document.querySelector("#Model");
+                    const Product_Name =
+                        document.querySelector("#Product_Name");
+                    const pdt_id_name = document.querySelector("#pdt_id_name");
 
-                    Office_Name.textContent = data.product_add.client_pdt.office;
-                    Location_Name.textContent = data.product_add.client_pdt.location;
+                    Office_Name.textContent =
+                        data.product_add.client_pdt.office;
+                    Location_Name.textContent =
+                        data.product_add.client_pdt.location;
                     Email.textContent = data.product_add.client_pdt.users.email;
-                    Phone_Number.textContent = data.product_add.client_pdt.phonenumber;
+                    Phone_Number.textContent =
+                        data.product_add.client_pdt.phonenumber;
 
                     Product_Code.textContent = data.product_add.product_code;
                     Brand_Name.textContent = data.product_add.equip_pdt.Brand;
                     Model.textContent = data.product_add.equip_pdt.Model;
-                    Product_Name.textContent = data.product_add.client_pdt.phonenumber;
+                    Product_Name.textContent =
+                        data.product_add.client_pdt.phonenumber;
                     pdt_id_name.value = data.id;
                 })
                 .catch((error) => {
                     console.error("Error:", error);
                 });
-      });
-  }
-   /**
+        });
+    }
+    /**
      * view_details assign
      */
 
-   const assign_to = document.getElementById("assign_to");
+    const assign_to = document.getElementById("assign_to");
 
-   if (assign_to) {
-    assign_to.addEventListener("show.bs.modal", (event) => {
-           const button = event.relatedTarget;
-           const recipient = button.getAttribute("data-bs-whatever");
+    if (assign_to) {
+        assign_to.addEventListener("show.bs.modal", (event) => {
+            const button = event.relatedTarget;
+            const recipient = button.getAttribute("data-bs-whatever");
 
+            fetch("/tech/joballocation/job_view/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
 
-           fetch("/tech/joballocation/job_view/" + recipient, {
-                 method: "get",
-             })
-                 .then((response) => response.json())
-                 .then((data) => {
-                     console.log(data);
+                    const Office_Name = document.querySelector(
+                        "#Office_Name_assign"
+                    );
+                    const Location_Name = document.querySelector(
+                        "#Location_Name_assign"
+                    );
+                    const Email = document.querySelector("#Email_assign");
+                    const Phone_Number = document.querySelector(
+                        "#Phone_Number_assign"
+                    );
+                    const Product_Code = document.querySelector(
+                        "#Product_Code_assign"
+                    );
+                    const Brand_Name =
+                        document.querySelector("#Brand_Name_assign");
+                    const Model = document.querySelector("#Model_assign");
+                    const Product_Name = document.querySelector(
+                        "#Product_Name_assign"
+                    );
+                    const pdt_id_name = document.querySelector(
+                        "#pdt_id_name_assign"
+                    );
 
-                     const Office_Name = document.querySelector("#Office_Name_assign");
-                     const Location_Name = document.querySelector("#Location_Name_assign");
-                     const Email = document.querySelector("#Email_assign");
-                     const Phone_Number= document.querySelector("#Phone_Number_assign");
-                     const Product_Code= document.querySelector("#Product_Code_assign");
-                     const Brand_Name= document.querySelector("#Brand_Name_assign");
-                     const Model= document.querySelector("#Model_assign");
-                     const Product_Name= document.querySelector("#Product_Name_assign");
-                     const pdt_id_name= document.querySelector("#pdt_id_name_assign");
+                    Office_Name.textContent =
+                        data.product_add.client_pdt.office;
+                    Location_Name.textContent =
+                        data.product_add.client_pdt.location;
+                    Email.textContent = data.product_add.client_pdt.users.email;
+                    Phone_Number.textContent =
+                        data.product_add.client_pdt.phonenumber;
 
-                     Office_Name.textContent = data.product_add.client_pdt.office;
-                     Location_Name.textContent = data.product_add.client_pdt.location;
-                     Email.textContent = data.product_add.client_pdt.users.email;
-                     Phone_Number.textContent = data.product_add.client_pdt.phonenumber;
+                    Product_Code.textContent = data.product_add.product_code;
+                    Brand_Name.textContent = data.product_add.equip_pdt.Brand;
+                    Model.textContent = data.product_add.equip_pdt.Model;
+                    Product_Name.textContent =
+                        data.product_add.equip_pdt.Item_name;
+                    pdt_id_name.value = data.id;
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
+    /**
+     * taskViewModal
+     */
 
-                     Product_Code.textContent = data.product_add.product_code;
-                     Brand_Name.textContent = data.product_add.equip_pdt.Brand;
-                     Model.textContent = data.product_add.equip_pdt.Model;
-                     Product_Name.textContent = data.product_add.equip_pdt.Item_name;
-                     pdt_id_name.value = data.id;
-                 })
-                 .catch((error) => {
-                     console.error("Error:", error);
-                 });
-       });
-   }
-   /**
+    const taskViewModal = document.getElementById("taskViewModal");
+
+    if (taskViewModal) {
+        taskViewModal.addEventListener("show.bs.modal", (event) => {
+            const button = event.relatedTarget;
+            const recipient = button.getAttribute("data-bs-whatever");
+
+            fetch("/admin/report/prdct_view_task/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+
+                    // Access the table body
+                    const tableBody = document.querySelector(
+                        "#admin_table_task_view tbody"
+                    );
+
+                    // Clear existing rows
+                    tableBody.innerHTML = "";
+                    let slNumber = 1;
+                    // Loop through the data and populate the table
+                    data.forEach((item) => {
+                        const startDate = new Date(item.date_of_schedule);
+                        const endDate = new Date(item.updated_at);
+                        const dateDifference = Math.ceil(
+                            (endDate - startDate) / (1000 * 60 * 60 * 24)
+                        );
+
+                        // Create a new row
+                        const row = document.createElement("tr");
+
+                        // Create cells for type_services_id, admin_id, and service_name
+
+                        const slNumberCell = document.createElement("td");
+                        slNumberCell.textContent = slNumber++;
+                        slNumberCell.style.textAlign = "center"; // Align text to the left
+                        row.appendChild(slNumberCell);
+
+                        const serviceNameCell = document.createElement("td");
+                        serviceNameCell.textContent =
+                            item.type_service.service_name;
+                        serviceNameCell.style.textAlign = "left"; // Align text to the left
+                        row.appendChild(serviceNameCell);
+
+                        const adminIdCell = document.createElement("td");
+                        adminIdCell.textContent = item.users_pdt.name;
+                        adminIdCell.style.textAlign = "left"; // Align text to the left
+                        row.appendChild(adminIdCell);
+
+                        const timeTakkenCell = document.createElement("td");
+                        // Create a list element to hold the start and end dates and the difference
+                        const list = document.createElement("ul");
+                        // Set the list style to align left
+                        list.style.textAlign = "left";
+                        // Append list items for start date, end date, and difference
+                        const startDateListItem = document.createElement("li");
+                        startDateListItem.textContent =
+                            "Start date: " + startDate.toLocaleDateString();
+                        list.appendChild(startDateListItem);
+
+                        const endDateListItem = document.createElement("li");
+                        endDateListItem.textContent =
+                            "End date: " + endDate.toLocaleDateString();
+                        list.appendChild(endDateListItem);
+
+                        let differenceDescription = "";
+                        if (dateDifference === 0) {
+                            differenceDescription = "on date";
+                        } else if (dateDifference > 0) {
+                            differenceDescription =
+                                "late by " + dateDifference + " days";
+                        } else {
+                            differenceDescription =
+                                "early by " +
+                                Math.abs(dateDifference) +
+                                " days";
+                        }
+
+                        const differenceListItem = document.createElement("li");
+                        differenceListItem.textContent =
+                            "Difference: " + differenceDescription;
+                        list.appendChild(differenceListItem);
+
+                        // Append the list to the timeTakkenCell
+                        timeTakkenCell.appendChild(list);
+                        timeTakkenCell.style.textAlign = "left"; // Align text to the left
+                        row.appendChild(timeTakkenCell);
+
+                        const status = document.createElement("td");
+                        status.textContent = item.task.task_name;
+                        status.style.textAlign = "left"; // Align text to the left
+                        row.appendChild(status);
+
+                        const actionCell = document.createElement("td");
+                        actionCell.style.textAlign = "left"; // Align text to the left
+
+                        // Create a div to hold the icons
+                        const iconsDiv = document.createElement("div");
+                        iconsDiv.style.display = "flex"; // Use flexbox to align icons horizontally
+                        iconsDiv.style.gap = "10px"; // Add some space between icons
+
+                        // Construct the HTML for the view button with tooltip
+                        const viewButtonHtml = `
+                                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View" href="/admin/report/task_list_view/${item.product_id}">
+                                    <button type="button" class="btn">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </a>
+                            `;
+
+                        // Set the HTML for the view button
+                        iconsDiv.innerHTML += viewButtonHtml;
+
+                        // Check if the task is complete
+                        if (item.task_id === 4) {
+                            // Construct the HTML for the download button
+                            const downloadButtonHtml = `
+                                <a href="/admin/report/taskpdfdowmload/${item.product_id}">
+                                    <button type="button" class="btn">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                </a>
+                            `;
+
+                            // Set the HTML for the download button
+                            iconsDiv.innerHTML += downloadButtonHtml;
+                        } else {
+                            // Construct the HTML for the progress bar
+                            const progressBarHtml = `
+
+                                <button type="button" class="btn">
+                                <i class="bi bi-hourglass-split"></i>
+                            </button>
+
+                            `;
+
+                            // Set the HTML for the progress bar
+                            iconsDiv.innerHTML += progressBarHtml;
+                        }
+
+                        // Append the icons div to the action cell
+                        actionCell.appendChild(iconsDiv);
+
+                        // Append the action cell to the row
+                        row.appendChild(actionCell);
+                        // Append the row to the table body
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
+    /**
      * Quotation_aproval
      */
 
-   const Quotation_aproval = document.getElementById("Quotation_aproval");
+    const Quotation_aproval = document.getElementById("Quotation_aproval");
 
-   if (Quotation_aproval) {
-    Quotation_aproval.addEventListener("show.bs.modal", (event) => {
-           const button = event.relatedTarget;
-           const recipient = button.getAttribute("data-bs-whatever");
+    if (Quotation_aproval) {
+        Quotation_aproval.addEventListener("show.bs.modal", (event) => {
+            const button = event.relatedTarget;
+            const recipient = button.getAttribute("data-bs-whatever");
 
+            fetch("/admin/joballocation/job_view/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
 
-           fetch("/admin/joballocation/job_view/" + recipient, {
-                 method: "get",
-             })
-                 .then((response) => response.json())
-                 .then((data) => {
-                     console.log(data);
+                    const Office_Name = document.querySelector(
+                        "#Office_Name_assign"
+                    );
+                    const Location_Name = document.querySelector(
+                        "#Location_Name_assign"
+                    );
+                    const Email = document.querySelector("#Email_assign");
+                    const Phone_Number = document.querySelector(
+                        "#Phone_Number_assign"
+                    );
+                    const Product_Code = document.querySelector(
+                        "#Product_Code_assign"
+                    );
+                    const Brand_Name =
+                        document.querySelector("#Brand_Name_assign");
+                    const Model = document.querySelector("#Model_assign");
+                    const Product_Name = document.querySelector(
+                        "#Product_Name_assign"
+                    );
+                    const pdt_id_name = document.querySelector(
+                        "#pdt_id_name_assign"
+                    );
 
-                     const Office_Name = document.querySelector("#Office_Name_assign");
-                     const Location_Name = document.querySelector("#Location_Name_assign");
-                     const Email = document.querySelector("#Email_assign");
-                     const Phone_Number= document.querySelector("#Phone_Number_assign");
-                     const Product_Code= document.querySelector("#Product_Code_assign");
-                     const Brand_Name= document.querySelector("#Brand_Name_assign");
-                     const Model= document.querySelector("#Model_assign");
-                     const Product_Name= document.querySelector("#Product_Name_assign");
-                     const pdt_id_name= document.querySelector("#pdt_id_name_assign");
+                    Office_Name.textContent =
+                        data.product_add.client_pdt.office;
+                    Location_Name.textContent =
+                        data.product_add.client_pdt.location;
+                    Email.textContent = data.product_add.client_pdt.users.email;
+                    Phone_Number.textContent =
+                        data.product_add.client_pdt.phonenumber;
 
-                     Office_Name.textContent = data.product_add.client_pdt.office;
-                     Location_Name.textContent = data.product_add.client_pdt.location;
-                     Email.textContent = data.product_add.client_pdt.users.email;
-                     Phone_Number.textContent = data.product_add.client_pdt.phonenumber;
-
-                     Product_Code.textContent = data.product_add.product_code;
-                     Brand_Name.textContent = data.product_add.equip_pdt.Brand;
-                     Model.textContent = data.product_add.equip_pdt.Model;
-                     Product_Name.textContent = data.product_add.equip_pdt.Item_name;
-                     pdt_id_name.value = data.id;
-                 })
-                 .catch((error) => {
-                     console.error("Error:", error);
-                 });
-       });
-   }
-   /**
+                    Product_Code.textContent = data.product_add.product_code;
+                    Brand_Name.textContent = data.product_add.equip_pdt.Brand;
+                    Model.textContent = data.product_add.equip_pdt.Model;
+                    Product_Name.textContent =
+                        data.product_add.equip_pdt.Item_name;
+                    pdt_id_name.value = data.id;
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
+    /**
      * view_details assign_job
      */
 
-//    const assign_to_job_button = document.getElementById("assign_to_job_button");
-//    const assign_to_job_modal = document.getElementById("assign_to_job_modal");
+    //    const assign_to_job_button = document.getElementById("assign_to_job_button");
+    //    const assign_to_job_modal = document.getElementById("assign_to_job_modal");
 
-//    if (assign_to_job_button && assign_to_job_modal) {
-//        assign_to_job_button.addEventListener("click", () => {
-//            fetch("/tech/joballocation/job_view/" + recipient, {
-//                method: "get",
-//            })
-//            .then((response) => response.json())
-//            .then((data) => {
-//                console.log(data);
+    //    if (assign_to_job_button && assign_to_job_modal) {
+    //        assign_to_job_button.addEventListener("click", () => {
+    //            fetch("/tech/joballocation/job_view/" + recipient, {
+    //                method: "get",
+    //            })
+    //            .then((response) => response.json())
+    //            .then((data) => {
+    //                console.log(data);
 
-//                const Office_Name = document.querySelector("#Office_Name_assign_job");
-//                const Location_Name = document.querySelector("#Location_Name_assign_job");
-//                const Email = document.querySelector("#Email_assign_job");
-//                const Phone_Number= document.querySelector("#Phone_Number_assign_job");
-//                const Product_Code= document.querySelector("#Product_Code_assign_job");
-//                const Brand_Name= document.querySelector("#Brand_Name_assign_job");
-//                const Model= document.querySelector("#Model_assign_job");
-//                const Product_Name= document.querySelector("#Product_Name_assign_job");
-//                const pdt_id_name= document.querySelector("#pdt_id_name_assign_job");
+    //                const Office_Name = document.querySelector("#Office_Name_assign_job");
+    //                const Location_Name = document.querySelector("#Location_Name_assign_job");
+    //                const Email = document.querySelector("#Email_assign_job");
+    //                const Phone_Number= document.querySelector("#Phone_Number_assign_job");
+    //                const Product_Code= document.querySelector("#Product_Code_assign_job");
+    //                const Brand_Name= document.querySelector("#Brand_Name_assign_job");
+    //                const Model= document.querySelector("#Model_assign_job");
+    //                const Product_Name= document.querySelector("#Product_Name_assign_job");
+    //                const pdt_id_name= document.querySelector("#pdt_id_name_assign_job");
 
-//             //    Office_Name.textContent = data.product_add.client_pdt.office;
-//             //    Location_Name.textContent = data.product_add.client_pdt.location;
-//             //    Email.textContent = data.product_add.client_pdt.users.email;
-//             //    Phone_Number.textContent = data.product_add.client_pdt.phonenumber;
+    //             //    Office_Name.textContent = data.product_add.client_pdt.office;
+    //             //    Location_Name.textContent = data.product_add.client_pdt.location;
+    //             //    Email.textContent = data.product_add.client_pdt.users.email;
+    //             //    Phone_Number.textContent = data.product_add.client_pdt.phonenumber;
 
-//                Product_Code.textContent = data.product_add.product_code;
-//                Brand_Name.textContent = data.product_add.equip_pdt.Brand;
-//                Model.textContent = data.product_add.equip_pdt.Model;
-//             //    Product_Name.textContent = data.product_add.client_pdt.product_name; // Corrected typo
-//                pdt_id_name.value = data.id; // Setting value property for input field
-//            })
-//            .catch((error) => {
-//                console.error("Error:", error);
-//            });
-//        });
-//    }
+    //                Product_Code.textContent = data.product_add.product_code;
+    //                Brand_Name.textContent = data.product_add.equip_pdt.Brand;
+    //                Model.textContent = data.product_add.equip_pdt.Model;
+    //             //    Product_Name.textContent = data.product_add.client_pdt.product_name; // Corrected typo
+    //                pdt_id_name.value = data.id; // Setting value property for input field
+    //            })
+    //            .catch((error) => {
+    //                console.error("Error:", error);
+    //            });
+    //        });
+    //    }
 
     /**
      * view_details product

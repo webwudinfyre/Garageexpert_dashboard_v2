@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ClientUser extends Model
 {
@@ -31,13 +33,15 @@ class ClientUser extends Model
         return $this->belongsTo(User::class ,'user_id','id');
     }
 
+
     public function Product_add() :BelongsTo {
-        return $this->belongsTo(Product_add::class,'client_id','id');
+        return $this->belongsTo(product_add::class,'client_id','id');
     }
 
 
-
-
+    public function Product_add_client() :HasMany {
+        return $this->hasMany(product_add::class,'client_id','id');
+    }
 
 
 }
