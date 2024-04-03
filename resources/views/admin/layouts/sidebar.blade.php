@@ -108,6 +108,18 @@
                         <i class="bi bi-circle"></i><span>Client Reports</span>
                     </a>
                 </li>
+                <li>
+                    <a class="{{ Request::is('admin/reports/techreport') ? 'active' : '' }}"
+                        href="{{ route('admin.reports.techreport') }}">
+                        <i class="bi bi-circle"></i><span>Technician Reports</span>
+                    </a>
+                </li>
+                {{-- <li>
+                    <a class="{{ Request::is('admin/reports/customer') ? 'active' : '' }}"
+                        href="{{ route('admin.reports.techreport') }}">
+                        <i class="bi bi-circle"></i><span>Technician Reports</span>
+                    </a>
+                </li> --}}
                 {{-- <li>
                     <a class="{{ Request::is('admin/reports/job_list') ? 'active' : '' }}"
                         href="{{ route('admin.reports.job_list') }}">

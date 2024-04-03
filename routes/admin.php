@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Equipments;
 use App\Http\Controllers\Admin\JobAllocation;
 use App\Http\Controllers\Admin\RegistrationController;
-use App\Http\Controllers\admin\Reports;
+use App\Http\Controllers\Admin\Reports;
 use Illuminate\Support\Facades\Route;
 
 
@@ -100,5 +100,9 @@ Route::middleware(['auth', 'user.type:admin'])
 
     Route::get('/report/task_list_view/{id}', [Reports::class, 'task_list_view'])->name('report.task_list_view');
     Route::get('/report/taskpdfdowmload/{id}', [Reports::class, 'taskpdfdowmload'])->name('report.taskpdfdowmload');
+
+    Route::get('/report/techreport', [Reports::class, 'techreport'])->name('reports.techreport');
+    Route::get('/report/techreport_view/{id}', [Reports::class, 'techreport_view'])->name('reports.techreport_view');
+
 });
 

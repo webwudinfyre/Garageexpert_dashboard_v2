@@ -173,6 +173,19 @@
                 });
         });
     }
+/**
+     * taskViewModal
+     */
+const download_button = document.getElementById("download_button");
+
+if (download_button) {
+    download_button.addEventListener("click", function() {
+        alert("Button clicked!");
+    });
+}
+
+
+
     /**
      * taskViewModal
      */
@@ -296,7 +309,7 @@
                         if (item.task_id === 4) {
                             // Construct the HTML for the download button
                             const downloadButtonHtml = `
-                                <a href="/admin/report/taskpdfdowmload/${item.product_id}">
+                                <a href="/admin/report/taskpdfdowmload/${item.id}">
                                     <button type="button" class="btn">
                                         <i class="bi bi-download"></i>
                                     </button>

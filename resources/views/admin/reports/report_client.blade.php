@@ -5,6 +5,19 @@
         button.btn.bg-primary_expert {
             width: 50%;
         }
+        .spinner {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
     </style>
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
@@ -155,13 +168,14 @@
                                                             <i class="bi bi-journals"></i>
                                                         </button>
                                                     </a>
-                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    <a id="download_button"  data-bs-toggle="tooltip" data-bs-placement="top"
                                                     data-bs-title="Download"
                                                     href="{{ route('admin.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}">
                                                     <button type="button" class="btn">
 
 
                                                         <i class="bi bi-download"></i></i>
+
                                                     </button>
                                                 </a>
                                                     </div>
@@ -274,7 +288,7 @@
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-title="Download"
                                                                 href="{{ route('admin.joballocation.job_pdf_dowmload', ['id' => encrypt($data_sub_detail->product_id)]) }}">
-                                                                <button type="button" class="btn">
+                                                                <button  id="downloadButton" type="button" class="btn">
 
 
                                                                     <i class="bi bi-download"></i></i>
@@ -351,6 +365,10 @@
 
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
+
+            </script>
+        <script>
+
             $(document).ready(function() {
                 $("#client_name").autocomplete({
                     source: function(request, response) {
