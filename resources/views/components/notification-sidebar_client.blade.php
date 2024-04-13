@@ -34,7 +34,7 @@
 
                             </div>
 
-                            <a  href="{{ route('admin.joballocation.mark_as_read', ['id' => encrypt($notification->id)]) }}" ><span class="mark_as_read"> <i class="bi bi-envelope-paper"></i></span></a>
+                            <a  href="{{ route('client.joballocation.mark_as_read', ['id' => encrypt($notification->id)]) }}" ><span class="mark_as_read"> <i class="bi bi-envelope-paper"></i></span></a>
                         </div>
 
 

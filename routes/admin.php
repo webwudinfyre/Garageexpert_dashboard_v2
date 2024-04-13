@@ -104,5 +104,7 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::get('/report/techreport', [Reports::class, 'techreport'])->name('reports.techreport');
     Route::get('/report/techreport_view/{id}', [Reports::class, 'techreport_view'])->name('reports.techreport_view');
 
+    Route::get('/report/customer_review', [Reports::class, 'customer_review'])->name('reports.customer_review');
+
 });
 

@@ -10,75 +10,84 @@
                 </a>
             </li><!-- End Dashboard Nav -->
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Sub Office List</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-menu-button-wide"></i><span>Office List</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
 
-            </li><!-- End Components Nav -->
+            </li> --}}
+
+            <li class="nav-item {{ Request::is('client/office/*') ? 'active' : '' }}">
+                <a class="nav-link collapsed"
+                    href="{{ route('client.client.office_list', ['id' => encrypt(Auth::user()->id)]) }}">
+                    <i class="bi bi-person"></i>
+                    <span>Office List</span>
+                </a>
+            </li>
+
+
+            {{-- <!-- End Components Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-journal-text"></i><span>Register Complaint</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-journal-text"></i><span>Register Complaint</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
                 </a>
 
             </li><!-- End Forms Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-layout-text-window-reverse"></i><span>Reports</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+            <li class="nav-item {{ Request::is('admin/reports/*') ? 'active' : '' }}">
+                <a class="nav-link collapsed" data-bs-target="#Reports" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-layout-text-window-reverse"></i><span>Review</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="Reports" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="tables-general.html">
-                            <i class="bi bi-circle"></i><span>General Tables</span>
+                        <a class="{{ Request::is('admin/reports/clientreport') ? 'active' : '' }}"
+                            href="{{ route('admin.reports.clientreport') }}">
+                            <i class="bi bi-circle"></i><span>Product Review</span>
                         </a>
                     </li>
                     <li>
-                        <a href="tables-data.html">
-                            <i class="bi bi-circle"></i><span>Data Tables</span>
+                        <a class="{{ Request::is('admin/reports/techreport') ? 'active' : '' }}"
+                            href="{{ route('admin.reports.techreport') }}">
+                            <i class="bi bi-circle"></i><span>Technician Review</span>
                         </a>
                     </li>
-                </ul>
-            </li><!-- End Tables Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-bar-chart"></i><span>Review</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="charts-chartjs.html">
-                            <i class="bi bi-circle"></i><span>Chart.js</span>
+                        <a class="{{ Request::is('admin/report/customer_review') ? 'active' : '' }}"
+                            href="{{ route('admin.reports.customer_review') }}">
+                            <i class="bi bi-circle"></i><span>Customer Review</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="charts-apexcharts.html">
-                            <i class="bi bi-circle"></i><span>ApexCharts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="charts-echarts.html">
-                            <i class="bi bi-circle"></i><span>ECharts</span>
-                        </a>
-                    </li>
+
                 </ul>
-            </li><!-- End Charts Nav -->
+            </li> --}}
+
+
+            <li class="nav-item {{ Request::is('client/client/Review/*') ? 'active' : '' }}">
+                <a class="nav-link collapsed"
+                    href="{{ route('client.client.client_review', ['id' => Auth::user()->id]) }}">
+                    <i class="bi bi-layout-text-window-reverse"></i>
+                    <span>Review</span>
+                </a>
+            </li>
 
 
             <li class="nav-heading">Pages</li>
-           
+
             {{--  --}}
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('client.registration.clientdprofilemain', ['id' => encrypt(Auth::user()->id )]) }}">
+                <a class="nav-link collapsed"
+                    href="{{ route('client.registration.clientdprofilemain', ['id' => encrypt(Auth::user()->id)]) }}">
                     <i class="bi bi-person"></i>
                     <span>Profile</span>
                 </a>
             </li><!-- End Profile Page Nav -->
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-faq.html">
                     <i class="bi bi-question-circle"></i>
                     <span>F.A.Q</span>
@@ -106,7 +115,7 @@
                     <i class="bi bi-file-earmark"></i>
                     <span>Blank</span>
                 </a>
-            </li><!-- End Blank Page Nav -->
+            </li><!-- End Blank Page Nav --> --}}
 
         </ul>
 

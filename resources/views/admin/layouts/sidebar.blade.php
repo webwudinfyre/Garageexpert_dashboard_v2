@@ -60,7 +60,7 @@
 
             </ul>
 
-        </li><!-- End Tables Nav -->
+        </li>
 
 
         <!-- Job Allocation Nav -->
@@ -114,19 +114,14 @@
                         <i class="bi bi-circle"></i><span>Technician Reports</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a class="{{ Request::is('admin/reports/customer') ? 'active' : '' }}"
-                        href="{{ route('admin.reports.techreport') }}">
-                        <i class="bi bi-circle"></i><span>Technician Reports</span>
+
+                <li>
+                    <a class="{{ Request::is('admin/report/customer_review') ? 'active' : '' }}"
+                        href="{{ route('admin.reports.customer_review') }}">
+                        <i class="bi bi-circle"></i><span>Customer Review</span>
                     </a>
-                </li> --}}
-                {{-- <li>
-                    <a class="{{ Request::is('admin/reports/job_list') ? 'active' : '' }}"
-                        href="{{ route('admin.reports.job_list') }}">
-                        <i class="bi bi-circle"></i><span>Job List</span>
-                    </a>
-                </li> --}}
-                <!-- Add more list items for other job allocation pages -->
+                </li>
+
             </ul>
         </li>
 
@@ -141,9 +136,9 @@
                 <i class="bi bi-person"></i>
                 <span>Profile</span>
             </a>
-        </li><!-- End Profile Page Nav -->
+        </li>
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" href="pages-faq.html">
                 <i class="bi bi-question-circle"></i>
                 <span>F.A.Q</span>
@@ -171,7 +166,7 @@
                 <i class="bi bi-file-earmark"></i>
                 <span>Blank</span>
             </a>
-        </li><!-- End Blank Page Nav -->
+        </li><!-- End Blank Page Nav --> --}}
 
     </ul>
 

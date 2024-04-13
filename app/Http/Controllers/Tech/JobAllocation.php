@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Events\NewProjectAdded;
 
 use App\Models\ClientUser;
+use App\Models\customer_review;
 use App\Models\Equipment;
 use App\Models\Notification;
 use App\Models\product_add;
@@ -693,7 +694,7 @@ class JobAllocation extends Controller
         ]);
         $pduct_id = encrypt($pduct_id->product_id);
 
-       
+
 
 
         $task = task_tech_report::create([
@@ -702,6 +703,18 @@ class JobAllocation extends Controller
             'date_of_schedule'=> $data->date_of_schedule,
             'date'=>now(),
 
+        ]);
+
+        $data3 = product_task::with('Type_service','product_add','product_add.client_pdt','product_add.equip_pdt')->find($request->producttask_id);
+        // printf($data3->product_add->client_pdt->user_id);die();
+
+        $customer=customer_review::create([
+            'product_tasks_id' => $request->producttask_id,
+            'type_services_id'=>$data3->type_services_id,
+            'admin_id'=>$data3->product_add->client_pdt->user_id,
+            'product_id'=>$data3->product_id,
+            'client_id'=>$data3->product_add->client_pdt->user_id,
+            'equipment_id'=> $data3->product_add->equip_pdt->id,
         ]);
 
         toastr()->success('Job has been Assign successfully!');

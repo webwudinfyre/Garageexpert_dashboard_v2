@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('client.layouts.master')
 
 @section('contents')
     <style>
@@ -43,58 +43,6 @@
 
             </div>
 
-        </div>
-    </section>
-
-    <section class="section pt-3" id="section_Search">
-        <div class="row">
-            <div class="col-lg-12">
-
-                <div class="card">
-                    <div class="card-body ">
-                        <div class="row gy-3 mt-3">
-
-                            <form action="{{ route('admin.reports.client_report.search') }}" class="row g-3" method="post">
-                                @csrf
-                                <div class="col-xxl-6 col-md-6 text-center">
-                                    <div class="row">
-
-                                        <div class="col-sm-12">
-                                            <div class="row mb-3">
-                                                <label for="inputText" class="col-sm-4 col-form-label">Client Name :</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="client_name"
-                                                        name="client_name" placeholder="Client Name"
-                                                        autocomplete="client_name" value="{{ old('client_name') }}">
-                                                </div>
-                                                @error('client_name')
-                                                    <div class="alert-color" role="alert">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                                <input type="hidden" id="client_name_id" name="client_name_id" readonly>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-xxl-6 col-md-6 text-center ">
-                                    <div class="search">
-                                        <div class="form-floating mb-3 ">
-                                            <button type="submit" class="btn bg-primary_expert"
-                                                style="height: 100%; width:50%">search</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -161,7 +109,7 @@
                                                     <div class="action_icon ">
                                                         <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                             data-bs-title="View"
-                                                            href="{{ route('admin.joballocation.job_list_view', ['id' => encrypt($data->product_id)]) }}">
+                                                            href="{{ route('client.joballocation.job_list_view', ['id' => encrypt($data->product_id)]) }}">
                                                             <button type="button" class="btn">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
@@ -170,13 +118,13 @@
                                                             data-bs-title=" Task View">
                                                             <button type="button" class="btn" data-bs-toggle="modal"
                                                                 data-bs-whatever={{ $data->product_id }}
-                                                                data-bs-target="#taskViewModal">
+                                                                data-bs-target="#taskViewModal2">
                                                                 <i class="bi bi-journals"></i>
                                                             </button>
                                                         </a>
                                                         <a id="download_button" data-bs-toggle="tooltip"
                                                             data-bs-placement="top" data-bs-title="Download"
-                                                            href="{{ route('admin.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}">
+                                                            href="{{ route('client.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}">
                                                             <button type="button" class="btn">
 
 
@@ -276,7 +224,7 @@
                                                         <div class="action_icon ">
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-title="View"
-                                                                href="{{ route('admin.joballocation.job_list_view', ['id' => encrypt($data_sub_detail->product_id)]) }}">
+                                                                href="{{ route('client.joballocation.job_list_view', ['id' => encrypt($data_sub_detail->product_id)]) }}">
                                                                 <button type="button" class="btn">
                                                                     <i class="bi bi-eye"></i>
                                                                 </button>
@@ -285,18 +233,16 @@
 
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-title=" Task View">
-                                                                <button type="button" class="btn"
-                                                                    data-bs-toggle="modal"
+                                                                <button type="button" class="btn" data-bs-toggle="modal"
                                                                     data-bs-whatever={{ $data_sub_detail->product_id }}
-                                                                    data-bs-target="#taskViewModal">
+                                                                    data-bs-target="#taskViewModal2">
                                                                     <i class="bi bi-journals"></i>
                                                                 </button>
                                                             </a>
                                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-title="Download"
-                                                                href="{{ route('admin.joballocation.job_pdf_dowmload', ['id' => encrypt($data_sub_detail->product_id)]) }}">
-                                                                <button id="downloadButton" type="button"
-                                                                    class="btn">
+                                                                href="{{ route('client.joballocation.job_pdf_dowmload', ['id' => encrypt($data_sub_detail->product_id)]) }}">
+                                                                <button id="downloadButton" type="button" class="btn">
 
 
                                                                     <i class="bi bi-download"></i></i>
@@ -324,7 +270,7 @@
     @endif
 
     <section id='assign'>
-        <div class="modal fade" id="taskViewModal" tabindex="-1" aria-labelledby="taskViewModal" aria-hidden="true">
+        <div class="modal fade" id="taskViewModal2" tabindex="-1" aria-labelledby="taskViewModal2" aria-hidden="true">
             <div class="modal-dialog 	modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">

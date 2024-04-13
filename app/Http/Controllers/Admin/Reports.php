@@ -254,5 +254,9 @@ class Reports extends Controller
         $prdt_task=product_task::with('product_add','product_add.client_pdt','Type_service', 'task')->where('admin_id',$techusers->user_id)->get();
         return view('admin.reports.report_tech_view',compact('prdt_task','techusers'));
     }
+    public function customer_review() : View {
+
+        return view('admin.reports.customer_review');
+    }
 
 }

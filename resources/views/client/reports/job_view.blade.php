@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('client.layouts.master')
 
 @section('contents')
     <style>
@@ -47,7 +47,7 @@
                     <h1>Job Details</h1>
                     <nav>
                         <ol class="breadcrumb ">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard.index') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('client.dashboard.index') }}">Home</a></li>
                             <li class="breadcrumb-item active">Job Details</li>
                         </ol>
                     </nav>
@@ -57,7 +57,7 @@
                     <div id="view_job_l" class="action_icon ">
 
                         <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"
-                            href="{{ route('admin.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}">
+                            href="{{ route('client.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}">
                             <button type="button" class="btn">
 
 

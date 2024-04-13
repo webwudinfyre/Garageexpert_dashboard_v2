@@ -173,19 +173,176 @@
                 });
         });
     }
-/**
+    /**
      * taskViewModal
      */
-const download_button = document.getElementById("download_button");
+    const download_button = document.getElementById("download_button");
 
-if (download_button) {
-    download_button.addEventListener("click", function() {
-        alert("Button clicked!");
-    });
-}
+    if (download_button) {
+        download_button.addEventListener("click", function () {
+            alert("Button clicked!");
+        });
+    }
+   /**
+     * taskViewModal1
+     */
 
+   const taskViewModal2 = document.getElementById("taskViewModal2");
 
+   if (taskViewModal2) {
+    taskViewModal2.addEventListener("show.bs.modal", (event) => {
+           const button = event.relatedTarget;
+           const recipient = button.getAttribute("data-bs-whatever");
 
+           fetch("/client/report/prdct_view_task/" + recipient, {
+               method: "get",
+           })
+               .then((response) => response.json())
+               .then((data) => {
+                   console.log(data);
+
+                   // Access the table body
+                   const tableBody = document.querySelector(
+                       "#admin_table_task_view tbody"
+                   );
+
+                   // Clear existing rows
+                   tableBody.innerHTML = "";
+                   let slNumber = 1;
+                   // Loop through the data and populate the table
+                   data.forEach((item) => {
+                       const startDate = new Date(item.date_of_schedule);
+                       const endDate = new Date(item.updated_at);
+                       const dateDifference = Math.ceil(
+                           (endDate - startDate) / (1000 * 60 * 60 * 24)
+                       );
+
+                       // Create a new row
+                       const row = document.createElement("tr");
+
+                       // Create cells for type_services_id, admin_id, and service_name
+
+                       const slNumberCell = document.createElement("td");
+                       slNumberCell.textContent = slNumber++;
+                       slNumberCell.style.textAlign = "center"; // Align text to the left
+                       row.appendChild(slNumberCell);
+
+                       const serviceNameCell = document.createElement("td");
+                       serviceNameCell.textContent =
+                           item.type_service.service_name;
+                       serviceNameCell.style.textAlign = "left"; // Align text to the left
+                       row.appendChild(serviceNameCell);
+
+                       const adminIdCell = document.createElement("td");
+                       adminIdCell.textContent = item.users_pdt.name;
+                       adminIdCell.style.textAlign = "left"; // Align text to the left
+                       row.appendChild(adminIdCell);
+
+                       const timeTakkenCell = document.createElement("td");
+                       // Create a list element to hold the start and end dates and the difference
+                       const list = document.createElement("ul");
+                       // Set the list style to align left
+                       list.style.textAlign = "left";
+                       // Append list items for start date, end date, and difference
+                       const startDateListItem = document.createElement("li");
+                       startDateListItem.textContent =
+                           "Start date: " + startDate.toLocaleDateString();
+                       list.appendChild(startDateListItem);
+
+                       const endDateListItem = document.createElement("li");
+                       endDateListItem.textContent =
+                           "End date: " + endDate.toLocaleDateString();
+                       list.appendChild(endDateListItem);
+
+                       let differenceDescription = "";
+                       if (dateDifference === 0) {
+                           differenceDescription = "on date";
+                       } else if (dateDifference > 0) {
+                           differenceDescription =
+                               "late by " + dateDifference + " days";
+                       } else {
+                           differenceDescription =
+                               "early by " +
+                               Math.abs(dateDifference) +
+                               " days";
+                       }
+
+                       const differenceListItem = document.createElement("li");
+                       differenceListItem.textContent =
+                           "Difference: " + differenceDescription;
+                       list.appendChild(differenceListItem);
+
+                       // Append the list to the timeTakkenCell
+                       timeTakkenCell.appendChild(list);
+                       timeTakkenCell.style.textAlign = "left"; // Align text to the left
+                       row.appendChild(timeTakkenCell);
+
+                       const status = document.createElement("td");
+                       status.textContent = item.task.task_name;
+                       status.style.textAlign = "left"; // Align text to the left
+                       row.appendChild(status);
+
+                       const actionCell = document.createElement("td");
+                       actionCell.style.textAlign = "left"; // Align text to the left
+
+                       // Create a div to hold the icons
+                       const iconsDiv = document.createElement("div");
+                       iconsDiv.style.display = "flex"; // Use flexbox to align icons horizontally
+                       iconsDiv.style.gap = "10px"; // Add some space between icons
+
+                       // Construct the HTML for the view button with tooltip
+                       const viewButtonHtml = `
+                               <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View" href="/client/report/task_list_view/${item.product_id}">
+                                   <button type="button" class="btn">
+                                       <i class="bi bi-eye"></i>
+                                   </button>
+                               </a>
+                           `;
+
+                       // Set the HTML for the view button
+                       iconsDiv.innerHTML += viewButtonHtml;
+
+                       // Check if the task is complete
+                       if (item.task_id === 4) {
+                           // Construct the HTML for the download button
+                           const downloadButtonHtml = `
+                               <a href="/client/report/taskpdfdowmload/${item.id}">
+                                   <button type="button" class="btn">
+                                       <i class="bi bi-download"></i>
+                                   </button>
+                               </a>
+                           `;
+
+                           // Set the HTML for the download button
+                           iconsDiv.innerHTML += downloadButtonHtml;
+                       } else {
+                           // Construct the HTML for the progress bar
+                           const progressBarHtml = `
+
+                               <button type="button" class="btn">
+                               <i class="bi bi-hourglass-split"></i>
+                           </button>
+
+                           `;
+
+                           // Set the HTML for the progress bar
+                           iconsDiv.innerHTML += progressBarHtml;
+                       }
+
+                       // Append the icons div to the action cell
+                       actionCell.appendChild(iconsDiv);
+
+                       // Append the action cell to the row
+                       row.appendChild(actionCell);
+                       // Append the row to the table body
+                       tableBody.appendChild(row);
+                   });
+               })
+               .catch((error) => {
+                   console.error("Error:", error);
+               });
+       });
+   }
     /**
      * taskViewModal
      */
