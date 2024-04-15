@@ -96,20 +96,20 @@
         </li><!-- End Forms Nav --> --}}
 
 
-        <li class="nav-item {{ Request::is('admin/reports/*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('admin/report/*') ? 'active' : '' }}">
             <a class="nav-link collapsed" data-bs-target="#Reports" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-layout-text-window-reverse"></i><span>Reports</span>
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="Reports" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a class="{{ Request::is('admin/reports/clientreport') ? 'active' : '' }}"
+                    <a class="{{ Request::is('admin/reportsclientreport') ? 'active' : '' }}"
                         href="{{ route('admin.reports.clientreport') }}">
                         <i class="bi bi-circle"></i><span>Client Reports</span>
                     </a>
                 </li>
                 <li>
-                    <a class="{{ Request::is('admin/reports/techreport') ? 'active' : '' }}"
+                    <a class="{{ Request::is('admin/report/techreport') ? 'active' : '' }}"
                         href="{{ route('admin.reports.techreport') }}">
                         <i class="bi bi-circle"></i><span>Technician Reports</span>
                     </a>

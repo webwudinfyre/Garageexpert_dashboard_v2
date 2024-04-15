@@ -94,8 +94,8 @@ Route::middleware(['auth', 'user.type:admin'])
     // ----------------------------------------Job Allocation---------------------------------//
 
 
-    Route::get('/reports/clientreport', [Reports::class, 'clientreport'])->name('reports.clientreport');
-    Route::post('/reports/clientreport/search', [Reports::class, 'clientreport_search'])->name('reports.client_report.search');
+    Route::get('/report/clientreport', [Reports::class, 'clientreport'])->name('reports.clientreport');
+    Route::post('/report/clientreport/search', [Reports::class, 'clientreport_search'])->name('reports.client_report.search');
     Route::get('report/prdct_view_task/{id}', [Reports::class, 'prdct_view_task'])->name('reports.prdct_view_task');
 
     Route::get('/report/task_list_view/{id}', [Reports::class, 'task_list_view'])->name('report.task_list_view');
@@ -104,7 +104,11 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::get('/report/techreport', [Reports::class, 'techreport'])->name('reports.techreport');
     Route::get('/report/techreport_view/{id}', [Reports::class, 'techreport_view'])->name('reports.techreport_view');
 
+
+
     Route::get('/report/customer_review', [Reports::class, 'customer_review'])->name('reports.customer_review');
 
+    Route::get('/report/customer/reviewdetails/{id}', [Reports::class, 'reviewdetails'])->name('reports.customer.reviewdetails');
+    Route::get('/report/customer/reviewdetails_tech/{id}', [Reports::class, 'reviewdetails_tech'])->name('reports.customer.reviewdetails_tech');
 });
 

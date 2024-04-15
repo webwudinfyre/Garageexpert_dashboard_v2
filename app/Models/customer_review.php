@@ -20,4 +20,8 @@ class customer_review extends Model
     {
         return $this->hasOne(product_task::class, 'id', 'product_tasks_id');
     }
+    public function equip_pdt_rew(): HasOne
+    {
+        return $this->hasOne(Equipment::class, 'id', 'equipment_id');
+    }
 }

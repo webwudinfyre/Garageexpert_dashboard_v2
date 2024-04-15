@@ -715,6 +715,7 @@ class JobAllocation extends Controller
             'product_id'=>$data3->product_id,
             'client_id'=>$data3->product_add->client_pdt->user_id,
             'equipment_id'=> $data3->product_add->equip_pdt->id,
+            'tech_user_id'=> Auth::user()->id,
         ]);
 
         toastr()->success('Job has been Assign successfully!');

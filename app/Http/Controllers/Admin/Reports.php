@@ -19,7 +19,7 @@ use Illuminate\View\View;
 
 
 use App\Events\NewProjectAdded;
-
+use App\Models\customer_review;
 use App\Models\Equipment;
 use App\Models\Notification;
 
@@ -34,8 +34,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\DatabaseNotification;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-
-
+use Illuminate\Support\Facades\DB;
 
 class Reports extends Controller
 {
@@ -203,7 +202,8 @@ class Reports extends Controller
         return $pdf->download($prdt_task->product_add->product_code . '.pdf');
         return view('admin.Pdf.taskpadfdownload', $data2);
     }
-    public function techreport() : View {
+    public function techreport(): View
+    {
 
         $finalData = [];
 
@@ -221,12 +221,12 @@ class Reports extends Controller
 
             $techUserTasks = [];
 
-            $product_id=$product_tasks->where('admin_id', $techuser->user_id)->count();
+            $product_id = $product_tasks->where('admin_id', $techuser->user_id)->count();
 
             foreach ($taskdata as $task) {
 
                 $filtered_tasks = $product_tasks->where('task_id', $task->id)
-                                                ->where('admin_id', $techuser->user_id);
+                    ->where('admin_id', $techuser->user_id);
 
 
 
@@ -237,26 +237,96 @@ class Reports extends Controller
             }
 
             $finalData[$techuser->firstname] = [
-                'name' => $techuser->firstname .' '.$techuser->lastname,
+                'name' => $techuser->firstname . ' ' . $techuser->lastname,
                 'tasks' => $techUserTasks,
-                'product_id'=> $product_id,
-                'techuser_id'=>$techuser->id,
+                'product_id' => $product_id,
+                'techuser_id' => $techuser->id,
             ];
-
         }
 
-        return view('admin.reports.report_tech',compact('techusers','finalData'));
+        return view('admin.reports.report_tech', compact('techusers', 'finalData'));
     }
-    public function techreport_view($id) :  View {
+    public function techreport_view($id): View
+    {
 
         // print_r($id);die();
         $techusers = techUser::find($id);
-        $prdt_task=product_task::with('product_add','product_add.client_pdt','Type_service', 'task')->where('admin_id',$techusers->user_id)->get();
-        return view('admin.reports.report_tech_view',compact('prdt_task','techusers'));
+        $prdt_task = product_task::with('product_add', 'product_add.client_pdt', 'Type_service', 'task')->where('admin_id', $techusers->user_id)->get();
+        return view('admin.reports.report_tech_view', compact('prdt_task', 'techusers'));
     }
-    public function customer_review() : View {
+    public function customer_review(): View
+    {
 
-        return view('admin.reports.customer_review');
+
+        // $customer_reviews = customer_review::select(
+        //     'customer_reviews.equipment_id',
+        //     'eqpt.Item_name',
+        //     'eqpt.Model',
+        //     'eqpt.Brand',
+        //     'eqpt.Size',
+        //     'eqpt.id',
+        //     'customer_reviews.Product_reviews_star',
+        //     DB::raw('count(*) as total'),
+        //     DB::raw('AVG(customer_reviews.Product_reviews_star) as average_star')
+        // )
+        // ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
+        // ->groupBy('customer_reviews.equipment_id', 'eqpt.id', 'eqpt.Item_name', 'eqpt.model', 'eqpt.Brand', 'eqpt.Size', 'customer_reviews.Product_reviews_star')
+        // ->get();
+
+
+        $product_review = customer_review::select(
+            'customer_reviews.equipment_id',
+
+            'eqpt.Item_name',
+            'eqpt.Model',
+            'eqpt.Brand',
+            'eqpt.Size',
+            'eqpt.id',
+            'eqpt.item_id',
+
+
+            DB::raw('COUNT(*) as total_reviews'),
+            DB::raw('ROUND((AVG(customer_reviews.Product_reviews_star) / 5) * 5) as average_rating_out_of_5')
+        )
+        ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
+        ->groupBy('customer_reviews.equipment_id')
+        ->get();
+
+        $tech_reviews = customer_review::select(
+            'customer_reviews.tech_user_id',
+            'users.name',
+
+            DB::raw('COUNT(*) as total_reviews'),
+            DB::raw('ROUND((AVG(customer_reviews.tech_reviews_star) / 5) * 5) as average_rating_out_of_5')
+        )
+        ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
+        ->join('users as users', 'customer_reviews.tech_user_id', '=', 'users.id')
+        ->groupBy('customer_reviews.tech_user_id')
+        ->get();
+
+        // printf($product_review);
+        // die();
+        return view('admin.reports.customer_review',compact('product_review','tech_reviews'));
     }
+    public function reviewdetails($id) : view {
 
+        $eqpt_id=Equipment::find($id);
+        $customer_reviews=customer_review::with('product_task_rew','Type_service','product_task_rew.product_add','product_task_rew.product_add.client_pdt')
+        ->where('equipment_id',$id)->get();
+
+
+        return view('admin.reports.customer_review_details',compact('eqpt_id','customer_reviews') );
+
+    }
+    public function reviewdetails_tech($id) : view {
+
+
+        $tech_id=techUser::with('tech_user_rew')->where('user_id',$id)->first();
+        $customer_reviews=customer_review::with('product_task_rew','Type_service','product_task_rew.product_add','product_task_rew.product_add.client_pdt')
+        ->where('tech_user_id',$id)->get();
+
+        
+        return view('admin.reports.tech_review_details',compact('tech_id','customer_reviews') );
+
+    }
 }

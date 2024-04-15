@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\RegistrationController;
 use App\Http\Controllers\Client\DashboardController;
 use App\Http\Controllers\Client\profile;
-use App\Http\Controllers\client\Reports;
+use App\Http\Controllers\Client\Reports;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
