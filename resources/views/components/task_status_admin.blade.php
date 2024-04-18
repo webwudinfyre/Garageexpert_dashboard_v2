@@ -17,7 +17,7 @@
 
                             <div class=" d-flex text-center align-items-center justify-content-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-cart"></i>
+                                    <img class="icons_svg" src="{{ asset('admin/assets/img/New_task.svg') }}" >
                                 </div>
                                 <div class="ps-3">
                                     <h6>{{ $taskCount['New Task'] }}</h6>
@@ -39,7 +39,7 @@
 
                             <div class=" d-flex text-center align-items-center justify-content-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-cart"></i>
+                                    <img class="icons_svg" src="{{ asset('admin/assets/img/Pending_task.svg') }}" >
                                 </div>
                                 <div class="ps-3">
                                     <h6>{{ $taskCount['Pending'] }}</h6>
@@ -64,7 +64,8 @@
 
                             <div class=" d-flex text-center align-items-center justify-content-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-cart"></i>
+
+                                 <img class="icons_svg" src="{{ asset('admin/assets/img/Completed_task.svg') }}" >
                                 </div>
                                 <div class="ps-3">
                                     <h6>{{ $taskCount['Completed'] }}</h6>
@@ -89,7 +90,7 @@
 
                             <div class=" d-flex text-center align-items-center justify-content-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-cart"></i>
+                                    <img class="icons_svg" src="{{ asset('admin/assets/img/Asign to other.svg') }}" >
                                 </div>
                                 <div class="ps-3">
                                     <h6>{{ $taskCount['Quotation'] }}</h6>

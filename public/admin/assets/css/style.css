@@ -1523,6 +1523,10 @@ span.assign_to {
 #admin_table_task_view ul {
     width: 200px;
 }
+img.icons_svg {
+    margin-left: 13px;
+    width: 60%;
+}
 @media (max-width: 576px) {
     .datatable-top {
         gap: 15px;

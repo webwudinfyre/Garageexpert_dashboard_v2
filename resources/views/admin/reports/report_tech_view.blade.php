@@ -21,6 +21,12 @@
 
         </div>
     </section>
+
+    @php
+    $asd = $techusers['user_id'];
+@endphp
+
+<x-example-component :adminId="$asd"  admin="admin" />
     <section class="section pt-3" id="section_admin">
         <div class="row">
             <div class="col-lg-12">
@@ -53,7 +59,7 @@
                                         <th>Type Service</th>
                                         <th>Date</th>
 
-                                        <th>Review Rate</th>
+
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -111,7 +117,7 @@
                                                 </ul>
 
                                             </td>
-                                            <td></td>
+
                                             <td>
 
                                                 <div class="action_icon ">

@@ -288,9 +288,9 @@ class Reports extends Controller
             DB::raw('COUNT(*) as total_reviews'),
             DB::raw('ROUND((AVG(customer_reviews.Product_reviews_star) / 5) * 5) as average_rating_out_of_5')
         )
-        ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
-        ->groupBy('customer_reviews.equipment_id')
-        ->get();
+            ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
+            ->groupBy('customer_reviews.equipment_id')
+            ->get();
 
         $tech_reviews = customer_review::select(
             'customer_reviews.tech_user_id',
@@ -299,34 +299,100 @@ class Reports extends Controller
             DB::raw('COUNT(*) as total_reviews'),
             DB::raw('ROUND((AVG(customer_reviews.tech_reviews_star) / 5) * 5) as average_rating_out_of_5')
         )
-        ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
-        ->join('users as users', 'customer_reviews.tech_user_id', '=', 'users.id')
-        ->groupBy('customer_reviews.tech_user_id')
-        ->get();
+            ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
+            ->join('users as users', 'customer_reviews.tech_user_id', '=', 'users.id')
+            ->groupBy('customer_reviews.tech_user_id')
+            ->get();
 
         // printf($product_review);
         // die();
-        return view('admin.reports.customer_review',compact('product_review','tech_reviews'));
+        return view('admin.reports.customer_review', compact('product_review', 'tech_reviews'));
     }
-    public function reviewdetails($id) : view {
+    public function reviewdetails($id): view
+    {
 
-        $eqpt_id=Equipment::find($id);
-        $customer_reviews=customer_review::with('product_task_rew','Type_service','product_task_rew.product_add','product_task_rew.product_add.client_pdt')
-        ->where('equipment_id',$id)->get();
+        $eqpt_id = Equipment::find($id);
+        $customer_reviews = customer_review::with('product_task_rew', 'Type_service', 'product_task_rew.product_add', 'product_task_rew.product_add.client_pdt')
+            ->where('equipment_id', $id)->get();
 
 
-        return view('admin.reports.customer_review_details',compact('eqpt_id','customer_reviews') );
-
+        return view('admin.reports.customer_review_details', compact('eqpt_id', 'customer_reviews'));
     }
-    public function reviewdetails_tech($id) : view {
+    public function reviewdetails_tech($id): view
+    {
 
 
-        $tech_id=techUser::with('tech_user_rew')->where('user_id',$id)->first();
-        $customer_reviews=customer_review::with('product_task_rew','Type_service','product_task_rew.product_add','product_task_rew.product_add.client_pdt')
-        ->where('tech_user_id',$id)->get();
+        $tech_id = techUser::with('tech_user_rew')->where('user_id', $id)->first();
+        $customer_reviews = customer_review::with('product_task_rew', 'Type_service', 'product_task_rew.product_add', 'product_task_rew.product_add.client_pdt')
+            ->where('tech_user_id', $id)->get();
 
-        
-        return view('admin.reports.tech_review_details',compact('tech_id','customer_reviews') );
 
+        return view('admin.reports.tech_review_details', compact('tech_id', 'customer_reviews'));
+    }
+    public function index_task(Request $request): JsonResponse
+    {
+
+
+        $start = $request->query('start');
+        $end = $request->query('end');
+
+        $tasks = product_task::with('task','product_add.client_pdt')->whereBetween('updated_at', [$start, $end])
+            ->orWhereBetween('updated_at', [$start, $end])
+            ->get();
+
+        $events = $tasks->map(function ($task) {
+            return [
+                'title' => $task->product_add->client_pdt->office, // Assuming 'task' relationship has a 'title' property
+                'start' => $task->updated_at->format('Y-m-d'),
+                'end' => $task->updated_at->format('Y-m-d'), // Adjust as necessary
+                'color' => $this->getEventColor($task->task->task_name), // Assuming 'status' determines the color
+            ];
+        })->toArray();
+
+        return response()->json($events);
+    }
+    private function getEventColor($status)
+    {
+        switch ($status) {
+            case 'Completed':
+                return 'green';
+            case 'Pending':
+                return 'blue';
+            case 'New Task':
+                return 'Yellow';
+            case 'Quotation':
+                return 'white';
+            default:
+                return 'red';
+        }
+    }
+
+    public function get_event_details(Request $request): JsonResponse
+    {
+
+        // $start = $request->date ;
+        // $end = $request->date;
+        // $tasks = product_task::with('task','product_add.client_pdt')->whereBetween('updated_at', [$start, $end])
+        //     ->orWhereBetween('updated_at', [$start, $end])
+        //     ->get();
+        $date = $request->date;
+
+    // Assuming $request->date is in 'Y-m-d' format
+    // Create DateTime objects for the start and end of the day
+    $start = new DateTime($date);
+    $start->setTime(0, 0, 0); // Set time to 00:00:00
+
+    $end = new DateTime($date);
+    $end->setTime(23, 59, 59); // Set time to 23:59:59
+
+    // Format the DateTime objects back to strings if needed
+    $startString = $start->format('Y-m-d H:i:s');
+    $endString = $end->format('Y-m-d H:i:s');
+
+    $tasks = product_task::with('product_add','product_add.equip_pdt','task','product_add.client_pdt')
+        ->whereBetween('updated_at', [$startString, $endString])
+        ->get();
+
+        return response()->json( $tasks);
     }
 }

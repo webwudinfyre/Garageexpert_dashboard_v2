@@ -22,6 +22,10 @@
 
     </div>
 </section>
+
+
+
+
 <section class="section pt-3" id="section_admin">
     <div class="row">
         <div class="col-lg-12">
@@ -53,11 +57,10 @@
                                     <th>Pending</th>
                                     <th>Completed</th>
                                     <th>Quotation</th>
-                                    <th>Review Rate</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            
+
                             <tbody>
                                 @foreach ($finalData as $key=>$finalData)
                                     <tr>

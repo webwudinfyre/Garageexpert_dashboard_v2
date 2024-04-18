@@ -289,7 +289,7 @@
                     @endif
 
                     <div class="col-md-12">
-                        <div class="card  mb-4 ">
+                        {{-- <div class="card  mb-4 ">
 
                             <div class="card-body">
                                 <h5 class="card-title">Over view</h5>
@@ -336,7 +336,7 @@
 
                             </div>
 
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>

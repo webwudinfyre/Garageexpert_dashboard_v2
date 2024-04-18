@@ -18,8 +18,9 @@ class ExampleComponent extends Component
 
     public $taskCounts;
     public $data_id1;
+    public $admin;
 
-    public function __construct($adminId)
+    public function __construct($adminId,$admin)
     {
         $taskdata = task_data::all();
 
@@ -32,7 +33,7 @@ class ExampleComponent extends Component
                                                       ->count();
             $this->data_id1[$data->task_name] = $data->id;
         }
-
+        $this->admin = $admin;
         $this->taskCounts = $taskCount;
     }
 
@@ -41,6 +42,7 @@ class ExampleComponent extends Component
         return view('components.example-component', [
             'taskCounts' => $this->taskCounts,
             'data_id1' => $this->data_id1,
+            'admin' =>  $this->admin,
         ]);
     }
 }

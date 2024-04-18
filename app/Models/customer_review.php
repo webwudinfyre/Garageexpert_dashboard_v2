@@ -24,4 +24,8 @@ class customer_review extends Model
     {
         return $this->hasOne(Equipment::class, 'id', 'equipment_id');
     }
+    public function tech_user_rew(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'tech_user_id');
+    }
 }

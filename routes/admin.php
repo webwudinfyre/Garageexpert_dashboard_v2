@@ -110,5 +110,13 @@ Route::middleware(['auth', 'user.type:admin'])
 
     Route::get('/report/customer/reviewdetails/{id}', [Reports::class, 'reviewdetails'])->name('reports.customer.reviewdetails');
     Route::get('/report/customer/reviewdetails_tech/{id}', [Reports::class, 'reviewdetails_tech'])->name('reports.customer.reviewdetails_tech');
+
+
+
 });
+
+Route::get('/tasks', [Reports::class, 'index_task']);
+
+Route::get('/get_event_details', [Reports::class, 'get_event_details']);
+
 

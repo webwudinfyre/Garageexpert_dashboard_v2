@@ -66,7 +66,7 @@
         <!-- Job Allocation Nav -->
         <li class="nav-item {{ Request::is('admin/joballocation/*') ? 'active' : '' }}">
             <a class="nav-link collapsed" data-bs-target="#Job_Allocation" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>Job Allocation</span>
+                <i class="bi bi-gear"></i><span>Job Allocation</span>
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="Job_Allocation" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -98,7 +98,7 @@
 
         <li class="nav-item {{ Request::is('admin/report/*') ? 'active' : '' }}">
             <a class="nav-link collapsed" data-bs-target="#Reports" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>Reports</span>
+                <i class="bi bi-journal-text"></i><span>Reports</span>
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="Reports" class="nav-content collapse " data-bs-parent="#sidebar-nav">

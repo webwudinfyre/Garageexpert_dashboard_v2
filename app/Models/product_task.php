@@ -50,4 +50,5 @@ class product_task extends Model
     {
         return $this->hasOne(signatures::class, 'product_tasks_id', 'id');
     }
+   
 }

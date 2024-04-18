@@ -159,12 +159,7 @@
                                                         </button>
                                                     </a>
 
-                                                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"
-                                                        href="{{ route('admin.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}">
-                                                        <button type="button" class="btn">
-                                                            <i class="bi bi-trash3-fill"></i>
-                                                        </button>
-                                                    </a>
+                                                 
 
                                                 </div>
 

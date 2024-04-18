@@ -8,7 +8,7 @@
     <title>Dashboard - GarageExpert</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-    
+
     <!-- Favicons -->
     <link href="{{ asset('admin/assets/img/favicon.ico') }}" rel="icon">
     <link href="{{ asset('admin/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
@@ -29,6 +29,8 @@
     <link href="{{ asset('admin/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
 
+<link href="https://unpkg.com/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' rel='stylesheet' />
 </head>
 
 <body>

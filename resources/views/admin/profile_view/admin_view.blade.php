@@ -142,7 +142,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                         <div class="card mb-4 mb-md-0">
 
                             <div class="card-body">
@@ -191,7 +191,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
