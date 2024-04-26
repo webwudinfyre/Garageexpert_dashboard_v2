@@ -287,7 +287,7 @@
 
                         </div>
                     @endif
-
+                    {{--
                     <div class="col-md-12">
                         <div class="card  mb-4 ">
 
@@ -337,7 +337,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

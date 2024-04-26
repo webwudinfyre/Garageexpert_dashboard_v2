@@ -56,7 +56,7 @@ Route::middleware(['auth', 'user.type:user'])
 
         Route::Post('/client/update', [Reports::class, 'update'])->name('client.review.update');
 
-
+        Route::get('/client/tracking_details', [Reports::class, 'tracking_details'])->name('client.tracking_details');
 
 
 

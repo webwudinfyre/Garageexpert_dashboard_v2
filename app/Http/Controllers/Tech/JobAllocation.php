@@ -30,6 +30,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use PhpParser\Node\Expr\Print_;
 use Dompdf\Dompdf;
 use Barryvdh\DomPDF\Facade\Pdf;
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 
 class JobAllocation extends Controller
@@ -145,7 +146,7 @@ class JobAllocation extends Controller
 
             $taskId = $task->id;
 
-            $task_id_name= $task->Type_service->service_name;
+            $task_id_name = $task->Type_service->service_name;
             $taskNames[$taskId] = $task_id_name;
             $taskHistory = json_decode($task->taskhistory, true);
 
@@ -216,7 +217,7 @@ class JobAllocation extends Controller
 
             $taskId = $task->id;
 
-            $task_id_name= $task->Type_service->service_name;
+            $task_id_name = $task->Type_service->service_name;
             $taskNames[$taskId] = $task_id_name;
             $taskHistory = json_decode($task->taskhistory, true);
 
@@ -283,7 +284,7 @@ class JobAllocation extends Controller
         $image = 'data:image/' . $type . ';base64,' . base64_encode($data1);
 
         $tech = techUser::all();
-        $data2 = ['base64Images' => $base64Images, 'image' => $image, 'data' =>  $data, 'prdt_task' => $prdt_task, 'admin_id' => $admin_id, 'pdut_id' => $pdut_id, 'tech' => $tech, 'taskHistoryArray' => $taskHistoryArray, 'product_id_job' => $product_id_job, 'prdt_task_2' => $prdt_task_2,'taskNames'=>$taskNames];
+        $data2 = ['base64Images' => $base64Images, 'image' => $image, 'data' =>  $data, 'prdt_task' => $prdt_task, 'admin_id' => $admin_id, 'pdut_id' => $pdut_id, 'tech' => $tech, 'taskHistoryArray' => $taskHistoryArray, 'product_id_job' => $product_id_job, 'prdt_task_2' => $prdt_task_2, 'taskNames' => $taskNames];
 
         $html = view('tech.Pdf.pdfdownload', $data2)->render();
         $pdf = PDF::loadHTML($html);
@@ -291,7 +292,7 @@ class JobAllocation extends Controller
 
 
 
-//  return view('tech.pdf.pdfdownload', $data2);
+        //  return view('tech.pdf.pdfdownload', $data2);
     }
     public function job_list(): view
     {
@@ -409,15 +410,6 @@ class JobAllocation extends Controller
 
         $existingTaskHistory[$suffixedServiceName] = $taskHistory;
         $updatedJsonString = json_encode($existingTaskHistory);
-
-
-
-
-
-
-
-
-
 
 
         $takenby = Auth::user()->id;
@@ -602,8 +594,6 @@ class JobAllocation extends Controller
         }
 
 
-
-
         $notifications = Notification::where('product_tasks_id', $request->producttask_id)
             ->get();
 
@@ -700,22 +690,24 @@ class JobAllocation extends Controller
         $task = task_tech_report::create([
             'product_task_id' => $request->producttask_id,
             'tech_user_id' => $already,
-            'date_of_schedule'=> $data->date_of_schedule,
-            'date'=>now(),
+            'date_of_schedule' => $data->date_of_schedule,
+            'date' => now(),
 
         ]);
 
-        $data3 = product_task::with('Type_service','product_add','product_add.client_pdt','product_add.equip_pdt')->find($request->producttask_id);
-        // printf($data3->product_add->client_pdt->user_id);die();
+        $data3 = product_task::with('Type_service', 'product_add', 'product_add.client_pdt', 'product_add.equip_pdt')->find($request->producttask_id);
 
-        $customer=customer_review::create([
-            'product_tasks_id' => $request->producttask_id,
-            'type_services_id'=>$data3->type_services_id,
-            'admin_id'=>$data3->product_add->client_pdt->user_id,
-            'product_id'=>$data3->product_id,
-            'client_id'=>$data3->product_add->client_pdt->user_id,
-            'equipment_id'=> $data3->product_add->equip_pdt->id,
-            'tech_user_id'=> Auth::user()->id,
+
+        $tech_id=techUser::where('user_id', Auth::user()->id)->first();
+//  printf($data3);die();
+        $customer = customer_review::create([
+            'product_tasks_id' =>  $data3->id ,
+            'type_services_id' => $data3['type_services_id'],
+            'admin_id' => $data3->product_add->client_pdt->user_id,
+            'product_id' => $data3->product_id,
+            'client_id' => $data3->product_add->client_pdt->id,
+            'equipment_id' => $data3->product_add->equip_pdt->id,
+            'tech_user_id' => $tech_id['user_id'],
         ]);
 
         toastr()->success('Job has been Assign successfully!');
@@ -723,4 +715,68 @@ class JobAllocation extends Controller
         return redirect()->route('tech.joballocation.job_list_view', ['id' => $pduct_id]);
     }
 
+
+    public function index_task(Request $request): JsonResponse
+    {
+
+
+        $start = $request->query('start');
+        $end = $request->query('end');
+
+        $tasks = product_task::with('task', 'product_add.client_pdt')
+            ->where(function ($query) use ($start, $end) {
+                $query->where('admin_id', Auth::user()->id)
+                    ->whereBetween('updated_at', [$start, $end]);
+            })
+            ->get();
+        $events = $tasks->map(function ($task) {
+            return [
+                'title' => $task->product_add->client_pdt->office, // Assuming 'task' relationship has a 'title' property
+                'start' => $task->updated_at->format('Y-m-d'),
+                'end' => $task->updated_at->format('Y-m-d'), // Adjust as necessary
+                'color' => $this->getEventColor($task->task->task_name), // Assuming 'status' determines the color
+            ];
+        })->toArray();
+
+        return response()->json($events);
+    }
+    private function getEventColor($status)
+    {
+        switch ($status) {
+            case 'Completed':
+                return 'green';
+            case 'Pending':
+                return 'blue';
+            case 'New Task':
+                return 'orange';
+            case 'Quotation':
+                return 'red';
+            default:
+                return 'white';
+        }
+    }
+
+    public function get_event_details(Request $request): JsonResponse
+    {
+
+        $date = $request->date;
+
+
+        $start = new DateTime($date);
+        $start->setTime(0, 0, 0); // Set time to 00:00:00
+
+        $end = new DateTime($date);
+        $end->setTime(23, 59, 59); // Set time to 23:59:59
+
+
+        $startString = $start->format('Y-m-d H:i:s');
+        $endString = $end->format('Y-m-d H:i:s');
+
+        $tasks = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
+            ->where('admin_id', Auth::user()->id)
+            ->whereBetween('updated_at', [$startString, $endString])
+            ->get();
+
+        return response()->json($tasks);
+    }
 }

@@ -35,9 +35,11 @@
         margin: auto;
         text-align: center;
     }
-        #calendar {
+
+    #calendar {
         width: 100%;
-        height: 100vh; /* Adjust the height as needed */
+        height: 100vh;
+        /* Adjust the height as needed */
     }
 </style>
 
@@ -68,84 +70,21 @@
                     <div class="col-12">
                         <div class="card">
 
-                            {{-- <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div> --}}
-
                             <div class="card-body">
                                 <h5 class="card-title">Calender <span></span></h5>
 
                                 <div id="calendar"></div>
-                                <!-- Line Chart -->
-                                {{-- <div id="reportsChart"></div>
 
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                        new ApexCharts(document.querySelector("#reportsChart"), {
-                                            series: [{
-                                                name: 'Sales',
-                                                data: [31, 40, 28, 51, 42, 82, 56],
-                                            }, {
-                                                name: 'Revenue',
-                                                data: [11, 32, 45, 32, 34, 52, 41]
-                                            }, {
-                                                name: 'Customers',
-                                                data: [15, 11, 32, 18, 9, 24, 11]
-                                            }],
-                                            chart: {
-                                                height: 350,
-                                                type: 'area',
-                                                toolbar: {
-                                                    show: false
-                                                },
-                                            },
-                                            markers: {
-                                                size: 4
-                                            },
-                                            colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                                            fill: {
-                                                type: "gradient",
-                                                gradient: {
-                                                    shadeIntensity: 1,
-                                                    opacityFrom: 0.3,
-                                                    opacityTo: 0.4,
-                                                    stops: [0, 90, 100]
-                                                }
-                                            },
-                                            dataLabels: {
-                                                enabled: false
-                                            },
-                                            stroke: {
-                                                curve: 'smooth',
-                                                width: 2
-                                            },
-                                            xaxis: {
-                                                type: 'datetime',
-                                                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z",
-                                                    "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z",
-                                                    "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z",
-                                                    "2018-09-19T06:30:00.000Z"
-                                                ]
-                                            },
-                                            tooltip: {
-                                                x: {
-                                                    format: 'dd/MM/yy HH:mm'
-                                                },
-                                            }
-                                        }).render();
-                                    });
-                            </script> --}}
-                                <!-- End Line Chart -->
+                                <div class="icon_cal mb-1">
+                                    <i class="bi bi-circle-fill activity-badge orange align-self-start"> New Task </i>
+                                    <i class="bi bi-circle-fill activity-badge text-primary align-self-start"> Pending </i>
+                                    <i class="bi bi-circle-fill activity-badge text-success align-self-start"> Completed
+                                    </i>
+                                    <i class="bi bi-circle-fill activity-badge text-danger align-self-start"> Quotation </i>
+                                </div>
+
+
+
 
                             </div>
 
@@ -154,113 +93,115 @@
 
                     <!-- Recent Sales -->
                     <div class="col-12">
+
+
+
+                        <div class="card">
+
+                            <div class="filter">
+
+                                <a class="icon" href="{{ route('admin.admin.tracking_details') }}">View More</a>
+
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Tracking <span>/Latest</span></h5>
+
+                                <div id="timeline-container" class="timeline-container">
+                                    <div id="timeline" class="timeline">
+                                        <div class="row">
+                                            @foreach ($taskHistoryArray as $taskId => $taskHistory1)
+                                                <div class="col-lg-6 col-md-6 mb-4">
+                                                    <div class="">
+                                                        <div class="card-body">
+                                                            <div class="timeline_card_head">
+                                                                <h4 class="card-title">Code :
+                                                                    {{ $taskHistory1['product_add_code'] }} </h4>
+
+                                                                <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="View"
+                                                                    href="{{ route('admin.joballocation.job_list_view', ['id' => encrypt($taskHistory1['product_add'])]) }}">
+
+                                                                    <i class="bi bi-eye"></i>
+
+                                                                </a>
+                                                            </div>
+
+                                                            <ul id="timeline-3" class="timeline-3">
+                                                                <li>
+
+                                                                    <p>Service: {{ $taskHistory1['service_name'] }}</p>
+                                                                    <p>Brand: {{ $taskHistory1['Brand'] }}</p>
+                                                                    <p>Model: {{ $taskHistory1['Model'] }}</p>
+                                                                    <p>Name: {{ $taskHistory1['Item_naame'] }}</p>
+                                                                    <p>Status: {{ $taskHistory1['Status'] }}</p>
+
+                                                                </li>
+                                                                @foreach ($taskHistory1 as $key => $value)
+                                                                    @if (is_array($value) && $key !== 'product_add' && $key !== 'product_add_code' && $key !== 'service_name')
+                                                                        <li>
+                                                                            @php
+                                                                                $subValueParts = explode(
+                                                                                    '_next_',
+                                                                                    $value['name'],
+                                                                                );
+                                                                                $lastPart = end($subValueParts);
+                                                                            @endphp
+                                                                            <div class="timeline-date">
+                                                                                <div class="timeline_head">
+                                                                                    {{ ucfirst(str_replace('_', ' ', $lastPart)) }}
+                                                                                </div>
+                                                                                <div class="timeline_head">
+                                                                                    {{ $value['Date_Of_Schedule'] }}</div>
+                                                                            </div>
+
+
+                                                                            <div class="timeline-content">
+
+
+                                                                                <p>Task Status:
+                                                                                    {{ $value['task_name_status'] === 'New Task' ? 'Progress' : $value['task_name_status'] }}
+                                                                                </p>
+
+                                                                                <p>Assigned : {{ $value['assign_name'] }}
+                                                                                </p>
+
+                                                                                <p>Date Of Schedule:
+                                                                                    {{ $value['Date_Of_Schedule'] }}</p>
+
+                                                                                @if (isset($value['quotationValue_value_data']))
+                                                                                    <p>Quotation Status:
+                                                                                        {{ $value['quotationValue_value_data'] }}
+                                                                                    </p>
+                                                                                @endif
+                                                                            </div>
+                                                                        </li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="d-flex">
+                                        {!! $client_latest->links() !!}
+                                    </div> --}}
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="card">
-                                    {{-- <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                            class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
 
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div> --}}
-
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Review <span>| Latest</span></h5>
-                                        {{-- @php
-                                    printf($customer_reviews);
-                                    @endphp --}}
-
-                                        <div class="activity">
-
-
-
-                                            @foreach ($customer_reviews as $review1)
-                                                <div class="activity-item d-flex">
-                                                    <div class="activite-label"> {{ $review1->updated_at->format('H:i:s') }}
-                                                    </div>
-                                                    <i
-                                                        class="bi bi-circle-fill activity-badge {{ $review1->color_class }} align-self-start"></i>
-                                                    <div class="activity-content">
-                                                        @for ($i = 1; $i <= $review1->Product_reviews_star; $i++)
-                                                            {{-- <input type="radio" id="star{{$i}}" class="rate" name="rating"
-                                                    value="5" /> --}}
-                                                            <label class="star-rating-complete" title="text"><i
-                                                                    class="bi bi-star-fill"></i> </label>
-                                                        @endfor
-                                                        <br>{!! $review1->Type_service->service_name !!}
-                                                        <br>{!! $review1->product_task_rew->product_add->client_pdt->office !!}
-                                                        {{-- <br>{{ $review1->Product_reviews }} --}}
-
-
-                                                        {{-- {!! $review->Product_reviews_star !!} --}}
-
-                                                    </div>
-                                                </div><!-- End activity item-->
-                                            @endforeach
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="card">
-                                    {{-- <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                            class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
 
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div> --}}
-
-                                    <div class="card-body">
-                                        <h5 class="card-title">Technician Review <span> | Latest</span></h5>
-
-
-                                        <div class="activity">
-
-
-
-                                            @foreach ($customer_reviews as $review)
-                                                <div class="activity-item d-flex">
-                                                    <div class="activite-label"> {{ $review->updated_at->format('H:i:s') }}
-                                                    </div>
-                                                    <i
-                                                        class="bi bi-circle-fill activity-badge {{ $review->color_class }} align-self-start"></i>
-                                                    <div class="activity-content">
-                                                        @for ($i = 1; $i <= $review->tech_reviews_star; $i++)
-                                                            {{-- <input type="radio" id="star{{$i}}" class="rate" name="rating"
-                                                    value="5" /> --}}
-                                                            <label class="star-rating-complete" title="text"><i
-                                                                    class="bi bi-star-fill"></i> </label>
-                                                        @endfor
-                                                        <br>{!! $review->tech_user_rew->name !!}
-                                                        <br>{{ $review->tech_reviews }}
-
-
-                                                        {{-- {!! $review->Product_reviews_star !!} --}}
-
-                                                    </div>
-                                                </div><!-- End activity item-->
-                                            @endforeach
-
-
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -274,82 +215,141 @@
 
             <!-- Right side columns -->
             <div class="col-lg-4">
-
-                <!-- Recent Activity -->
-                <div class="card">
-                    {{-- <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <li class="dropdown-header text-start">
-                            <h6>Filter</h6>
-                        </li>
-
-                        <li><a class="dropdown-item" href="#">Today</a></li>
-                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                    </ul>
-                </div> --}}
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Recent Activity -->
+                        <div class="card">
 
 
-                    <div class="card-body">
-                        <h5 class="card-title">Recent Task <span> | Latest</span></h5>
 
-                        <div class="activity">
+                            <div class="card-body">
+                                <h5 class="card-title">Recent Task <span> | Latest</span></h5>
 
-
-                            @foreach ($task as $task_view)
-                                <div class="activity-item d-flex">
-                                    <div class="activite-label"> {{ $task_view->updated_at->format('Y-m-d') }}
-
-                                        <br>{{ $task_view->updated_at->format('H:i:s') }}
-                                    </div>
-                                    <i
-                                        class="bi bi-circle-fill activity-badge {{ $task_view->color_class }} align-self-start"></i>
-                                    <div class="activity-content">
-                                        {{ $task_view->product_add->product_code }}
-                                        <br>{!! $task_view->Type_service->service_name !!}
-                                        <br>{!! $task_view->task->task_name !!}
-                                        <br>{!! $task_view->product_add->client_pdt->office !!}
-                                        <br>{!! $task_view->product_add->client_pdt->location !!}
+                                <div class="activity">
 
 
-                                    </div>
-                                </div><!-- End activity item-->
-                            @endforeach
+                                    @foreach ($task2 as $task_view1)
+                                        <div class="activity-item d-flex">
+                                            <div class="activite-label"> {{ $task_view1->updated_at->format('Y-m-d') }}
+
+                                                <br>{{ $task_view1->updated_at->format('H:i:s') }}
+                                            </div>
+                                            <i
+                                                class="bi bi-circle-fill activity-badge {{ $task_view1->color_class }} align-self-start"></i>
+                                            <div class="activity-content">
+                                                {{ $task_view1->product_add->product_code }}
+                                                <br>{!! $task_view1->Type_service->service_name !!}
+                                                <br>{!! $task_view1->task->task_name !!}
+                                                <br>{!! $task_view1->product_add->client_pdt->office !!}
+                                                <br>{!! $task_view1->product_add->client_pdt->location !!}
 
 
-                        </div>
+                                            </div>
+                                        </div><!-- End activity item-->
+                                    @endforeach
+
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div><!-- End Recent Activity -->
 
                     </div>
-                </div><!-- End Recent Activity -->
+                    <div class="col-lg-12">
+                        <div class="card" style="height: 475px; overflow-y: auto; scrollbar-width: 1px;">
 
-                <!-- Budget Report -->
-                {{-- <div class="card">
-                {{-- <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <li class="dropdown-header text-start">
-                            <h6>Filter</h6>
-                        </li>
 
-                        <li><a class="dropdown-item" href="#">Today</a></li>
-                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                    </ul>
-                </div> --}}
+                            <div class="card-body">
+                                <h5 class="card-title">Product Review <span>| Latest</span></h5>
 
-                {{-- <div class="card-body ">
-                    <h5 class="card-title">Budget Report <span>| This Month</span></h5>
+
+                                <div class="activity">
 
 
 
+                                    @foreach ($customer_reviews as $review1)
+                                        <div class="activity-item d-flex">
+                                            <div class="activite-label"> {{ $review1->updated_at->format('H:i:s') }}
+                                            </div>
+                                            <i
+                                                class="bi bi-circle-fill activity-badge {{ $review1->color_class }} align-self-start"></i>
+                                            <div class="activity-content">
+                                                @for ($i = 1; $i <= $review1->Product_reviews_star; $i++)
+                                                    {{-- <input type="radio" id="star{{$i}}" class="rate" name="rating"
+                                    value="5" /> --}}
+                                                    <label class="star-rating-complete" title="text"><i
+                                                            class="bi bi-star-fill"></i> </label>
+                                                @endfor
+                                                <br>{!! $review1->Type_service->service_name !!}
+                                                <br>{!! $review1->product_task_rew->product_add->client_pdt->office !!}
+                                                {{-- <br>{{ $review1->Product_reviews }} --}}
+
+
+                                                {{-- {!! $review->Product_reviews_star !!} --}}
+
+                                            </div>
+                                        </div><!-- End activity item-->
+                                    @endforeach
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card" style="
+        height: 475px;
+        overflow-y: auto;">
+
+
+
+                            <div class="card-body">
+                                <h5 class="card-title">Technician Review <span> | Latest</span></h5>
+
+
+                                <div class="activity">
+
+
+
+                                    @foreach ($customer_reviews as $review)
+                                        <div class="activity-item d-flex">
+                                            <div class="activite-label"> {{ $review->updated_at->format('H:i:s') }}
+                                            </div>
+                                            <i
+                                                class="bi bi-circle-fill activity-badge {{ $review->color_class }} align-self-start"></i>
+                                            <div class="activity-content">
+                                                @for ($i = 1; $i <= $review->tech_reviews_star; $i++)
+                                                    {{-- <input type="radio" id="star{{$i}}" class="rate" name="rating"
+                                value="5" /> --}}
+                                                    <label class="star-rating-complete" title="text"><i
+                                                            class="bi bi-star-fill"></i> </label>
+                                                @endfor
+                                                <br>{!! $review->tech_user_rew->name !!}
+                                                <br>{{ $review->tech_reviews }}
+
+
+                                                {{-- {!! $review->Product_reviews_star !!} --}}
+
+                                            </div>
+                                        </div><!-- End activity item-->
+                                    @endforeach
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div><!-- End Budget Report --> --}}
 
 
 
 
-            </div><!-- End Right side columns -->
+
+            </div>
 
         </div>
 
@@ -364,75 +364,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{-- <form action="{{ route('admin.equipment.update') }}" class="row g-3" method="POST">
-                    @csrf
 
-                    <input type="text" class="form-control" id="recipient_name" name="id" hidden>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingitem_id" placeholder="Item ID" name="item_id" required autocomplete="item_id" autofocus value="{{ old('item_id') }}" disabled>
-                            <label for="floatingitem_id">Item ID</label>
-                            @error('item_id')
-                            <div class="alert-color" role="alert">
-                                {{ $message }}
-                            </div>
-                            @enderror
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="floatingBrand" placeholder="Brand Name" name="Brand" required autocomplete="Brand" autofocus value="{{ old('Brand') }}">
-                            <label for="floatingBrand">Brand Name</label>
-                            @error('Brand')
-                            <div class="alert-color" role="alert">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            {{-- <input type="text" class="form-control" id="floatingItem_name"
-                                    placeholder="Item Name" name="Item_name" required autocomplete="Item_name" autofocus
-                                    value="{{ old('Item_name') }}">
-                            <label for="floatingItem_name">Item Name</label> --}}
-                        {{-- <textarea class="form-control" name="Item_name" placeholder="Address"
-                                    id="floatingTextarea" style="height: 100px;"></textarea>
-                                <label for="floatingTextarea">Equipment Name</label>
-                                @error('Item_name')
-                                <div class="alert-color" role="alert">
-                                    {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-
-                </div>
-                <div class="col-md-6">
-                    <div class="form-floating">
-
-                        <input type="text" class="form-control" id="floatingModel" placeholder="Model" name="Model" required autocomplete="Model" autofocus value="{{ old('Model') }}">
-                        <label for="floatingModel">Model</label>
-                        @error('Brand')
-                        <div class="alert-color" role="alert">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-                </div>
-
-
-
-
-
-
-                <div class="text-center">
-
-                    <button type="submit" class="btn bg-primary_expert btn-style">Submit</button>
-
-                </div>
-                </form> --}}
                     </div>
 
                 </div>
@@ -442,74 +374,8 @@
 
 
     @push('scripts')
-        {{-- <script src="https://unpkg.com/fullcalendar@5.10.1/main.min.js"></script> --}}
-
-        {{-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script> --}}
         <script src="https://unpkg.com/fullcalendar@5.10.1/main.min.js"></script>
-        {{-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: '/events',
-                eventColor: function(event) {
-                    if (event.extendedProps.status === 'completed') {
-                        return 'green';
-                    } else if (event.extendedProps.status === 'new') {
-                        return 'blue';
-                    } else {
-                        return 'red';
-                    }
-                }
-            });
-
-            calendar.render();
-        });
-</script> --}}
-        {{-- <script>
-    $(document).ready(function() {
-            // Initialize the calendar
-            $('#calendar').fullCalendar({
-                // Calendar options
-                // ...
-
-                // Event to trigger when date is clicked
-
-                viewRender: function(view, element) {
-                // Get the currently displayed date range
-                var start = view.intervalStart.format('YYYY-MM-DD');
-                var end = view.intervalEnd.format('YYYY-MM-DD');
-
-                // Fetch tasks and events for the displayed date range
-                fetchTasksAndEvents(start, end);
-            }
-            });
-
-            // Function to fetch tasks and events for a given date
-            function fetchTasksAndEvents(date) {
-                $.ajax({
-                    url: '/tasks',
-                    type: 'GET',
-                    data: { date: date },
-                    success: function(tasks) {
-
-                        // Process tasks and mark dates on the calendar
-                        tasks.forEach(function(task) {
-                            $('#calendar').fullCalendar('renderEvent', {
-                                title: task.title,
-                                start: task.date,
-                                // Add more properties as needed
-                            }, true);
-                        });
-                    }
-                });
-
-            }
-        });
-</script> --}}
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');

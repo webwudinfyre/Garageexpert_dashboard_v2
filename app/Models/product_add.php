@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class product_add extends Model
@@ -64,6 +65,11 @@ class product_add extends Model
     public function client_pdt_1(): BelongsTo
 {
     return $this->belongsTo(ClientUser::class, 'client_id', 'id');
+}
+
+public function Product_add_client_task(): HasMany
+{
+    return $this->hasMany(product_task::class, 'product_id', 'product_id')->latest()->take(2);
 }
 
 

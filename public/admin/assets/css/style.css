@@ -327,7 +327,6 @@ h6 {
     font-weight: 600;
     margin-bottom: 10px;
     margin-top: 5px;
-
 }
 
 .breadcrumb a {
@@ -727,7 +726,7 @@ i.bi.bi-check-circle {
     align-items: center;
     font-size: 15px;
     font-weight: 600;
-    color: #54595e;
+    color: #ffffff;
     transition: 0.3;
 
     padding: 10px 15px;
@@ -736,8 +735,7 @@ i.bi.bi-check-circle {
 .sidebar-nav .nav-link.active {
     background: #ff530a;
 }
-.sidebar-nav .nav-link.active i
-{
+.sidebar-nav .nav-link.active i {
     color: #ffffff;
 }
 
@@ -818,7 +816,7 @@ i.bi.bi-check-circle {
 }
 
 .dashboard .filter .icon {
-    color: #aab7cf;
+    color: #ff530a;
     padding-right: 20px;
     padding-bottom: 5px;
     transition: 0.3s;
@@ -827,7 +825,7 @@ i.bi.bi-check-circle {
 
 .dashboard .filter .icon:hover,
 .dashboard .filter .icon:focus {
-    color: #4154f1;
+    color: #ff530a;
 }
 
 .dashboard .filter .dropdown-header {
@@ -855,7 +853,7 @@ i.bi.bi-check-circle {
 
 .dashboard .info-card h6 {
     font-size: 28px;
-    color: #012970;
+    color: #ff530a;
     font-weight: 700;
     margin: 0;
     padding: 0;
@@ -871,7 +869,7 @@ i.bi.bi-check-circle {
 }
 
 .dashboard .sales-card .card-icon {
-    color: #4154f1;
+    color: #ff530a;
     background: #f6f6fe;
 }
 
@@ -1393,8 +1391,7 @@ i.bi.bi-pencil-square {
 #profile i {
     color: var(--main-color);
 }
-.task_name
-{
+.task_name {
     color: var(--main-color);
     margin-bottom: 25px;
 }
@@ -1408,8 +1405,7 @@ span.icon-name {
     color: rgb(255, 0, 0);
     /* Add other styling properties as needed */
 }
-#floatingService .service_option_size
-{
+#floatingService .service_option_size {
     font-size: 20px !important;
     gap: 5px;
 }
@@ -1432,7 +1428,7 @@ i.bi.bi-plus-square {
     font-size: 22px;
     color: #000000;
 }
-i.bi.bi-journal-plus{
+i.bi.bi-journal-plus {
     color: var(--main-color);
 }
 i.bi.bi-person-fill-add {
@@ -1441,23 +1437,19 @@ i.bi.bi-person-fill-add {
 i.bi.bi-person-fill-up {
     color: var(--main-color);
 }
-i.bi.bi-lightning
-{
+i.bi.bi-lightning {
     color: var(--main-color);
 }
-i.bi.bi-download
-{
+i.bi.bi-download {
     color: var(--main-color);
 }
-i.bi
-{
+i.bi {
     color: var(--main-color);
 }
 i.bi.bi-arrow-up-short {
     color: white;
 }
 .bluck_add {
-
     padding: 20px;
     border: 1px solid #d1d1d1;
     border-radius: 5px;
@@ -1465,11 +1457,9 @@ i.bi.bi-arrow-up-short {
     margin-bottom: 20px;
 }
 
-.bluck_add_v1
-{
-    border-bottom:1px solid #d1d1d1 ;
+.bluck_add_v1 {
+    border-bottom: 1px solid #d1d1d1;
     padding: 20px 20px 20px 20px;
-
 }
 
 .custom-border {
@@ -1498,10 +1488,9 @@ ul#ui-id-2 {
     left: 40px;
 }
 span.assign_to {
-   color: var(--main-color);
+    color: var(--main-color);
 }
 .bluck_add {
-
     padding: 20px;
     border: 1px solid #d1d1d1;
     border-radius: 5px;
@@ -1510,7 +1499,7 @@ span.assign_to {
 }
 
 .form-check-input:checked {
-    background-color: var(--main-color)  !important;
+    background-color: var(--main-color) !important;
     border-color: var(--main-color) !important;
 }
 
@@ -1526,6 +1515,149 @@ span.assign_to {
 img.icons_svg {
     margin-left: 13px;
     width: 60%;
+}
+.icon_cal.mb-1 {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 12px;
+}
+#calendar {
+    width: 100%;
+    height: 100vh; /* Adjust the height as needed */
+}
+
+#timeline-3 {
+    height: 400px;
+    overflow-y: auto;
+    scrollbar-width: 4px;
+}
+
+#timeline-3::-webkit-scrollbar {
+    width: 4px;
+}
+
+#timeline-3::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#timeline-3::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+#timeline-3::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.card::-webkit-scrollbar {
+    width: 4px;
+}
+
+.card::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.card::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+.card::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#calendar {
+    width: 100% !important;
+    height: 100% !important;
+    /* Adjust the height as needed */
+}
+
+::-webkit-scrollbar {
+    width: 4px; /* You can adjust this width as needed */
+}
+
+/* For Firefox */
+/* This is necessary to hide the default scrollbar in Firefox */
+* {
+    scrollbar-width: 4px;
+}
+
+/* This is for styling the scrollbar thumb in Firefox */
+/* You can adjust the color, width, etc. as needed */
+*::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+/* Optional: Hover effect for scrollbar thumb */
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+#timeline ul.timeline-3 {
+    list-style-type: none;
+    position: relative;
+}
+
+#timeline ul.timeline-3:before {
+    content: " ";
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+
+#timeline ul.timeline-3::after {
+    content: " ";
+    background: #ffffff;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+
+#timeline ul.timeline-3 > li {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+
+#timeline ul.timeline-3 > li:before {
+    content: " ";
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #ff0000;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
+#timeline ul.timeline-3 > li::after {
+    content: " ";
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+.timeline-date {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.timeline_card_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 @media (max-width: 576px) {
     .datatable-top {
@@ -1552,16 +1684,15 @@ img.icons_svg {
         align-items: center;
         flex-wrap: wrap;
     }
-    .Confirm_assign{
+    .Confirm_assign {
         margin-top: 20px;
-
     }
     div#view_job_l {
         display: flex;
         gap: 1px !important;
     }
     #warranty_type_data .bluck_add {
-        max-height:  none !important;
+        max-height: none !important;
     }
     #admin_table ul {
         width: 300px;

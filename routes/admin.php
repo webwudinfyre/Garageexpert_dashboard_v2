@@ -112,6 +112,7 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::get('/report/customer/reviewdetails_tech/{id}', [Reports::class, 'reviewdetails_tech'])->name('reports.customer.reviewdetails_tech');
 
 
+    Route::get('/admin/tracking_details', [Reports::class, 'tracking_details'])->name('admin.tracking_details');
 
 });
 

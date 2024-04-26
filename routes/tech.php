@@ -72,3 +72,6 @@ Route::middleware(['auth', 'user.type:tech'])
             Route::post('/save-signature', [JobAllocation::class, 'signature_save'])->name('signature.save');
         }
     );
+    Route::get('/tasks_1', [JobAllocation::class, 'index_task']);
+
+    Route::get('/get_event_details_1', [JobAllocation::class, 'get_event_details']);

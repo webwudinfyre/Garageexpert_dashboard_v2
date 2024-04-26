@@ -12,6 +12,21 @@ class customer_review extends Model
 
     protected $guarded = [];
 
+    protected $fillable = [
+        'tech_user_id',
+
+        'product_tasks_id',
+        'type_services_id',
+        'admin_id',
+        'product_id',
+        'client_id',
+        'tech_user_id',
+        'equipment_id',
+        'Product_reviews_star',
+        'Product_reviews',
+        'tech_reviews_star',
+        'tech_reviews',
+    ];
     public function Type_service(): HasOne
     {
         return $this->hasOne(type_service::class, 'id', 'type_services_id');

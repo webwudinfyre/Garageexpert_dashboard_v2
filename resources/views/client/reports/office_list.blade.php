@@ -57,7 +57,7 @@
                             <div class="card_head">
                                 <div class="row d-flex justify-content-between align-items-center">
                                     <div class="col-12">
-                                        <h5 class="card-title">Office Product List : {{ $client_users->office }}</h5>
+                                        <h5 class="card-title">Office  Name : {{ $client_users->office }}</h5>
                                     </div>
 
                                 </div>
@@ -156,8 +156,10 @@
     @endif
     @if (!empty($client_users_sub) && $client_users_sub !== 'No_suboffice')
         @foreach ($client_users_sub as $data_sub)
+
             <section class="section pt-3" id="section_admin">
                 <div class="row">
+
                     <div class="col-lg-12">
 
                         <div class="card">
@@ -166,10 +168,15 @@
                                 <div class="card_head">
                                     <div class="row d-flex justify-content-between align-items-center">
                                         <div class="col-12">
-                                            <h5 class="card-title">Sub Office Product List : {{ $data_sub->office }} </h5>
+                                            <h5 class="card-title">Sub Office Name : {{ $data_sub->office }} </h5>
 
                                         </div>
 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <x-task-listclient adminId='{{ $data_sub->user_id}}' admin="suboffice" />
                                     </div>
                                 </div>
 

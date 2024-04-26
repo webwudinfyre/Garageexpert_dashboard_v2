@@ -90,6 +90,7 @@ class JobAllocation extends Controller
                 'date_time' =>  now(),
                 'user_id' => Auth::user()->id,
                 'already' => $already,
+                'date_of_schedule' => $request->Date_Schedule,
                 'assign' => Auth::user()->id,
                 'Remarks' => $request->Remarks,
             ];
@@ -115,6 +116,8 @@ class JobAllocation extends Controller
             $existingTaskHistory[$dateTimeSuffix . '_next_' . 'Add_Job'] = $taskHistory;
             $updatedJsonString = json_encode($existingTaskHistory);
 
+            $pdt_client_id=product_add::where('product_id',$request->Product_id)->first();
+
             $prdt_task = product_task::create([
                 'product_id' => $request->Product_id,
                 'type_services_id' => $request->type_services_id,
@@ -124,7 +127,7 @@ class JobAllocation extends Controller
                 'admin_id' => Auth::user()->id,
                 'already' => $already,
                 'taskhistory' => $updatedJsonString,
-
+                'client_id'=>$pdt_client_id->client_id,
             ]);
             NewProjectAdded::dispatch($prdt_task);
 
@@ -160,6 +163,7 @@ class JobAllocation extends Controller
                 'user_id' => Auth::user()->id,
                 'already' => $already,
                 'assign' => Auth::user()->id,
+                'date_of_schedule' => $request->Date_Schedule,
                 'Remarks' => $request->Remarks,
             ];
             $existingTaskHistory[$dateTimeSuffix . '_next_' . 'Add_Job'] = $taskHistory;
@@ -174,6 +178,7 @@ class JobAllocation extends Controller
                 'admin_id' => Auth::user()->id,
                 'already' => $already,
                 'taskhistory' => $updatedJsonString,
+                'client_id'=>$request->client_id,
 
             ]);
             // event(new NewProjectAdded($prdt_task));

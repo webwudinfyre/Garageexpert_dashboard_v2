@@ -376,14 +376,17 @@ class Reports extends Controller
     public function client_review(Request $request,$id) :  view {
 
         $id = $id;
+        $client_id=ClientUser::where('user_id',$id)->first();
+        // print_r($client_id['id']);die();
 
-        $customer_reviews=customer_review::with('product_task_rew','Type_service','product_task_rew.product_add','product_task_rew.product_add.equip_pdt')->where('admin_id',$id)->get();
+        $customer_reviews=customer_review::with('product_task_rew','Type_service','product_task_rew.product_add','product_task_rew.product_add.equip_pdt')->where('client_id',$client_id['id'])->get();
 
 
 
         return view('client.reports.reviews', compact( 'customer_reviews'));
 
     }
+    
     public function client_review_edit($id) :view {
 
         $id1 = decrypt($id);
@@ -394,9 +397,11 @@ class Reports extends Controller
     }
     public function update(Request $request) : RedirectResponse{
 
-        $customer_review = customer_review::findOrFail($request->id);
+        $customer_review = customer_review::find($request->id);
 
-        $customer_review->update([
+        // print_r($request->all());die();
+
+        $customer_review=customer_review::where('id',$request->id)->update([
             'Product_reviews_star' => $request->rating_1,
             'Product_reviews' => $request->input('comment_product'),
             'tech_reviews_star' => $request->rating_2,
@@ -406,4 +411,82 @@ class Reports extends Controller
         return redirect()->back();
     }
 
+    public function tracking_details() : view {
+        $data = Auth::user()->id;
+
+
+        $client_data = ClientUser::where('user_id', $data)->first();
+
+
+        $client_latest = product_task::with(['Type_service','product_add','task','product_add.equip_pdt'])->where('client_id',$client_data['id'] )->latest()->paginate(6);
+
+        $task_history_data = [];
+
+        foreach ($client_latest as $task) {
+            $task_history = json_decode($task['taskhistory'], true);
+            $task_history['type_of_service_name'] = $task->Type_service->service_name;
+            $task_history['product_add']= $task->product_add->product_id;
+            $task_history_data[$task->id] = $task_history;
+        }
+
+
+        $taskHistoryArray = [];
+
+
+        $taskNames = [];
+
+        $taskHistoryArray = []; // Initialize the array outside the loop
+
+        foreach ($client_latest  as $task) {
+            $mergedArray = []; // Initialize the merged array for each task
+
+            $taskId = $task->id;
+
+            $task_id_name = $task->Type_service->service_name;
+            $taskNames[$taskId] = $task_id_name;
+            $taskHistory = json_decode($task->taskhistory, true);
+
+            $keyNames = array_keys($taskHistory);
+
+            // Sort task history items by date and time
+            usort($keyNames, function ($a, $b) use ($taskHistory) {
+                $dateTimeA = Carbon::parse($taskHistory[$a]['date_time']);
+                $dateTimeB = Carbon::parse($taskHistory[$b]['date_time']);
+                return $dateTimeA <=> $dateTimeB;
+            });
+
+            foreach ($keyNames as $key) {
+                $details = $taskHistory[$key];
+                $details['name'] =  $key;
+                $details['task_name_status'] = task_data::find($details['task_id'])->task_name;
+                $details['user_name'] = User::find($details['user_id'])->name;
+                $details['assign_name'] = User::find($details['assign'])->name;
+                $details['Services'] = $task->type_service->service_name;
+                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+
+                $dateTime = Carbon::parse($details['date_time']);
+                $details['date'] = $dateTime->toDateString();
+                $details['time'] = $dateTime->toTimeString();
+
+
+                if (isset($details['quotationValue_name'])) {
+                    $details['quotationValue_value_data'] = $details['Quotation_value'];
+                }
+                $mergedArray['product_add'] =$task->product_add->product_id;
+                $mergedArray['product_add_code'] =$task->product_add->product_code;
+                $mergedArray['service_name'] =$task_id_name ;
+                $mergedArray['Brand'] =$task->product_add->equip_pdt->Brand ;
+                $mergedArray['Model'] =$task->product_add->equip_pdt->Model ;
+                $mergedArray['Status'] = $task->task->task_name == 'New Task' ? 'Progress' : $task->task->task_name;
+
+                $mergedArray['Item_naame'] =$task->product_add->equip_pdt->Item_name ;
+
+
+                $mergedArray[$key] = $details;
+            }
+
+            $taskHistoryArray[$taskId] = $mergedArray; // Use the task ID as the key in the task history array
+        }
+        return view('client.other.timeline', compact('client_data','task_history_data','taskHistoryArray','client_latest'));
+    }
 }

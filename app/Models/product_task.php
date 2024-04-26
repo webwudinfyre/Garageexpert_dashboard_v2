@@ -22,6 +22,7 @@ class product_task extends Model
          'taskhistory',
          'already',
          'taken',
+         'client_id',
     ];
 
     public function users_pdt(): BelongsTo
@@ -50,5 +51,5 @@ class product_task extends Model
     {
         return $this->hasOne(signatures::class, 'product_tasks_id', 'id');
     }
-   
+
 }
