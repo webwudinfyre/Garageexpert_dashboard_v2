@@ -386,7 +386,7 @@ class Reports extends Controller
         return view('client.reports.reviews', compact( 'customer_reviews'));
 
     }
-    
+
     public function client_review_edit($id) :view {
 
         $id1 = decrypt($id);
@@ -488,5 +488,19 @@ class Reports extends Controller
             $taskHistoryArray[$taskId] = $mergedArray; // Use the task ID as the key in the task history array
         }
         return view('client.other.timeline', compact('client_data','task_history_data','taskHistoryArray','client_latest'));
+    }
+
+    public function  mark_as_read_all(Request $request, $id): RedirectResponse
+    {
+        $id = decrypt($id);
+        $notifications = Notification::with('prdt_task')->where('admin_id', $id)->get();
+
+
+        foreach ($notifications as $notification) {
+            $notification->update(['read_at' => Carbon::now()]);
+        }
+
+
+        return redirect()->back();
     }
 }

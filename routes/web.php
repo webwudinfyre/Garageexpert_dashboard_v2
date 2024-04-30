@@ -6,6 +6,8 @@ use App\Http\Controllers\Failedpage;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExcelImportController;
+use App\Http\Controllers\MailController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,5 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::post('/import', [ExcelImportController::class, 'import']);
+
+Route::get('send-mail/{id}', [MailController::class, 'index']);
+
+Route::get('/mail/job_pdf_dowmload_mail/{id}', [MailController::class, 'jobpdfdowmload_mail'])->name('mail.job_pdf_dowmload_mail');
 
 require __DIR__.'/auth.php';

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <style>
+        /* Styles for email layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .card-content {
+            font-size: 14px;
+            color: #666666;
+        }
+        .download-status {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="{{ asset('admin/assets/img/logo.png') }}" alt="Company Logo" width="150">
+
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Email Content</h2>
+            <p class="card-content">
+                This is your email content. You can place all the information you want here, including multiple sections of text or details.
+            </p>
+
+            <p class="card-content">
+                For example, you can include details about your company, products, or any other relevant information in this single card.
+            </p>
+
+            <p class="download-status">Download Status: Complete</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tech;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller\MailController;
 
 use App\Events\NewProjectAdded;
 
@@ -35,6 +36,7 @@ use Illuminate\Support\Facades\Validator;
 
 class JobAllocation extends Controller
 {
+    protected $MailController;
     public function view(): View
     {
 
@@ -710,7 +712,10 @@ class JobAllocation extends Controller
             'tech_user_id' => $tech_id['user_id'],
         ]);
 
+        $result = app('App\Http\Controllers\MailController')->index($data3->product_id);
         toastr()->success('Job has been Assign successfully!');
+
+
 
         return redirect()->route('tech.joballocation.job_list_view', ['id' => $pduct_id]);
     }
@@ -778,5 +783,18 @@ class JobAllocation extends Controller
             ->get();
 
         return response()->json($tasks);
+    }
+    public function  mark_as_read_all(Request $request, $id): RedirectResponse
+    {
+        $id = decrypt($id);
+        $notifications = Notification::with('prdt_task')->where('admin_id', $id)->get();
+
+
+        foreach ($notifications as $notification) {
+            $notification->update(['read_at' => Carbon::now()]);
+        }
+
+
+        return redirect()->back();
     }
 }

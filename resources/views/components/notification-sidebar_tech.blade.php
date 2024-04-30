@@ -17,7 +17,7 @@
                     class="badge rounded-pill bg-primary_expert p-2 ms-2">View all</span></a>
         </li>
 
-        @foreach (auth()->user()->notifications as $key => $notification)
+        @foreach ( auth()->user()->unreadNotifications as $key => $notification)
 
             @if ($key <= 5)
 
@@ -50,8 +50,9 @@
 
         @endforeach
 
+
         <li class="dropdown-footer">
-            <a href="#">View All job List</a>
+            <a href="{{ route('tech.joballocation.mark_as_read_all', ['id' => encrypt(Auth::user()->id)]) }}">Mark all Read</a>
         </li>
 
     </ul><!-- End Notification Dropdown Items -->

@@ -51,7 +51,7 @@
         @endforeach
 
         <li class="dropdown-footer">
-            <a href="#">View All job List</a>
+            <a href="{{ route('client.joballocation.mark_as_read_all', ['id' => encrypt(Auth::user()->id)]) }}">Mark all Read</a>
         </li>
 
     </ul><!-- End Notification Dropdown Items -->

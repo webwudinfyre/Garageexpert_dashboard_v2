@@ -30,15 +30,15 @@
         }
 
         /* .custom-border::before {
-                                                content: "";
-                                                position: absolute;
-                                                top: 0;
-                                                left: 0;
-                                                right: 0;
-                                                height: 1px;
-                                                background: linear-gradient(to right, black 90%, white 90%);
-                                            }
-                                         */
+                                                    content: "";
+                                                    position: absolute;
+                                                    top: 0;
+                                                    left: 0;
+                                                    right: 0;
+                                                    height: 1px;
+                                                    background: linear-gradient(to right, black 90%, white 90%);
+                                                }
+                                             */
     </style>
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
@@ -57,7 +57,8 @@
                     <div id="view_job_l" class="action_icon ">
 
                         <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"
-                            href="{{ route('admin.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}">
+                            href="{{ route('admin.joballocation.job_pdf_dowmload', ['id' => encrypt($data->product_id)]) }}"
+                            onclick="showModal()">
                             <button type="button" class="btn">
 
 
@@ -637,4 +638,34 @@
             </div>
         </div>
     </section>
+    {{-- <div id="loadingModal" class="modal" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Downloading...</p>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+    @push('scripts')
+    <script>
+        function showModal() {
+            var modal = document.getElementById('loadingModal');
+            modal.style.display = 'block';
+            modal.classList.add('show');
+            modal.setAttribute('aria-modal', 'true');
+
+            // Set a timeout to hide the modal after 5 seconds
+            setTimeout(function() {
+                modal.style.display = 'none';
+                modal.classList.remove('show');
+                modal.setAttribute('aria-modal', 'false');
+            }, 8000); // Adjust the timeout as needed
+        }
+    </script>
+    @endpush
 @endsection

@@ -70,6 +70,9 @@ Route::middleware(['auth', 'user.type:tech'])
 
 
             Route::post('/save-signature', [JobAllocation::class, 'signature_save'])->name('signature.save');
+
+            Route::get('/joballocation/mark_as_read_all/{id}', [JobAllocation::class, 'mark_as_read_all'])->name('joballocation.mark_as_read_all');
+
         }
     );
     Route::get('/tasks_1', [JobAllocation::class, 'index_task']);

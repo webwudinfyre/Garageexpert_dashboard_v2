@@ -59,5 +59,8 @@ Route::middleware(['auth', 'user.type:user'])
         Route::get('/client/tracking_details', [Reports::class, 'tracking_details'])->name('client.tracking_details');
 
 
+        Route::get('/joballocation/mark_as_read_all/{id}', [Reports::class, 'mark_as_read_all'])->name('joballocation.mark_as_read_all');
+
+
 
     });

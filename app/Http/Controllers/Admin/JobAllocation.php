@@ -442,6 +442,21 @@ class JobAllocation extends Controller
 
         return $this->job_list_view($request, encrypt($notifications->prdt_task->product_id));
     }
+
+    public function  mark_as_read_all(Request $request, $id): RedirectResponse
+    {
+        $id = decrypt($id);
+        $notifications = Notification::with('prdt_task')->where('admin_id', $id)->get();
+
+
+        foreach ($notifications as $notification) {
+            $notification->update(['read_at' => Carbon::now()]);
+        }
+
+
+        return redirect()->back();
+    }
+
     public function job_view(Request $request, $id): JsonResponse
     {
 

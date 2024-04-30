@@ -80,6 +80,11 @@ Route::middleware(['auth', 'user.type:admin'])
 
     Route::get('/joballocation/notification/', [JobAllocation::class, 'notificationmarak'])->name('joballocation.notification');
     Route::get('/joballocation/mark_as_read/{id}', [JobAllocation::class, 'mark_as_read'])->name('joballocation.mark_as_read');
+
+
+    Route::get('/joballocation/mark_as_read_all/{id}', [JobAllocation::class, 'mark_as_read_all'])->name('joballocation.mark_as_read_all');
+
+
     Route::get('/joballocation/job_pdf_dowmload/{id}', [JobAllocation::class, 'jobpdfdowmload'])->name('joballocation.job_pdf_dowmload');
 
     Route::get('/joballocation/job_list_each_task/{id}', [JobAllocation::class, 'job_list_each_task'])->name('joballocation.job_list_each_task');
