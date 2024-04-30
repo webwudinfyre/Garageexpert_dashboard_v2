@@ -106,10 +106,10 @@
                                             <button class="btn bg-primary_expert btn-lg btn-block" type="submit"
                                                 style="width:150px;">Login</button>
                                         </div>
-                                        @if (Route::has('password.request'))
+                                        {{-- @if (Route::has('password.request'))
                                             <a href="{{ route('password.request') }}" class="small text-muted">Forgot
                                                 password?</a>
-                                        @endif
+                                        @endif --}}
 
                                         <p></p>
                                         <a href="#!" class="small text-muted">Terms of use.</a>
