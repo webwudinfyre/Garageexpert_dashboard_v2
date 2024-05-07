@@ -10,6 +10,7 @@ use App\Events\NewProjectAdded;
 use App\Models\ClientUser;
 use App\Models\customer_review;
 use App\Models\Equipment;
+use App\Models\mail_sending;
 use App\Models\Notification;
 use App\Models\product_add;
 use App\Models\product_task;
@@ -576,6 +577,8 @@ class JobAllocation extends Controller
     public function signature_save(Request $request): RedirectResponse
     {
 
+
+// print_r($request->all());die();
         $data = product_task::with('Type_service')->find($request->producttask_id);
 
         $slnum1 = product_add::where('product_id', $data->product_id)->first();
@@ -712,7 +715,32 @@ class JobAllocation extends Controller
             'tech_user_id' => $tech_id['user_id'],
         ]);
 
-        $result = app('App\Http\Controllers\MailController')->index($data3->product_id);
+        foreach($request->addmore as $addmore) {
+
+            $mail_sending = mail_sending::firstWhere([
+                'email' => $addmore['email_mail'],
+
+                'product_tasks_id' => $data3->id,
+                'product_id' => $data3->product_id,
+            ]);
+
+            if (!$mail_sending) {
+
+                $mail_sending = new mail_sending([
+                    'email' => $addmore['email_mail'],
+                    'name' => $addmore['name_mail'],
+                    'product_tasks_id' => $data3->id,
+                'product_id' => $data3->product_id,
+                ]);
+
+                // Save the new mail_sending record to the database
+                $mail_sending->save();
+            }
+        }
+
+
+
+        $result = app('App\Http\Controllers\MailController')->index($data3->product_id, $data3->id);
         toastr()->success('Job has been Assign successfully!');
 
 

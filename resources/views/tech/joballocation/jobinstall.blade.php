@@ -30,15 +30,15 @@
         }
 
         /* .custom-border::before {
-                                                content: "";
-                                                position: absolute;
-                                                top: 0;
-                                                left: 0;
-                                                right: 0;
-                                                height: 1px;
-                                                background: linear-gradient(to right, black 90%, white 90%);
-                                            }
-                                         */
+                                                    content: "";
+                                                    position: absolute;
+                                                    top: 0;
+                                                    left: 0;
+                                                    right: 0;
+                                                    height: 1px;
+                                                    background: linear-gradient(to right, black 90%, white 90%);
+                                                }
+                                             */
 
         .signature-container {
             width: 100%;
@@ -396,7 +396,7 @@
                                                                     autocomplete="Serial_no" autofocus
                                                                     value="{{ $data->serial_number }}">
                                                                 <label for="Serial no">Serial no</label>
-                                                             
+
                                                                 @error('Serial_no')
                                                                     <div class="alert-color" role="alert">
                                                                         {{ $message }}
@@ -451,8 +451,29 @@
                                                             </fieldset>
                                                         </div>
                                                     @endif
+
+
+                                                    <div class="col-12">
+                                                        <div class="table-responsive">
+                                                        <table id="dynamicTable" class="table table-striped">
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>Email</th>
+
+                                                                <th>Action</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><input type="text" name="addmore[0][name_mail]" placeholder="Enter  Name" class="form-control" /></td>
+                                                                <td><input type="text" name="addmore[0][email_mail]" placeholder="Enter Email" class="form-control" /></td>
+
+                                                                <td><button type="button" name="add" id="add" class="btn "><i class="bi bi-plus-square"></i></button></td>
+                                                            </tr>
+                                                        </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
 
                                             <div class="col-md-6">
                                                 <div class="row  gy-3">
@@ -556,9 +577,27 @@
     </section>
 
 
+
     @push('scripts')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+        <script type="text/javascript">
+            var i = 0;
 
+            $("#add").click(function() {
+
+                ++i;
+
+                $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i +
+                    '][name_mail]" placeholder="Enter Name" class="form-control" /></td><td><input type="text" name="addmore[' +
+                    i +
+                    '][email_mail]" placeholder="Enter Email" class="form-control" /></td><td><button type="button" class="btn  remove-tr"><i class="bi bi-trash"></i></button></td></tr>'
+                    );
+            });
+
+            $(document).on('click', '.remove-tr', function() {
+                $(this).parents('tr').remove();
+            });
+        </script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var isInstallation = {{ $isInstallation ? 'true' : 'false' }};

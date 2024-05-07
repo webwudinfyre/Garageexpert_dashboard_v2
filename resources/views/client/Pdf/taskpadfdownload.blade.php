@@ -231,7 +231,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="left_heading">Modal :</span>
+                                    <span class="left_heading">Model :</span>
                                     <span class="left_answer">{{ $prdt_task->product_add->equip_pdt->Model }}</span>
 
                                 </td>

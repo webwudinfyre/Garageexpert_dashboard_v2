@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DemoMail;
+use App\Models\mail_sending;
 use App\Models\product_add;
 use App\Models\product_task;
 use App\Models\signatures;
@@ -17,7 +18,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class MailController extends Controller
 {
-      public function index($id)
+      public function index($id,$id2)
     {
         $imagePaths = array(
             public_path() . '/admin/assets/img/Asset_6@4x.png',
@@ -44,11 +45,19 @@ class MailController extends Controller
              'data'=>$data,
             ];
 
-            $recipients = $data->client_pdt->users->email;
-            $bccRecipients = [
-                'ashiqakkarayil@gmail.com',
+            $data_mail=mail_sending::where('product_tasks_id',$id2)->where('product_id',$id)->get();
 
-            ];
+            $recipients = $data->client_pdt->users->email;
+
+            foreach($data_mail as $data_mail)
+            {
+                $bccRecipients = [
+                    'ashiqakkarayil@gmail.com',
+                    $data_mail->email,
+
+                ];
+
+            }
 
         Mail::to($recipients)->cc($bccRecipients)->send(new DemoMail($mailData));
 

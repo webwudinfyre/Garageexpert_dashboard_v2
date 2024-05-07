@@ -1428,6 +1428,11 @@ i.bi.bi-plus-square {
     font-size: 22px;
     color: #000000;
 }
+
+#dynamicTable i.bi.bi-plus-square {
+    font-size: 18px;
+    color: var(--main-color);
+}
 i.bi.bi-journal-plus {
     color: var(--main-color);
 }
