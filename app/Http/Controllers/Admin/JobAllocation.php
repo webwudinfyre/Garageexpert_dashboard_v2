@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\NewProjectAdded;
 use App\Http\Controllers\Controller;
+use App\Models\aprovalquotation;
 use App\Models\ClientUser;
 use App\Models\Equipment;
 use App\Models\Notification;
@@ -78,11 +79,15 @@ class JobAllocation extends Controller
 
     public function  update(Request $request): RedirectResponse
     {
+
         $time = Carbon::now()->toTimeString();
         $date_of_sch = $request->Date_Schedule;
         $req_date = Carbon::parse($date_of_sch)->setTimeFromTimeString($time);
         $dateTimeSuffix = date('Ymd_His');
         if ($request->Product_id) {
+
+
+
             $task = task_data::select('id')->where('id', 1)->first();
             $already = 'admin';
             $taskHistory = [
@@ -116,7 +121,7 @@ class JobAllocation extends Controller
             $existingTaskHistory[$dateTimeSuffix . '_next_' . 'Add_Job'] = $taskHistory;
             $updatedJsonString = json_encode($existingTaskHistory);
 
-            $pdt_client_id=product_add::where('product_id',$request->Product_id)->first();
+            $pdt_client_id = product_add::where('product_id', $request->Product_id)->first();
 
             $prdt_task = product_task::create([
                 'product_id' => $request->Product_id,
@@ -127,13 +132,15 @@ class JobAllocation extends Controller
                 'admin_id' => Auth::user()->id,
                 'already' => $already,
                 'taskhistory' => $updatedJsonString,
-                'client_id'=>$pdt_client_id->client_id,
+                'client_id' => $pdt_client_id->client_id,
             ]);
             NewProjectAdded::dispatch($prdt_task);
 
             toastr()->success('Data has been saved successfully!');
             return redirect()->back();
         } else {
+
+
 
             $startDate = Carbon::createFromFormat('Y-m-d', $request->Date_Schedule);
             $endDate = $startDate->addMonths($request->Warranty_month);
@@ -178,7 +185,7 @@ class JobAllocation extends Controller
                 'admin_id' => Auth::user()->id,
                 'already' => $already,
                 'taskhistory' => $updatedJsonString,
-                'client_id'=>$request->client_id,
+                'client_id' => $request->client_id,
 
             ]);
             // event(new NewProjectAdded($prdt_task));
@@ -199,6 +206,7 @@ class JobAllocation extends Controller
     }
     public function job_list_each_task($task_id): view
     {
+
         $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('task_id', $task_id)->get()->sortBy('task_id');;
         $task = task_data::all();
 
@@ -253,7 +261,11 @@ class JobAllocation extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                if(isset($details['date_of_schedule']))
+                {
+                    $details['Date_Of_Schedule'] = $details['date_of_schedule'];
+                }
+
 
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
@@ -265,6 +277,10 @@ class JobAllocation extends Controller
                 if (isset($details['quotationValue_name'])) {
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
                 }
+                if (isset($details['aproval_waiting'])) {
+                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
+                }
+
 
                 $mergedArray[$key] = $details;
             }
@@ -328,7 +344,11 @@ class JobAllocation extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                if(isset($details['date_of_schedule']))
+                {
+                    $details['Date_Of_Schedule'] = $details['date_of_schedule'];
+                }
+
 
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
@@ -340,7 +360,9 @@ class JobAllocation extends Controller
                 if (isset($details['quotationValue_name'])) {
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
                 }
-
+                if (isset($details['aproval_waiting'])) {
+                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
+                }
                 $mergedArray[$key] = $details;
             }
 
@@ -466,13 +488,27 @@ class JobAllocation extends Controller
     }
     public function Quotation_aproval(Request $request): RedirectResponse
     {
+
+
         $prdt_task = product_task::find($request->pdt_id_name_assign);
-        $task = task_data::select('id')->where('id', 1)->first();
+        $task = task_data::select('id')->where('id', 6)->first();
 
         $quotationValue = !empty($request->Quotation_value) ? 'Send Quotation' : "Aproval";
 
 
         $already = $prdt_task->admin_id;
+
+        $data_quotation = [
+
+            'product_task_id' => $prdt_task->id,
+            'Refrence_number' => $request->reference_number,
+            'date_start' => now(),
+            'client_id' => $prdt_task->client_id,
+
+        ];
+        $data_qut = aprovalquotation::create($data_quotation);
+
+        $insertedId_qt =  $data_qut->id;
 
         $taskHistory = [
             'task_id' =>  $task->id,
@@ -482,6 +518,7 @@ class JobAllocation extends Controller
             'already' => $already,
             'assign' =>  $prdt_task->admin_id,
             'Quotation_value' => $quotationValue,
+            'aproval_waiting' => $insertedId_qt,
 
         ];
         $data = product_task::with('task')->find($request->pdt_id_name_assign);
@@ -508,6 +545,55 @@ class JobAllocation extends Controller
         $data->update([
             'taskhistory' => $updatedJsonString,
             'task_id' => $task->id,
+
+        ]);
+
+
+
+
+        toastr()->success('Job successfully Update!');
+
+        NewProjectAdded::dispatch($prdt_task);
+        return redirect()->back();
+    }
+
+
+    public function Quotation_aproval_waiting(Request $request): RedirectResponse
+    {
+
+        $data_aprovel = aprovalquotation::where('product_task_id', $request->pdt_id_name_assign)
+            ->whereNull('date_end')
+            ->latest()
+            ->get();
+
+        // Loop through each record and update 'date_end'
+        foreach ($data_aprovel as $record) {
+            $record->update([
+                'date_end' => now(),
+            ]);
+        }
+
+        $prdt_task = product_task::find($request->pdt_id_name_assign);
+        $task = task_data::select('id')->where('id', 1)->first();
+
+        $quotationValue = !empty($request->Quotation_value) ? 'Send Quotation' : "Aproval";
+
+
+        $already = $prdt_task->admin_id;
+
+
+        $data = product_task::with('task')->find($request->pdt_id_name_assign);
+
+
+        // $existingTaskHistory[$data->task->task_name ] = $taskHistory;
+
+
+        // $updatedJsonString = json_encode($existingTaskHistory);
+
+        $data->update([
+
+            'task_id' => $task->id,
+            'date_of_schedule' => $request->Date_Schedule,
 
         ]);
 

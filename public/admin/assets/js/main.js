@@ -503,6 +503,73 @@
                 });
         });
     }
+
+
+
+
+    /**
+     *  Quotation_aproval_waiting
+     */
+    const  Quotation_aproval_waiting = document.getElementById("Quotation_aproval_waiting");
+
+    if ( Quotation_aproval_waiting) {
+        Quotation_aproval_waiting.addEventListener("show.bs.modal", (event) => {
+            const button = event.relatedTarget;
+            const recipient = button.getAttribute("data-bs-whatever");
+
+      
+
+            fetch("/admin/joballocation/job_view/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+
+                    const Office_Name = document.querySelector(
+                        "#Office_Name_assign_1"
+                    );
+                    const Location_Name = document.querySelector(
+                        "#Location_Name_assign_1"
+                    );
+                    const Email = document.querySelector("#Email_assign_1");
+                    const Phone_Number = document.querySelector(
+                        "#Phone_Number_assign_1"
+                    );
+                    const Product_Code = document.querySelector(
+                        "#Product_Code_assign_1"
+                    );
+                    const Brand_Name =
+                        document.querySelector("#Brand_Name_assign_1");
+                    const Model = document.querySelector("#Model_assign_1");
+                    const Product_Name = document.querySelector(
+                        "#Product_Name_assign_1"
+                    );
+                    const pdt_id_name = document.querySelector(
+                        "#pdt_id_name_assign_1"
+                    );
+
+                    Office_Name.textContent =
+                        data.product_add.client_pdt.office;
+                    Location_Name.textContent =
+                        data.product_add.client_pdt.location;
+                    Email.textContent = data.product_add.client_pdt.users.email;
+                    Phone_Number.textContent =
+                        data.product_add.client_pdt.phonenumber;
+
+                    Product_Code.textContent = data.product_add.product_code;
+                    Brand_Name.textContent = data.product_add.equip_pdt.Brand;
+                    Model.textContent = data.product_add.equip_pdt.Model;
+                    Product_Name.textContent =
+                        data.product_add.equip_pdt.Item_name;
+                    pdt_id_name.value = data.id;
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
+
     /**
      * Quotation_aproval
      */

@@ -92,7 +92,7 @@ Route::middleware(['auth', 'user.type:admin'])
     Route::get('/joballocation/job_view/{id}', [JobAllocation::class, 'job_view'])->name('joballocation.job_view');
 
     Route::get('/joballocation/Quotation_aproval', [JobAllocation::class, 'Quotation_aproval'])->name('joballocation.Quotation_aproval');
-
+    Route::get('/joballocation/Quotation_aproval_waiting', [JobAllocation::class, 'Quotation_aproval_waiting'])->name('joballocation.Quotation_aproval_waiting');
 
     // href="{{ route('admin.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}"
 

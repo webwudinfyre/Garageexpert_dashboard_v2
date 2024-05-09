@@ -38,16 +38,23 @@ class CustomServiceProvider extends ServiceProvider
 
             return "<?php echo (!empty($param1) ? $param1 : 'Please Enter ' . $param2  ); ?>";
         });
+        Blade::directive('nullOrValuedata', function ($expression) {
+            $params = explode(',', $expression);
+            $param1 = $params[0] ?? null;
+            $param2 = $params[1] ?? null;
+
+            return "<?php echo (!empty($param1) ? $param1 : $param2  ); ?>";
+        });
         Blade::directive('countTaskStatus', function ($expression) {
             $count =trim($expression, "()");
 
 
-$count=DB::table('product_tasks')->where('task_id', $count )->count();
+        $count=DB::table('product_tasks')->where('task_id', $count )->count();
             // $count = product_task::where('task_id', $count )->count();
 
             return "<?php echo e($count); ?>";
 
         });
-        
+
     }
 }

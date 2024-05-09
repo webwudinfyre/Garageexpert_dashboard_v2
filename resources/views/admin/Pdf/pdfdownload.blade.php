@@ -356,10 +356,12 @@
                                             [{{ $data['assign_name'] }}]</td>
                                     </tr>
                                 @endif
-                                <tr>
-                                    <td>Date Of Schedule</td>
-                                    <td>{{ $data['Date_Of_Schedule'] }}</td>
-                                </tr>
+                                @if (!empty($data['Date_Of_Schedule']))
+                                    <tr>
+                                        <td>Date Of Schedule</td>
+                                        <td>{{ $data['Date_Of_Schedule'] }}</td>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <td>Date Of Action</td>
                                     <td>{{ $data['date'] }} {{ $data['time'] }}</td>
@@ -393,6 +395,40 @@
                                                 height="40px" /></td>
                                     </tr>
                                 @endif
+
+                                @if (!empty($data['aproval_waiting']))
+                                    <tr>
+                                        <td>Reference Number</td>
+                                        <td>{{ $data['aproval_waiting']->Refrence_number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Start Date</td>
+                                        <td>{{ $data['aproval_waiting']->date_start }}</td>
+                                    </tr>
+
+                                    @if (!empty($data['aproval_waiting']->date_end))
+                                        <tr>
+                                            <td>End date</td>
+                                            <td>{{ $data['aproval_waiting']->date_end }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Toatal Date Approval</td>
+                                            <td> {{ \Carbon\Carbon::parse($data['aproval_waiting']->date_start)->diffInDays(
+                                                \Carbon\Carbon::parse($data['aproval_waiting']->date_end),
+                                            ) }}
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td>Status</td>
+                                            <td>Waiting For Approval</td>
+                                        </tr>
+                                    @endif
+                                @endif
+
+
+
                             </tbody>
                         </table>
                     </div>

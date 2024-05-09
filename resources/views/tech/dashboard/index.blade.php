@@ -206,7 +206,19 @@
                         console.log(response);
                         var modalBodyContent =
                             '<table class="table table-responsive"><thead><tr><th>Product Code</th><th>Serial Number</th><th>Description</th><th>Status</th></tr></thead><tbody>';
-                        response.forEach(function(item) {
+                        response.tasks.forEach(function(item) {
+                            modalBodyContent += '<tr><td>' + item.product_add
+                                .product_code + '</td><td>' + item.product_add
+                                .serial_number + '</td><td><ul><li>' +
+                                'Brand :' + item.product_add.equip_pdt.Brand +
+                                '</li><li>' + 'Model :' + item.product_add
+                                .equip_pdt.Model + '</li><li>' + 'name :' + item
+                                .product_add.equip_pdt.Item_name +
+                                '</li></ul></td><td>' + item.task.task_name +
+                                '</td></tr>';
+
+                        });
+                        response.tasks2.forEach(function(item) {
                             modalBodyContent += '<tr><td>' + item.product_add
                                 .product_code + '</td><td>' + item.product_add
                                 .serial_number + '</td><td><ul><li>' +

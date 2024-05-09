@@ -336,16 +336,26 @@ class Reports extends Controller
         $start = $request->query('start');
         $end = $request->query('end');
 
-        $tasks = product_task::with('task','product_add.client_pdt')->whereBetween('updated_at', [$start, $end])
-            ->orWhereBetween('updated_at', [$start, $end])
+        $tasks = product_task::with('task', 'product_add.client_pdt')
+            ->orWhereBetween('date_of_schedule', [$start, $end])
+            ->orwhereBetween('updated_at', [$start, $end])
             ->get();
 
         $events = $tasks->map(function ($task) {
+            $start = $task->date_of_schedule; // Default start date
+            $end = $task->date_of_schedule; // Default end date
+
+            // Replace start and end dates if task_id is 4
+            if ($task->task_id == 4) {
+                $start = $task->updated_at->format('Y-m-d');
+                $end = $task->updated_at->format('Y-m-d');
+            }
+
             return [
-                'title' => $task->product_add->client_pdt->office, // Assuming 'task' relationship has a 'title' property
-                'start' => $task->updated_at->format('Y-m-d'),
-                'end' => $task->updated_at->format('Y-m-d'), // Adjust as necessary
-                'color' => $this->getEventColor($task->task->task_name), // Assuming 'status' determines the color
+                'title' => $task->product_add->client_pdt->office, // Assuming 'office' is the title
+                'start' => $start,
+                'end' => $end,
+                'color' => $this->getEventColor($task->task->task_name), // Get color based on task name
             ];
         })->toArray();
 
@@ -362,6 +372,8 @@ class Reports extends Controller
                 return 'orange';
             case 'Quotation':
                 return 'red';
+                case 'Waiting Approve':
+                    return 'black';
             default:
                 return 'white';
         }
@@ -377,40 +389,59 @@ class Reports extends Controller
         //     ->get();
         $date = $request->date;
 
-    // Assuming $request->date is in 'Y-m-d' format
-    // Create DateTime objects for the start and end of the day
-    $start = new DateTime($date);
-    $start->setTime(0, 0, 0); // Set time to 00:00:00
+        // Assuming $request->date is in 'Y-m-d' format
+        // Create DateTime objects for the start and end of the day
+        $start = new DateTime($date);
+        $start->setTime(0, 0, 0); // Set time to 00:00:00
 
-    $end = new DateTime($date);
-    $end->setTime(23, 59, 59); // Set time to 23:59:59
+        $end = new DateTime($date);
+        $end->setTime(23, 59, 59); // Set time to 23:59:59
 
-    // Format the DateTime objects back to strings if needed
-    $startString = $start->format('Y-m-d H:i:s');
-    $endString = $end->format('Y-m-d H:i:s');
+        // Format the DateTime objects back to strings if needed
+        $startString = $start->format('Y-m-d');
+        $endString = $end->format('Y-m-d');
 
-    $tasks = product_task::with('product_add','product_add.equip_pdt','task','product_add.client_pdt')
-        ->whereBetween('updated_at', [$startString, $endString])
-        ->get();
+        $startString_date = $start->format('Y-m-d H:i:s'); // Format with time (00:00:00)
+        $endString_date = $end->format('Y-m-d H:i:s');
 
-        return response()->json( $tasks);
+        // Retrieve tasks where date_of_schedule is within the specified range
+        $tasks = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
+            ->whereBetween('date_of_schedule', [$startString, $endString])
+            ->where('task_id', '!=', 4)
+            ->get();
+
+        // Retrieve tasks where task_id = 4 and updated_at is within the specified range
+        $tasks2 = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
+            ->where('task_id', 4)
+            ->whereBetween('updated_at', [$startString_date, $endString_date])
+            ->get();
+
+        // Store results into arrays
+        $tasksArray = $tasks->toArray();
+        $tasks2Array = $tasks2->toArray();
+        $result = [
+            'tasks' => $tasksArray,
+            'tasks2' => $tasks2Array
+        ];
+        return response()->json($result);
     }
 
-    public function tracking_details() : view {
+    public function tracking_details(): view
+    {
         $data = Auth::user()->id;
 
 
         $client_data = ClientUser::where('user_id', $data)->first();
 
 
-        $client_latest = product_task::with(['Type_service','product_add','task','product_add.equip_pdt'])->latest()->paginate(6);
+        $client_latest = product_task::with(['Type_service', 'product_add', 'task', 'product_add.equip_pdt'])->latest()->paginate(6);
 
         $task_history_data = [];
 
         foreach ($client_latest as $task) {
             $task_history = json_decode($task['taskhistory'], true);
             $task_history['type_of_service_name'] = $task->Type_service->service_name;
-            $task_history['product_add']= $task->product_add->product_id;
+            $task_history['product_add'] = $task->product_add->product_id;
             $task_history_data[$task->id] = $task_history;
         }
 
@@ -457,14 +488,14 @@ class Reports extends Controller
                 if (isset($details['quotationValue_name'])) {
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
                 }
-                $mergedArray['product_add'] =$task->product_add->product_id;
-                $mergedArray['product_add_code'] =$task->product_add->product_code;
-                $mergedArray['service_name'] =$task_id_name ;
-                $mergedArray['Brand'] =$task->product_add->equip_pdt->Brand ;
-                $mergedArray['Model'] =$task->product_add->equip_pdt->Model ;
+                $mergedArray['product_add'] = $task->product_add->product_id;
+                $mergedArray['product_add_code'] = $task->product_add->product_code;
+                $mergedArray['service_name'] = $task_id_name;
+                $mergedArray['Brand'] = $task->product_add->equip_pdt->Brand;
+                $mergedArray['Model'] = $task->product_add->equip_pdt->Model;
                 $mergedArray['Status'] = $task->task->task_name == 'New Task' ? 'Progress' : $task->task->task_name;
 
-                $mergedArray['Item_naame'] =$task->product_add->equip_pdt->Item_name ;
+                $mergedArray['Item_naame'] = $task->product_add->equip_pdt->Item_name;
 
 
                 $mergedArray[$key] = $details;
@@ -472,7 +503,6 @@ class Reports extends Controller
 
             $taskHistoryArray[$taskId] = $mergedArray; // Use the task ID as the key in the task history array
         }
-        return view('admin.other.timeline', compact('client_data','task_history_data','taskHistoryArray','client_latest'));
+        return view('admin.other.timeline', compact('client_data', 'task_history_data', 'taskHistoryArray', 'client_latest'));
     }
-
 }

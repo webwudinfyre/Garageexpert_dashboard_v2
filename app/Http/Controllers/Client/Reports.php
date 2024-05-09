@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
+use App\Models\aprovalquotation;
 use App\Models\ClientUser;
 use App\Models\customer_review;
 use App\Models\Notification;
@@ -183,7 +184,11 @@ class Reports extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                if(isset($details['date_of_schedule']))
+                {
+                    $details['Date_Of_Schedule'] = $details['date_of_schedule'];
+                }
+
 
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
@@ -194,6 +199,9 @@ class Reports extends Controller
                 }
                 if (isset($details['quotationValue_name'])) {
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
+                }
+                if (isset($details['aproval_waiting'])) {
+                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
                 }
 
                 $mergedArray[$key] = $details;
@@ -320,7 +328,11 @@ class Reports extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                if(isset($details['date_of_schedule']))
+                {
+                    $details['Date_Of_Schedule'] = $details['date_of_schedule'];
+                }
+
 
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
@@ -331,6 +343,9 @@ class Reports extends Controller
                 }
                 if (isset($details['quotationValue_name'])) {
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
+                }
+                if (isset($details['aproval_waiting'])) {
+                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
                 }
 
                 $mergedArray[$key] = $details;

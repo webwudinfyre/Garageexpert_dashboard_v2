@@ -18,6 +18,7 @@
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
         rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('admin/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -28,6 +29,12 @@
     <link href="{{ asset('admin/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
+    {{-- <link rel="stylesheet" type="text/css" href="./slick/slick.css">
+  <link rel="stylesheet" type="text/css" href="./slick/slick-theme.css"> --}}
+    <link href="{{ asset('admin/assets/slick-1.8.1/slick/slick.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/assets/slick-1.8.1/slick/slick-theme.css') }}" rel="stylesheet">
+
+
 
 <link href="https://unpkg.com/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' rel='stylesheet' />
@@ -69,7 +76,10 @@
     <script src="{{asset('admin/assets/vendor/php-email-form/validate.js')}}"></script>
     <script src="{{asset('admin/assets/js/main.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/slick-1.8.1/slick/slick.js') }}" type="text/javascript" charset="utf-8"></script>
+    {{-- <script src="./slick/slick.js" type="text/javascript" charset="utf-8"></script> --}}
+    {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> --}}
     @stack('scripts')
     @yield('script')
     {{-- <script src="{{asset('admin/assets/js/up-pr/features-post-create.js')}}"></script> --}}

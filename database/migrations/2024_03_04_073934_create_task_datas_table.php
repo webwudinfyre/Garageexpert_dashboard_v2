@@ -23,6 +23,7 @@ return new class extends Migration
             ['task_name' => 'Quotation'],
             ['task_name' => 'Completed'],
             ['task_name' => 'Assign To Other'],
+            ['task_name' => 'Waiting Approve'],
 
 
         ]);

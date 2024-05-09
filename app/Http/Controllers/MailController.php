@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DemoMail;
+use App\Models\aprovalquotation;
 use App\Models\mail_sending;
 use App\Models\product_add;
 use App\Models\product_task;
@@ -48,18 +49,48 @@ class MailController extends Controller
             $data_mail=mail_sending::where('product_tasks_id',$id2)->where('product_id',$id)->get();
 
             $recipients = $data->client_pdt->users->email;
+           // Assuming $recipients is already defined with your primary recipient(s)
+$recipients = ['recipient1@example.com', 'recipient2@example.com'];
 
-            foreach($data_mail as $data_mail)
-            {
-                $bccRecipients = [
-                    'ashiqakkarayil@gmail.com',
-                    $data_mail->email,
+// Initialize an empty array for BCC recipients
+$bccRecipients = [];
 
-                ];
+// Check if $data_mail is set and not empty
+if (!empty($data_mail)) {
+    foreach ($data_mail as $data) {
+        // Assuming each $data is an object with an 'email' property
+        if (isset($data->email)) {
+            // Add each email to the BCC recipients array
+            $bccRecipients[] = $data->email;
+        }
+    }
+}
 
-            }
+            // if(($data_mail))
+            // {
+            //     foreach($data_mail as $data_mail)
+            //     {
+            //         $bccRecipients = [
+            //             'ashiqakkarayil@gmail.com',
+            //             $data_mail->email,
 
-        Mail::to($recipients)->cc($bccRecipients)->send(new DemoMail($mailData));
+            //         ];
+
+            //     }
+
+            // }
+            // else
+            // {
+            //     $bccRecipients = [
+            //         'ashiqakkarayil@gmail.com',
+
+
+            //     ];
+            //     Mail::to($recipients)->cc($bccRecipients)->send(new DemoMail($mailData));
+            // }
+
+            Mail::to($recipients)->cc($bccRecipients)->send(new DemoMail($mailData));
+
 
 
     }
@@ -111,7 +142,11 @@ class MailController extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                $details['Date_Of_Schedule'] = $task->date_of_schedule;
+                if(isset($details['date_of_schedule']))
+                {
+                    $details['Date_Of_Schedule'] = $details['date_of_schedule'];
+                }
+
 
                 $dateTime = Carbon::parse($details['date_time']);
                 $details['date'] = $dateTime->toDateString();
@@ -122,6 +157,9 @@ class MailController extends Controller
                 }
                 if (isset($details['quotationValue_name'])) {
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
+                }
+                if (isset($details['aproval_waiting'])) {
+                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
                 }
 
                 $mergedArray[$key] = $details;

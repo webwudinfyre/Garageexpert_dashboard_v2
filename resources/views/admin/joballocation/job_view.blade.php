@@ -30,15 +30,15 @@
         }
 
         /* .custom-border::before {
-                                                    content: "";
-                                                    position: absolute;
-                                                    top: 0;
-                                                    left: 0;
-                                                    right: 0;
-                                                    height: 1px;
-                                                    background: linear-gradient(to right, black 90%, white 90%);
-                                                }
-                                             */
+                                                        content: "";
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+                                                        right: 0;
+                                                        height: 1px;
+                                                        background: linear-gradient(to right, black 90%, white 90%);
+                                                    }
+                                                 */
     </style>
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
@@ -455,23 +455,25 @@
 
                                                         </div>
                                                     @endif
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
+                                                    @if (!empty($data['Date_Of_Schedule']))
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
 
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Date Of Schedule</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['Date_Of_Schedule'] }}
-                                                                    </p>
-                                                                </div>
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Date Of Schedule</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['Date_Of_Schedule'] }}
+                                                                        </p>
+                                                                    </div>
 
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                    </div>
+                                                        </div>
+                                                    @endif
                                                     <div class="col-md-6 custom-border">
                                                         <div class="under_line ">
 
@@ -616,7 +618,101 @@
 
                                                         </div>
                                                     @endif
+                                                    @if (!empty($data['aproval_waiting']))
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
 
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Reference Number</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            @nullOrValuenostyle($data['aproval_waiting']->Refrence_number, 'Reference Number')
+
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Start Date</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            @nullOrValuenostyle($data['aproval_waiting']->date_start, 'Start Date')
+
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        @if (!empty($data['aproval_waiting']->date_end))
+                                                            <div class="col-md-6 custom-border">
+                                                                <div class="under_line ">
+
+                                                                    <div class="row ">
+                                                                        <div class="col-6 ">
+                                                                            <p class="mb-0">End date</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <p class="text-muted job_detatil_v3">
+                                                                                @nullOrValuedata($data['aproval_waiting']->date_end, 'End Date')
+                                                                            </p>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-6 custom-border">
+                                                                <div class="under_line ">
+
+                                                                    <div class="row ">
+                                                                        <div class="col-6 ">
+                                                                            <p class="mb-0">Toatal Date Approval</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <p class="text-muted job_detatil_v3">
+                                                                                {{ \Carbon\Carbon::parse($data['aproval_waiting']->date_start)->diffInDays(
+                                                                                    \Carbon\Carbon::parse($data['aproval_waiting']->date_end),
+                                                                                ) }}
+                                                                                {{-- @nullOrValuedata($data['aproval_waiting']->date_end , 'End Date') --}}
+                                                                            </p>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-6 custom-border">
+                                                                <div class="under_line ">
+
+                                                                    <div class="row ">
+                                                                        <div class="col-6 ">
+                                                                            <p class="mb-0">Status</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <p class="text-muted job_detatil_v3">
+                                                                                Waiting For Approval
+                                                                            </p>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        @endif
+                                                    @endif
 
 
                                                 </div>
@@ -652,20 +748,20 @@
     </div> --}}
 
     @push('scripts')
-    <script>
-        function showModal() {
-            var modal = document.getElementById('loadingModal');
-            modal.style.display = 'block';
-            modal.classList.add('show');
-            modal.setAttribute('aria-modal', 'true');
+        <script>
+            function showModal() {
+                var modal = document.getElementById('loadingModal');
+                modal.style.display = 'block';
+                modal.classList.add('show');
+                modal.setAttribute('aria-modal', 'true');
 
-            // Set a timeout to hide the modal after 5 seconds
-            setTimeout(function() {
-                modal.style.display = 'none';
-                modal.classList.remove('show');
-                modal.setAttribute('aria-modal', 'false');
-            }, 8000); // Adjust the timeout as needed
-        }
-    </script>
+                // Set a timeout to hide the modal after 5 seconds
+                setTimeout(function() {
+                    modal.style.display = 'none';
+                    modal.classList.remove('show');
+                    modal.setAttribute('aria-modal', 'false');
+                }, 8000); // Adjust the timeout as needed
+            }
+        </script>
     @endpush
 @endsection

@@ -463,23 +463,25 @@
 
                                                         </div>
                                                     @endif
-                                                    <div class="col-md-6 custom-border">
-                                                        <div class="under_line ">
+                                                    @if (!empty($data['Date_Of_Schedule']))
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
 
-                                                            <div class="row ">
-                                                                <div class="col-6 ">
-                                                                    <p class="mb-0">Date Of Schedule</p>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <p class="text-muted job_detatil_v3">
-                                                                        {{ $data['Date_Of_Schedule'] }}
-                                                                    </p>
-                                                                </div>
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Date Of Schedule</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            {{ $data['Date_Of_Schedule'] }}
+                                                                        </p>
+                                                                    </div>
 
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                    </div>
+                                                        </div>
+                                                    @endif
                                                     <div class="col-md-6 custom-border">
                                                         <div class="under_line ">
 
@@ -625,6 +627,101 @@
                                                         </div>
                                                     @endif
 
+                                                    @if (!empty($data['aproval_waiting']))
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Reference Number</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            @nullOrValuenostyle($data['aproval_waiting']->Refrence_number, 'Reference Number')
+
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-6 custom-border">
+                                                            <div class="under_line ">
+
+                                                                <div class="row ">
+                                                                    <div class="col-6 ">
+                                                                        <p class="mb-0">Start Date</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="text-muted job_detatil_v3">
+                                                                            @nullOrValuenostyle($data['aproval_waiting']->date_start, 'Start Date')
+
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        @if (!empty($data['aproval_waiting']))
+                                                            <div class="col-md-6 custom-border">
+                                                                <div class="under_line ">
+
+                                                                    <div class="row ">
+                                                                        <div class="col-6 ">
+                                                                            <p class="mb-0">End date</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <p class="text-muted job_detatil_v3">
+                                                                                @nullOrValuedata($data['aproval_waiting']->date_end, 'End Date')
+                                                                            </p>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-6 custom-border">
+                                                                <div class="under_line ">
+
+                                                                    <div class="row ">
+                                                                        <div class="col-6 ">
+                                                                            <p class="mb-0">Toatal Date Approval</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <p class="text-muted job_detatil_v3">
+                                                                                {{ \Carbon\Carbon::parse($data['aproval_waiting']->date_start)->diffInDays(
+                                                                                    \Carbon\Carbon::parse($data['aproval_waiting']->date_end),
+                                                                                ) }}
+                                                                                {{-- @nullOrValuedata($data['aproval_waiting']->date_end , 'End Date') --}}
+                                                                            </p>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-6 custom-border">
+                                                                <div class="under_line ">
+
+                                                                    <div class="row ">
+                                                                        <div class="col-6 ">
+                                                                            <p class="mb-0">Status</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <p class="text-muted job_detatil_v3">
+                                                                                Waiting For Approval
+                                                                            </p>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        @endif
+                                                    @endif
 
 
                                                 </div>
@@ -637,7 +734,7 @@
 
                         </div>
 
-                
+
 
 
                     </div>
