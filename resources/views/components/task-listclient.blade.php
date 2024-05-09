@@ -128,7 +128,7 @@
                                     href="{{ route('tech.joballocation.myjob_list_each_task', ['id' => $data_id1['Quotation']]) }}">
                             @endif --}}
 
-                            <h5 class="card-title">Quotation</h5>
+                            <h5 class="card-title">Approval Waiting</h5>
 
                             <div class=" d-flex text-center align-items-center justify-content-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="ps-3">
 
-                                    <h6>{{ isset($taskCounts['3']) ? $taskCounts['3'] : 0 }}</h6>
+                                    <h6>{{ isset($taskCounts['6']) ? $taskCounts['6'] : 0 }}</h6>
 
 
                                 </div>

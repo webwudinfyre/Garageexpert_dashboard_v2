@@ -183,115 +183,115 @@
             alert("Button clicked!");
         });
     }
-   /**
+    /**
      * taskViewModal1
      */
 
-   const taskViewModal2 = document.getElementById("taskViewModal2");
+    const taskViewModal2 = document.getElementById("taskViewModal2");
 
-   if (taskViewModal2) {
-    taskViewModal2.addEventListener("show.bs.modal", (event) => {
-           const button = event.relatedTarget;
-           const recipient = button.getAttribute("data-bs-whatever");
+    if (taskViewModal2) {
+        taskViewModal2.addEventListener("show.bs.modal", (event) => {
+            const button = event.relatedTarget;
+            const recipient = button.getAttribute("data-bs-whatever");
 
-           fetch("/client/report/prdct_view_task/" + recipient, {
-               method: "get",
-           })
-               .then((response) => response.json())
-               .then((data) => {
-                   console.log(data);
+            fetch("/client/report/prdct_view_task/" + recipient, {
+                method: "get",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
 
-                   // Access the table body
-                   const tableBody = document.querySelector(
-                       "#admin_table_task_view tbody"
-                   );
+                    // Access the table body
+                    const tableBody = document.querySelector(
+                        "#admin_table_task_view tbody"
+                    );
 
-                   // Clear existing rows
-                   tableBody.innerHTML = "";
-                   let slNumber = 1;
-                   // Loop through the data and populate the table
-                   data.forEach((item) => {
-                       const startDate = new Date(item.date_of_schedule);
-                       const endDate = new Date(item.updated_at);
-                       const dateDifference = Math.ceil(
-                           (endDate - startDate) / (1000 * 60 * 60 * 24)
-                       );
+                    // Clear existing rows
+                    tableBody.innerHTML = "";
+                    let slNumber = 1;
+                    // Loop through the data and populate the table
+                    data.forEach((item) => {
+                        const startDate = new Date(item.date_of_schedule);
+                        const endDate = new Date(item.updated_at);
+                        const dateDifference = Math.ceil(
+                            (endDate - startDate) / (1000 * 60 * 60 * 24)
+                        );
 
-                       // Create a new row
-                       const row = document.createElement("tr");
+                        // Create a new row
+                        const row = document.createElement("tr");
 
-                       // Create cells for type_services_id, admin_id, and service_name
+                        // Create cells for type_services_id, admin_id, and service_name
 
-                       const slNumberCell = document.createElement("td");
-                       slNumberCell.textContent = slNumber++;
-                       slNumberCell.style.textAlign = "center"; // Align text to the left
-                       row.appendChild(slNumberCell);
+                        const slNumberCell = document.createElement("td");
+                        slNumberCell.textContent = slNumber++;
+                        slNumberCell.style.textAlign = "center"; // Align text to the left
+                        row.appendChild(slNumberCell);
 
-                       const serviceNameCell = document.createElement("td");
-                       serviceNameCell.textContent =
-                           item.type_service.service_name;
-                       serviceNameCell.style.textAlign = "left"; // Align text to the left
-                       row.appendChild(serviceNameCell);
+                        const serviceNameCell = document.createElement("td");
+                        serviceNameCell.textContent =
+                            item.type_service.service_name;
+                        serviceNameCell.style.textAlign = "left"; // Align text to the left
+                        row.appendChild(serviceNameCell);
 
-                       const adminIdCell = document.createElement("td");
-                       adminIdCell.textContent = item.users_pdt.name;
-                       adminIdCell.style.textAlign = "left"; // Align text to the left
-                       row.appendChild(adminIdCell);
+                        const adminIdCell = document.createElement("td");
+                        adminIdCell.textContent = item.users_pdt.name;
+                        adminIdCell.style.textAlign = "left"; // Align text to the left
+                        row.appendChild(adminIdCell);
 
-                       const timeTakkenCell = document.createElement("td");
-                       // Create a list element to hold the start and end dates and the difference
-                       const list = document.createElement("ul");
-                       // Set the list style to align left
-                       list.style.textAlign = "left";
-                       // Append list items for start date, end date, and difference
-                       const startDateListItem = document.createElement("li");
-                       startDateListItem.textContent =
-                           "Start date: " + startDate.toLocaleDateString();
-                       list.appendChild(startDateListItem);
+                        const timeTakkenCell = document.createElement("td");
+                        // Create a list element to hold the start and end dates and the difference
+                        const list = document.createElement("ul");
+                        // Set the list style to align left
+                        list.style.textAlign = "left";
+                        // Append list items for start date, end date, and difference
+                        const startDateListItem = document.createElement("li");
+                        startDateListItem.textContent =
+                            "Start date: " + startDate.toLocaleDateString();
+                        list.appendChild(startDateListItem);
 
-                       const endDateListItem = document.createElement("li");
-                       endDateListItem.textContent =
-                           "End date: " + endDate.toLocaleDateString();
-                       list.appendChild(endDateListItem);
+                        const endDateListItem = document.createElement("li");
+                        endDateListItem.textContent =
+                            "End date: " + endDate.toLocaleDateString();
+                        list.appendChild(endDateListItem);
 
-                       let differenceDescription = "";
-                       if (dateDifference === 0) {
-                           differenceDescription = "on date";
-                       } else if (dateDifference > 0) {
-                           differenceDescription =
-                               "late by " + dateDifference + " days";
-                       } else {
-                           differenceDescription =
-                               "early by " +
-                               Math.abs(dateDifference) +
-                               " days";
-                       }
+                        let differenceDescription = "";
+                        if (dateDifference === 0) {
+                            differenceDescription = "on date";
+                        } else if (dateDifference > 0) {
+                            differenceDescription =
+                                "late by " + dateDifference + " days";
+                        } else {
+                            differenceDescription =
+                                "early by " +
+                                Math.abs(dateDifference) +
+                                " days";
+                        }
 
-                       const differenceListItem = document.createElement("li");
-                       differenceListItem.textContent =
-                           "Difference: " + differenceDescription;
-                       list.appendChild(differenceListItem);
+                        const differenceListItem = document.createElement("li");
+                        differenceListItem.textContent =
+                            "Difference: " + differenceDescription;
+                        list.appendChild(differenceListItem);
 
-                       // Append the list to the timeTakkenCell
-                       timeTakkenCell.appendChild(list);
-                       timeTakkenCell.style.textAlign = "left"; // Align text to the left
-                       row.appendChild(timeTakkenCell);
+                        // Append the list to the timeTakkenCell
+                        timeTakkenCell.appendChild(list);
+                        timeTakkenCell.style.textAlign = "left"; // Align text to the left
+                        row.appendChild(timeTakkenCell);
 
-                       const status = document.createElement("td");
-                       status.textContent = item.task.task_name;
-                       status.style.textAlign = "left"; // Align text to the left
-                       row.appendChild(status);
+                        const status = document.createElement("td");
+                        status.textContent = item.task.task_name;
+                        status.style.textAlign = "left"; // Align text to the left
+                        row.appendChild(status);
 
-                       const actionCell = document.createElement("td");
-                       actionCell.style.textAlign = "left"; // Align text to the left
+                        const actionCell = document.createElement("td");
+                        actionCell.style.textAlign = "left"; // Align text to the left
 
-                       // Create a div to hold the icons
-                       const iconsDiv = document.createElement("div");
-                       iconsDiv.style.display = "flex"; // Use flexbox to align icons horizontally
-                       iconsDiv.style.gap = "10px"; // Add some space between icons
+                        // Create a div to hold the icons
+                        const iconsDiv = document.createElement("div");
+                        iconsDiv.style.display = "flex"; // Use flexbox to align icons horizontally
+                        iconsDiv.style.gap = "10px"; // Add some space between icons
 
-                       // Construct the HTML for the view button with tooltip
-                       const viewButtonHtml = `
+                        // Construct the HTML for the view button with tooltip
+                        const viewButtonHtml = `
                                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View" href="/client/report/task_list_view/${item.product_id}">
                                    <button type="button" class="btn">
                                        <i class="bi bi-eye"></i>
@@ -299,13 +299,13 @@
                                </a>
                            `;
 
-                       // Set the HTML for the view button
-                       iconsDiv.innerHTML += viewButtonHtml;
+                        // Set the HTML for the view button
+                        iconsDiv.innerHTML += viewButtonHtml;
 
-                       // Check if the task is complete
-                       if (item.task_id === 4) {
-                           // Construct the HTML for the download button
-                           const downloadButtonHtml = `
+                        // Check if the task is complete
+                        if (item.task_id === 4) {
+                            // Construct the HTML for the download button
+                            const downloadButtonHtml = `
                                <a href="/client/report/taskpdfdowmload/${item.id}">
                                    <button type="button" class="btn">
                                        <i class="bi bi-download"></i>
@@ -313,11 +313,11 @@
                                </a>
                            `;
 
-                           // Set the HTML for the download button
-                           iconsDiv.innerHTML += downloadButtonHtml;
-                       } else {
-                           // Construct the HTML for the progress bar
-                           const progressBarHtml = `
+                            // Set the HTML for the download button
+                            iconsDiv.innerHTML += downloadButtonHtml;
+                        } else {
+                            // Construct the HTML for the progress bar
+                            const progressBarHtml = `
 
                                <button type="button" class="btn">
                                <i class="bi bi-hourglass-split"></i>
@@ -325,24 +325,24 @@
 
                            `;
 
-                           // Set the HTML for the progress bar
-                           iconsDiv.innerHTML += progressBarHtml;
-                       }
+                            // Set the HTML for the progress bar
+                            iconsDiv.innerHTML += progressBarHtml;
+                        }
 
-                       // Append the icons div to the action cell
-                       actionCell.appendChild(iconsDiv);
+                        // Append the icons div to the action cell
+                        actionCell.appendChild(iconsDiv);
 
-                       // Append the action cell to the row
-                       row.appendChild(actionCell);
-                       // Append the row to the table body
-                       tableBody.appendChild(row);
-                   });
-               })
-               .catch((error) => {
-                   console.error("Error:", error);
-               });
-       });
-   }
+                        // Append the action cell to the row
+                        row.appendChild(actionCell);
+                        // Append the row to the table body
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    }
     /**
      * taskViewModal
      */
@@ -504,20 +504,17 @@
         });
     }
 
-
-
-
     /**
      *  Quotation_aproval_waiting
      */
-    const  Quotation_aproval_waiting = document.getElementById("Quotation_aproval_waiting");
+    const Quotation_aproval_waiting = document.getElementById(
+        "Quotation_aproval_waiting"
+    );
 
-    if ( Quotation_aproval_waiting) {
+    if (Quotation_aproval_waiting) {
         Quotation_aproval_waiting.addEventListener("show.bs.modal", (event) => {
             const button = event.relatedTarget;
             const recipient = button.getAttribute("data-bs-whatever");
-
-      
 
             fetch("/admin/joballocation/job_view/" + recipient, {
                 method: "get",
@@ -539,8 +536,9 @@
                     const Product_Code = document.querySelector(
                         "#Product_Code_assign_1"
                     );
-                    const Brand_Name =
-                        document.querySelector("#Brand_Name_assign_1");
+                    const Brand_Name = document.querySelector(
+                        "#Brand_Name_assign_1"
+                    );
                     const Model = document.querySelector("#Model_assign_1");
                     const Product_Name = document.querySelector(
                         "#Product_Name_assign_1"
@@ -1115,114 +1113,6 @@
     /**
      * Initiate TinyMCE Editor
      */
-    const useDarkMode = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-    ).matches;
-    const isSmallScreen = window.matchMedia("(max-width: 1023.5px)").matches;
-
-    tinymce.init({
-        selector: "textarea.tinymce-editor",
-        plugins:
-            "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-        editimage_cors_hosts: ["picsum.photos"],
-        menubar: "file edit view insert format tools table help",
-        toolbar:
-            "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-        toolbar_sticky: true,
-        toolbar_sticky_offset: isSmallScreen ? 102 : 108,
-        autosave_ask_before_unload: true,
-        autosave_interval: "30s",
-        autosave_prefix: "{path}{query}-{id}-",
-        autosave_restore_when_empty: false,
-        autosave_retention: "2m",
-        image_advtab: true,
-        link_list: [
-            {
-                title: "My page 1",
-                value: "https://www.tiny.cloud",
-            },
-            {
-                title: "My page 2",
-                value: "http://www.moxiecode.com",
-            },
-        ],
-        image_list: [
-            {
-                title: "My page 1",
-                value: "https://www.tiny.cloud",
-            },
-            {
-                title: "My page 2",
-                value: "http://www.moxiecode.com",
-            },
-        ],
-        image_class_list: [
-            {
-                title: "None",
-                value: "",
-            },
-            {
-                title: "Some class",
-                value: "class-name",
-            },
-        ],
-        importcss_append: true,
-        file_picker_callback: (callback, value, meta) => {
-            /* Provide file and text for the link dialog */
-            if (meta.filetype === "file") {
-                callback("https://www.google.com/logos/google.jpg", {
-                    text: "My text",
-                });
-            }
-
-            /* Provide image and alt text for the image dialog */
-            if (meta.filetype === "image") {
-                callback("https://www.google.com/logos/google.jpg", {
-                    alt: "My alt text",
-                });
-            }
-
-            /* Provide alternative source and posted for the media dialog */
-            if (meta.filetype === "media") {
-                callback("movie.mp4", {
-                    source2: "alt.ogg",
-                    poster: "https://www.google.com/logos/google.jpg",
-                });
-            }
-        },
-        templates: [
-            {
-                title: "New Table",
-                description: "creates a new table",
-                content:
-                    '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>',
-            },
-            {
-                title: "Starting my story",
-                description: "A cure for writers block",
-                content: "Once upon a time...",
-            },
-            {
-                title: "New list with dates",
-                description: "New List with dates",
-                content:
-                    '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>',
-            },
-        ],
-        template_cdate_format: "[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]",
-        template_mdate_format: "[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]",
-        height: 600,
-        image_caption: true,
-        quickbars_selection_toolbar:
-            "bold italic | quicklink h2 h3 blockquote quickimage quicktable",
-        noneditable_class: "mceNonEditable",
-        toolbar_mode: "sliding",
-        contextmenu: "link image table",
-        skin: useDarkMode ? "oxide-dark" : "oxide",
-        content_css: useDarkMode ? "dark" : "default",
-        content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
-    });
 
     /**
      * Initiate Bootstrap validation check

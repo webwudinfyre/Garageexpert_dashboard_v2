@@ -639,7 +639,7 @@ class JobAllocation extends Controller
 
         ]);
 
-
+        $sign_email=$request->Email_client;
         $quotationValue = $request->Quotation_value === '1' ? 'Send Quotation' : "Don't Send Quotation";
 
         if ($quotationValue === 'Send Quotation') {
@@ -757,7 +757,7 @@ class JobAllocation extends Controller
 
 
 
-        $result = app('App\Http\Controllers\MailController')->index($data3->product_id, $data3->id);
+        $result = app('App\Http\Controllers\MailController')->index($data3->product_id, $data3->id,$sign_email);
         toastr()->success('Job has been Assign successfully!');
 
 

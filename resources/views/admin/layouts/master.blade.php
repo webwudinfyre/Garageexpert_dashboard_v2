@@ -72,7 +72,7 @@
     <script src="{{asset('admin/assets/vendor/echarts/echarts.min.js')}}"></script>
     <script src="{{asset('admin/assets/vendor/quill/quill.min.js')}}"></script>
     <script src="{{asset('admin/assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
-    <script src="{{asset('admin/assets/vendor/tinymce/tinymce.min.js')}}"></script>
+   
     <script src="{{asset('admin/assets/vendor/php-email-form/validate.js')}}"></script>
     <script src="{{asset('admin/assets/js/main.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
