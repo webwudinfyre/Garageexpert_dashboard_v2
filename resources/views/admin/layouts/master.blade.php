@@ -72,7 +72,7 @@
     <script src="{{asset('admin/assets/vendor/echarts/echarts.min.js')}}"></script>
     <script src="{{asset('admin/assets/vendor/quill/quill.min.js')}}"></script>
     <script src="{{asset('admin/assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
-   
+
     <script src="{{asset('admin/assets/vendor/php-email-form/validate.js')}}"></script>
     <script src="{{asset('admin/assets/js/main.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -80,6 +80,7 @@
     <script src="{{ asset('admin/assets/slick-1.8.1/slick/slick.js') }}" type="text/javascript" charset="utf-8"></script>
     {{-- <script src="./slick/slick.js" type="text/javascript" charset="utf-8"></script> --}}
     {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> --}}
+    
     @stack('scripts')
     @yield('script')
     {{-- <script src="{{asset('admin/assets/js/up-pr/features-post-create.js')}}"></script> --}}
