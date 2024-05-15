@@ -5,6 +5,8 @@
 @php
 use App\Models\User;
 use App\Models\AdminUser;
+use App\Models\ClientUser;
+use App\Models\techUser;
 
 $data_type=User::find($title);
         switch( $data_type->user_type)
