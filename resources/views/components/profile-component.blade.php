@@ -8,5 +8,23 @@
 
 
 {{ $title }}
+@php
+$data_type=User::find($title);
+        switch( $data_type->user_type)
+        {
+            case 'admin':
+                $data=AdminUser::select('avatar')->where('user_id',$title)->first();
+            break;
+            case 'user':
+                $data=ClientUser::select('avatar')->where('user_id',$title)->first();
+            break;
+            case 'tech':
+                $data=techUser::select('avatar')->where('user_id',$title)->first();
+            break;
+
+        }
+
+        @endphp
+        {{ $data->avatar }}
 
 </div>
