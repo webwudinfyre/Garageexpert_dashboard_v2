@@ -7,8 +7,11 @@
     @endif --}}
 
 
-{{ $title }}
+
 @php
+use App\Models\User;
+use App\Models\AdminUser;
+
 $data_type=User::find($title);
         switch( $data_type->user_type)
         {
