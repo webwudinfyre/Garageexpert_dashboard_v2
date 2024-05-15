@@ -47,15 +47,14 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 
-
-                    {{-- @component('components.profile', ['title' => '{{ Auth::user()->id  }}'])
+                    {{-- @component('components.profile', ['title' =>"{{ Auth::user()->id }}"])
     <!-- You can pass other data or slots here if needed -->
 @endcomponent --}}
 
 
-                    @auth
-                        <x-profile :title="Auth::user()->id" />
-                    @endauth
+
+                        <x-profile  title='{{ Auth::user()->id }}' />
+
 
 
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>

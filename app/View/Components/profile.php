@@ -13,12 +13,14 @@ use Illuminate\View\Component;
 class profile extends Component
 {
     public $title;
+    public $taskCounts;
     /**
      * Create a new component instance.
      */
     public function __construct($title)
     {
-        //
+
+
         $data_type=User::find($title);
         switch( $data_type->user_type)
         {
@@ -33,7 +35,7 @@ class profile extends Component
             break;
 
         }
-        $this->title =$data->avatar;
+        $this->taskCounts=$data->avatar;
     }
 
     /**
@@ -41,6 +43,8 @@ class profile extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.profile');
+        return view('components.profile', [
+            'taskCounts' => $this->taskCounts,
+        ]);
     }
 }
