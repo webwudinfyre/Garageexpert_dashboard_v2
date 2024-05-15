@@ -54,7 +54,7 @@
 
 
 
-                       <x-profile  title='{{ Auth::user()->id }}' />
+                       {{-- <x-profile-component  title='{{ Auth::user()->id }}' /> --}}
 
 
 
