@@ -6,7 +6,9 @@
             <img src="{{ asset('admin/assets/img/logo.png') }}" alt="">
 
             <div class="d-flex flex-column">
-                <span class="d-none d-lg-block"><g>G</g>arage<g>X</g>pert</span>
+                <span class="d-none d-lg-block">
+                    <g>G</g>arage<g>X</g>pert
+                </span>
             </div>
 
         </a>
@@ -43,7 +45,10 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="{{ asset('admin/assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
+                    @auth
+                        <x-profile :title="Auth::user()->id" />
+                    @endauth
+
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
                 </a><!-- End Profile Iamge Icon -->
 
@@ -57,7 +62,8 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center"  href="{{ route('client.registration.clientdprofilemain', ['id' => encrypt(Auth::user()->id )]) }}">
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('client.registration.clientdprofilemain', ['id' => encrypt(Auth::user()->id)]) }}">
                             <i class="bi bi-person"></i>
                             <span>My Profile</span>
                         </a>
@@ -67,7 +73,8 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('client.registration.clientdprofilemain', ['id' => encrypt(Auth::user()->id )]) }}">
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('client.registration.clientdprofilemain', ['id' => encrypt(Auth::user()->id)]) }}">
                             <i class="bi bi-gear"></i>
                             <span>Account Settings</span>
                         </a>
