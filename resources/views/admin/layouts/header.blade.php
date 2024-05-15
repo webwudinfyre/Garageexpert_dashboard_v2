@@ -53,7 +53,8 @@
 
 
 
-                        <x-profile  title='{{ Auth::user()->id }}' />
+
+                       <x-profile  title='{{ Auth::user()->id }}' />
 
 
 
