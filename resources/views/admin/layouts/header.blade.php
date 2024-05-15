@@ -56,7 +56,7 @@
 
                        {{-- <x-profile-component  title='{{ Auth::user()->id }}' /> --}}
                         @if(auth()->check())
-                        <x-profile-component title="{{ auth()->user()->id }}" />
+                        <x-profile-component title='{{ auth()->user()->id }}' />
                     @endif
 
 
