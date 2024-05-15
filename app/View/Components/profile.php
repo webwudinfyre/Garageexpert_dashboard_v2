@@ -14,9 +14,7 @@ class profile extends Component
 {
     public $title;
     public $taskCounts;
-    /**
-     * Create a new component instance.
-     */
+
     public function __construct($title)
     {
 
