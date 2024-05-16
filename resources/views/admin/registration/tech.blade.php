@@ -170,6 +170,9 @@
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="floatingPassword" name="Password"
                                         placeholder="Password">
+                                        <span class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                            <i class="bi bi-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+                                        </span>
                                     <label for="floatingPassword">Password</label>
 
                                     @error('Password')
@@ -262,6 +265,9 @@
                                     <input type="password" class="form-control" id="floatingpasswordchanged"
                                         name="password" placeholder="Password" required autocomplete="password"
                                         autofocus>
+                                        <span class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                            <i class="bi bi-eye-slash" id="togglePasswordchanged" style="cursor: pointer;"></i>
+                                        </span>
                                     <label for="floatingpassword"> Password</label>
                                     @error('Email')
                                         <div class="alert-color" role="alert">

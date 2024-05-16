@@ -182,6 +182,9 @@
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="floatingPassword" name="Password"
                                         placeholder="Password" required>
+                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                        <i class="bi bi-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+                                    </span>
                                     <label for="floatingPassword">Password</label>
 
                                     @error('Password')
@@ -251,7 +254,7 @@
                                     <h6 class="" id="">Add Sub Office details:</h6>
 
                                     <button type="button" name="add" id="dynamic-ar" class="btn  btn-success "><i
-                                            class="bi bi-plus-lg"></i> </button>
+                                            class="bi bi-plus-lg" style="color:white"></i> </button>
                                 </div>
 
                             </div>
@@ -339,6 +342,10 @@
                                     <input type="password" class="form-control" id="floatingpasswordchanged"
                                         name="password" placeholder="Password" required autocomplete="password"
                                         autofocus>
+                                    <span class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                        <i class="bi bi-eye-slash" id="togglePasswordchanged"
+                                            style="cursor: pointer;"></i>
+                                    </span>
                                     <label for="floatingpassword"> Password</label>
                                     @error('Email')
                                         <div class="alert-color" role="alert">
@@ -528,7 +535,7 @@
                     const errorMessage = passwordInput.closest('td').find('.error-message');
 
                     errorMessage.text(validatePassword(passwordValue) ? '' :
-                        'Password must be at least 4 characters long and include at least  one lowercase letter ,one digit'
+                        'Password must be at least 4 characters '
                     );
                 }
 
@@ -538,8 +545,16 @@
                             <td><input type="text" id="subOfficeName_${i}" name="officedetails[${i}][Sub_Office_Name]" placeholder="Sub Office Name" class="form-control Sub_Office_Name-input" required /><span class="error-message"></span></td>
                             <td><input type="text" id="location_${i}" name="officedetails[${i}][Location]" placeholder="Location" class="form-control" required /></td>
                             <td><input type="email" id="emailOffice_${i}" name="officedetails[${i}][email_office]" placeholder="Email" class="form-control email-input" required /><span class="error-message"></span></td>
-                            <td><input type="password" id="passwordOffice_${i}" name="officedetails[${i}][password_office]" placeholder="Password" class="form-control" required /><span class="error-message"></span></td>
-                            <td><button type="button" class="btn btn-danger remove-input-field" data-index="${i}"><i class="bi bi-x-lg"></i></button></td>
+                            <td>
+            <div class="position-relative">
+                <input type="password" id="passwordOffice_${i}" name="officedetails[${i}][password_office]" placeholder="Password" class="form-control" required />
+                <span class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                    <i class="bi bi-eye-slash" id="togglePassword_${i}" style="cursor: pointer;"></i>
+                </span>
+            </div>
+            <span class="error-message"></span>
+        </td>
+                            <td><button type="button" class="btn btn-danger remove-input-field" data-index="${i}"><i class="bi bi-x-lg" style="color:white;"></i></button></td>
                         </tr>`);
 
                     newRow.find('input[type="email"]').on('input', function() {
@@ -548,6 +563,13 @@
 
                     newRow.find('input[type="password"]').on('input', function() {
                         handlePasswordInput($(this));
+                    });
+                    newRow.find(`#togglePassword_${i}`).on('click', function() {
+                        const passwordField = newRow.find(`#passwordOffice_${i}`);
+                        const passwordFieldType = passwordField.attr('type') === 'password' ? 'text' :
+                            'password';
+                        passwordField.attr('type', passwordFieldType);
+                        $(this).toggleClass('bi-eye bi-eye-slash');
                     });
 
                     $("#dynamicAddRemove").append(newRow);

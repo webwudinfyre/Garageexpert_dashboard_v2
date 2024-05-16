@@ -55,11 +55,11 @@
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="copyright">
-            &copy; Copyright <strong><span>Wudinfyre</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>GarageXpert</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
 
-            Designed by <a href="https://wudinfyre.com/">Wudinfyre Web Designs</a>
+            Developed by <a href="https://wudinfyre.com/">Wudinfyre Web Designs</a>
         </div>
     </footer><!-- End Footer -->
 
@@ -80,7 +80,7 @@
     <script src="{{ asset('admin/assets/slick-1.8.1/slick/slick.js') }}" type="text/javascript" charset="utf-8"></script>
     {{-- <script src="./slick/slick.js" type="text/javascript" charset="utf-8"></script> --}}
     {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> --}}
-    
+
     @stack('scripts')
     @yield('script')
     {{-- <script src="{{asset('admin/assets/js/up-pr/features-post-create.js')}}"></script> --}}

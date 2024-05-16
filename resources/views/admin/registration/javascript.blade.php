@@ -28,3 +28,31 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+<script>
+
+    $(document).ready(function() {
+        $('#togglePassword').on('click', function() {
+            const passwordField = $('#floatingPassword');
+            const passwordFieldType = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', passwordFieldType);
+            $(this).toggleClass('bi-eye bi-eye-slash');
+        });
+    });
+    $(document).ready(function() {
+        $('#togglePasswordchanged').on('click', function() {
+            const passwordField = $('#floatingpasswordchanged');
+            const passwordFieldType = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', passwordFieldType);
+            $(this).toggleClass('bi-eye bi-eye-slash');
+        });
+    });
+    // $(document).ready(function() {
+    //     $('#toggleConfirmPasswordchanged').on('click', function() {
+    //         const passwordField = $('#ConfirmPassword');
+    //         const passwordFieldType = passwordField.attr('type') === 'password' ? 'text' : 'password';
+    //         passwordField.attr('type', passwordFieldType);
+    //         $(this).toggleClass('bi-eye bi-eye-slash');
+    //     });
+    // });
+
+</script>

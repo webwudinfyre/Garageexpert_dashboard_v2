@@ -50,11 +50,11 @@
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="copyright">
-            &copy; Copyright <strong><span>Wudinfyre</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>GarageXpert</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
 
-            Designed by <a href="https://wudinfyre.com/">Wudinfyre Web Designs</a>
+            Developed by <a href="https://wudinfyre.com/">Wudinfyre Web Designs</a>
         </div>
     </footer><!-- End Footer -->
 

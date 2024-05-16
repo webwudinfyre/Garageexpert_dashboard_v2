@@ -46,17 +46,17 @@
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="copyright">
-            &copy; Copyright <strong><span>Wudinfyre</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>GarageXpert</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
 
-            Designed by <a href="https://wudinfyre.com/">Wudinfyre Web Designs</a>
+            Developed by <a href="https://wudinfyre.com/">Wudinfyre Web Designs</a>
         </div>
     </footer><!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
-       
+
     <script src="{{asset('admin/assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
     <script src="{{asset('admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('admin/assets/vendor/chart.js/chart.umd.js')}}"></script>

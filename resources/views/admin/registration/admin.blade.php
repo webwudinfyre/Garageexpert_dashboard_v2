@@ -179,6 +179,10 @@
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="floatingPassword" name="Password"
                                         placeholder="Password">
+
+                                        <span class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                            <i class="bi bi-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+                                        </span>
                                     <label for="floatingPassword">Password</label>
 
                                     @error('Password')
@@ -266,6 +270,7 @@
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="floatingName" placeholder="Name"
                                         name="Name" required autocomplete="Nmae" autofocus disabled>
+
                                     <label for="floatingName">Name</label>
                                     @error('Name')
                                         <div class="alert-color" role="alert">
@@ -292,6 +297,9 @@
                                     <input type="password" class="form-control" id="floatingpasswordchanged"
                                         name="password" placeholder="Password" required autocomplete="password"
                                         autofocus>
+                                        <span class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                            <i class="bi bi-eye-slash" id="togglePasswordchanged" style="cursor: pointer;"></i>
+                                        </span>
                                     <label for="floatingpassword"> Password</label>
                                     @error('Email')
                                         <div class="alert-color" role="alert">
@@ -305,6 +313,9 @@
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="ConfirmPassword"
                                         name="ConfirmPassword" placeholder="ConfirmPassword">
+                                        {{-- <span class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                            <i class="bi bi-eye-slash" id="toggleConfirmPasswordchanged" style="cursor: pointer;"></i>
+                                        </span> --}}
                                     <label for="ConfirmPassword">Confirm Password</label>
                                     <div id="passwordHelp" class="form-text"></div>
 
@@ -419,5 +430,6 @@
     @push('scripts')
 
     @include('admin.registration.javascript');
+
     @endpush
 @endsection

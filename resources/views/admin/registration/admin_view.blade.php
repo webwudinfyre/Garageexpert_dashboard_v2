@@ -54,6 +54,7 @@
                     <div class="form-floating">
                         <input type="password" class="form-control" id="floatingPassword" name="Password"
                             placeholder="Password" disabled>
+                            
                         <label for="floatingPassword">Password</label>
 
                         @error('Password')

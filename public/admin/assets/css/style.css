@@ -70,6 +70,7 @@ h6 {
 }
 #pagetitle i.bi.bi-plus.me-1 {
     font-size: 24px;
+    color: #cfe2ff;;
 }
 
 /*--------------------------------------------------------------
@@ -1705,6 +1706,8 @@ img.icons_svg {
     list-style: none;
     text-align: center;
 }
+
+
 @media (max-width: 576px) {
     .datatable-top {
         gap: 15px;
