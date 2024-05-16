@@ -1508,6 +1508,11 @@ span.assign_to {
     background-color: var(--main-color) !important;
     border-color: var(--main-color) !important;
 }
+.form-check-input:focus {
+    border-color: #f15d42;
+    outline: 0;
+    box-shadow: 0 0 0 0 #fff;
+}
 
 .custom-border {
     border-bottom: 1px solid;

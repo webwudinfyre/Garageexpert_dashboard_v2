@@ -55,6 +55,17 @@
             align-items: center;
             justify-content: flex-end;
         }
+
+        .form-check-input:focus {
+            border-color: #f15d42;
+            outline: 0;
+            box-shadow: 0 0 0 0 #fff;
+        }
+
+        .form-check-input:checked {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
     </style>
 </head>
 
@@ -119,7 +130,15 @@
                                                 @endif
                                             </div>
                                         </div>
-
+                                        <div class="mb-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="remember"
+                                                    id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="remember">
+                                                    {{ __('Remember Me') }}
+                                                </label>
+                                            </div>
+                                        </div>
                                         <div class="pt-1 mb-4">
                                             <button class="btn bg-primary_expert btn-lg btn-block" type="submit"
                                                 style="width:150px;">Login</button>
