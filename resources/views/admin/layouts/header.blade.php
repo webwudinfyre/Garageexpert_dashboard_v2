@@ -50,15 +50,15 @@
                     {{-- @component('components.profile', ['title' => '{{ Auth::user()->id }}'])
     <!-- You can pass other data or slots here if needed -->
 @endcomponent --}}
-
+<x-profile-components title='{{ auth()->user()->id }}' />
 
 
 
                     {{-- <x-profile-component  title='{{ Auth::user()->id }}' /> --}}
-                    @if (auth()->check())
+                    {{-- @if (auth()->check())
                         <x-profile-component title='{{ auth()->user()->id }}' />
                     @endif
-
+ --}}
 
 
 
