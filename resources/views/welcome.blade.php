@@ -13,7 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         .bg-primary_expert {
             background-color: #FF530A;
@@ -45,14 +45,16 @@
             font-size: .875em;
             color: #dc3545;
         }
+
         span.position-absolute {
-    margin-right: 5px;
-}
-.password_class {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
+            margin-right: 5px;
+        }
+
+        .password_class {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
     </style>
 </head>
 
@@ -65,9 +67,8 @@
                     <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="{{ asset('admin/assets/img/Login_banner.webp') }}"
-                                    alt="login form" class="img-fluid"
-                                    style="border-radius: 1rem 0 0 1rem; height:100%" />
+                                <img src="{{ asset('admin/assets/img/Login_banner.webp') }}" alt="login form"
+                                    class="img-fluid" style="border-radius: 1rem 0 0 1rem; height:100%" />
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
@@ -79,8 +80,8 @@
                                             <div class="logo d-flex">
                                                 {{-- <img src="{{ asset('admin/assets/img/Garage-Logo.png') }}"
                                                     alt=""> --}}
-                                                    <img src="{{ asset('admin/assets/img/Garagexpert_logo@4x.png') }}" style="height:65px"
-                                                    alt="">
+                                                <img src="{{ asset('admin/assets/img/Garagexpert_logo@4x.png') }}"
+                                                    style="height:65px" alt="">
                                             </div>
                                         </div>
 
@@ -103,17 +104,19 @@
 
                                             <label for="password" class="form-label">{{ __('Password') }}</label>
                                             <div class="password_class">
-                                            <input type="password" id="password" name="password" required
-                                                autocomplete="current-password" class="form-control form-control-lg" />
+                                                <input type="password" id="password" name="password" required
+                                                    autocomplete="current-password"
+                                                    class="form-control form-control-lg" />
 
                                                 <span class="position-absolute  ">
-                                                    <i class="bi bi-eye-slash" id="togglePasswordnew" style="cursor: pointer; color:#FF530A;"></i>
+                                                    <i class="bi bi-eye-slash" id="togglePasswordnew"
+                                                        style="cursor: pointer; color:#FF530A;"></i>
                                                 </span>
-                                            @if ($errors->has('password'))
-                                                <div class="alert alert-danger" role="alert">
-                                                    {{ $errors->first('password') }}
-                                                </div>
-                                            @endif
+                                                @if ($errors->has('password'))
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $errors->first('password') }}
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
 
@@ -152,14 +155,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-         $(document).ready(function() {
-        $('#togglePasswordnew').on('click', function() {
-            const passwordField = $('#password');
-            const passwordFieldType = passwordField.attr('type') === 'password' ? 'text' : 'password';
-            passwordField.attr('type', passwordFieldType);
-            $(this).toggleClass('bi-eye bi-eye-slash');
+        $(document).ready(function() {
+            $('#togglePasswordnew').on('click', function() {
+                const passwordField = $('#password');
+                const passwordFieldType = passwordField.attr('type') === 'password' ? 'text' : 'password';
+                passwordField.attr('type', passwordFieldType);
+                $(this).toggleClass('bi-eye bi-eye-slash');
+            });
         });
-    });
     </script>
 </body>
 {{--
