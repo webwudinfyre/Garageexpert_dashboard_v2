@@ -45,6 +45,14 @@
             font-size: .875em;
             color: #dc3545;
         }
+        span.position-absolute {
+    margin-right: 5px;
+}
+.password_class {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
     </style>
 </head>
 
@@ -91,15 +99,23 @@
                                                 class="form-control form-control-lg" />
                                         </div>
 
+
                                         <div class="mb-4">
+
                                             <label for="password" class="form-label">{{ __('Password') }}</label>
+                                            <div class="password_class">
                                             <input type="password" id="password" name="password" required
                                                 autocomplete="current-password" class="form-control form-control-lg" />
+
+                                                <span class="position-absolute  ">
+                                                    <i class="bi bi-eye-slash" id="togglePasswordnew" style="cursor: pointer; color:#FF530A;"></i>
+                                                </span>
                                             @if ($errors->has('password'))
                                                 <div class="alert alert-danger" role="alert">
                                                     {{ $errors->first('password') }}
                                                 </div>
                                             @endif
+                                            </div>
                                         </div>
 
                                         <div class="pt-1 mb-4">
@@ -133,6 +149,18 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+         $(document).ready(function() {
+        $('#togglePasswordnew').on('click', function() {
+            const passwordField = $('#password');
+            const passwordFieldType = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', passwordFieldType);
+            $(this).toggleClass('bi-eye bi-eye-slash');
+        });
+    });
     </script>
 </body>
 
