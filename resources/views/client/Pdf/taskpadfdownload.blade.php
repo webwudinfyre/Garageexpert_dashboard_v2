@@ -64,29 +64,22 @@
         }
 
         .header {
-            padding: 25px;
-            height: 125px;
+            height: 145px;
             position: relative;
             /* Added: Set position to relative */
         }
 
         .header_image {
-            width: 100%;
+            width: 210mm;
         }
 
         .header_image img {
-            width: 100%;
-
-            object-fit: cover;
+            width: 210mm;
+            height: 145px;
+            object-fit: fill;
         }
 
-        .header_logo {
-            position: absolute;
-            top: 10px;
-            /* Adjust as needed */
-            left: 20px;
-            /* Adjust as needed*/
-        }
+
 
 
 
@@ -102,15 +95,28 @@
             /* Adjust opacity as needed */
         }
 
-        .footer {
+        /* .footer {
             position: absolute;
             bottom: 0;
             width: 100%;
             border-top: 1px solid #ccc;
             padding: 10px 0;
 
+        } */
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            /* Adjust this to match the height of your footer image */
         }
 
+        .footer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
 
 
@@ -126,8 +132,8 @@
         td {
             border: 1px solid #ccc;
             padding: 5px;
-           text-align: left;
-          width: 100%;
+            text-align: left;
+            width: 100%;
         }
 
         th {
@@ -136,9 +142,9 @@
 
         .footer td {
             border: 0px solid #ccc;
-      padding: 5px;
+            padding: 5px;
 
-             width: 100%;
+            width: 100%;
         }
 
         .header_image {
@@ -146,7 +152,7 @@
         }
 
         .header_image img {
-            width: 75%;
+            width: 100%;
             object-fit: cover;
         }
 
@@ -237,11 +243,9 @@
                                 </td>
                                 <td>
                                     @php
-                                    $endDate = \Carbon\Carbon::parse(
-                                    $prdt_task->product_add->warranty->end_date,
-                                    );
-                                    $currentDate = \Carbon\Carbon::now();
-                                    $isWarrantyValid = $endDate->gte($currentDate);
+                                        $endDate = \Carbon\Carbon::parse($prdt_task->product_add->warranty->end_date);
+                                        $currentDate = \Carbon\Carbon::now();
+                                        $isWarrantyValid = $endDate->gte($currentDate);
                                     @endphp
                                     <span class="left_heading">Warranty Status :</span>
                                     <span class="left_answer">{{ $isWarrantyValid ? 'Yes' : 'No' }} </span>
@@ -262,7 +266,7 @@
                             <tr>
                                 <td>
                                     <span class="left_heading">Service Type :</span>
-                                    <span class="left_answer"> {{  $prdt_task->type_service->service_name }}</span>
+                                    <span class="left_answer"> {{ $prdt_task->type_service->service_name }}</span>
 
                                 </td>
                                 <td>
@@ -341,8 +345,8 @@
                                 <td>
                                     <div class="Signature_pad">
                                         <span class="left_heading">Signature :</span>
-                                        <span class="left_answer"><img src="{{$client_signatures->signature_data }}" width="150px"
-                                            height="40px" /> </span>
+                                        <span class="left_answer"><img src="{{ $client_signatures->signature_data }}"
+                                                width="150px" height="40px" /> </span>
                                     </div>
 
                                 </td>
@@ -354,51 +358,7 @@
                 </div>
             </div>
         </section>
-        {{-- <section class="section " id="section_admin" style="padding: 20px 0px 20px 0px">
-            <div class="container">
-                <div class="row" style="padding:0px 15px 0px 15px ">
-                    <div class="col-lg-12">
-                        <table>
-                            <h6>
-                                Technician Name
-                            </h6>
-                            <tr>
-                            <tr>
-                                <td>
-                                    <span class="left_heading">Name :</span>
-                                    <span class="left_answer">{{$prdt_task->users_pdt->name }} </span>
 
-                                </td>
-                                <td>
-                                    <span class="left_heading">Email Id:</span>
-                                    <span class="left_answer">{{$prdt_task->users_pdt->email }}  </span>
-
-                                </td>
-                            </tr>
-                            </tr>
-
-
-                            <tr>
-                                <td>
-
-
-                                </td>
-                                <td>
-                                    <div class="Signature_pad">
-                                        <span class="left_heading">Signature :</span>
-                                        <span class="left_answer"> <img src="{{$prdt_task->users_pdt->signature_data }}" width="150px"
-                                            height="40px" /></span>
-                                    </div>
-
-                                </td>
-                            </tr>
-
-
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section> --}}
 
 
 
@@ -406,178 +366,19 @@
 
         <div class="watermark">
 
-            <img src="{{ $base64Images['image2'] }}" alt="">
-        </div>
-
-        <div class="footer">
-            <section class="section " id="section_admin" style="padding: 00px 0px 00px 0px">
-                <div class="container">
-                    <div class="row" style="padding:0px 15px 0px 15px ">
-                        <div class="col-lg-12">
-                            <table>
-
-                                <tr>
-                                <tr>
-                                    <td>
-                                        <p> <span class="left_heading_footer">Address : Deira</span></p>
-                                        <p> <span class="left_answer_footer">Dubai </span></p>
-                                        <p><span class="left_answer_footer">United Arab Emirates</span></p>
-
-                                    </td>
-                                    <td style="text-align: right">
-                                        <p> <span class="left_heading_footer">Phone :+971 52 326 3270</span></p>
-                                        <p> <span class="left_answer_footer">Email :support@garagexpert.com </span></p>
-                                        <p><span class="left_answer_footer">Web : www.garagexpert</span></p>
-
-
-                                    </td>
-                                </tr>
-                                </tr>
-
-
-
-
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    {{-- @php
-    use Carbon\Carbon;
-
-    // Flatten the array and sort it by 'date_time'
-    $sortedArray = collect($taskHistoryArray)->flatten(1);
-
-    $itemsPerPage = 2; // Default value
-    if (isset($perPage) && is_numeric($perPage) && $perPage > 0) {
-    $itemsPerPage = $perPage;
-    }
-
-    // Calculate the total number of pages
-    $totalPages = ceil($sortedArray->count() / $itemsPerPage);
-
-    @endphp
-
-    @for ($page = 0; $page < $totalPages; $page++) <div class="content">
-        <div class="header">
-            <div class="header_image">
-                <img class="header_image_top" src="{{ $base64Images['image0'] }}" alt="">
-                <div class="header_logo">
-                    <img src="{{ $base64Images['image1'] }}" alt="">
-                </div>
-            </div>
-        </div>
-
-        @php
-        // Slice the array to get sections for the current page
-        $currentPageSections = $sortedArray->slice($page * 2, 2);
-        @endphp
-        <section class="section pt-1" id="section_admin" style="padding: 0px 20px 0px 20px ;">
-            <div class="row text-center">
-                <div class="col-12 ">
-                    <h2 class="card-title">Task History</h2>
-                </div>
-            </div>
-        </section>
-
-        @foreach ($currentPageSections as $taskId => $data)
-        <section class="section pt-1 pe-4 ps-5" id="section_admin" style="padding: 0px 20px 0px 20px ;">
-            <div class="bluck_add ">
-                <div class="head-profie">
-                    @php
-
-                    $name = explode('_next_', $data['name']);
-                    $serviceName = end($name);
-                    @endphp
-
-                    <h5 class="card-title">
-                        {{ ucfirst(str_replace('_', ' ', $serviceName)) }}</h5>
-
-                </div>
-
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td>Services</td>
-                            <td>{{ $data['Services'] }}</td>
-                        </tr>
-                        @if ($data['assign'] === $data['user_id'])
-                        <tr>
-                            <td>Technician name</td>
-                            <td>{{ $data['user_name'] }}</td>
-                        </tr>
-                        @else
-                        <tr>
-                            <td>Technician name</td>
-                            <td>[{{ $data['user_name'] }}] <span class="assign_to">Assign To</span>
-                                [{{ $data['assign_name'] }}]</td>
-                        </tr>
-                        @endif
-                        <tr>
-                            <td>Date Of Schedule</td>
-                            <td>{{ $data['Date_Of_Schedule'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Date Of Action</td>
-                            <td>{{ $data['date'] }} {{ $data['time'] }}</td>
-                        </tr>
-                        @if (!empty($data['Remarks']))
-                        <tr>
-                            <td>Remarks</td>
-                            <td>{{ $data['Remarks'] }}</td>
-                        </tr>
-                        @endif
-                        @if (!empty($data['signatures_data']))
-                        <tr>
-                            <td>Signature person</td>
-                            <td> {{ $data['signatures_data']->name }}</td>
-                        </tr>
-                        <tr>
-                            <td>Postion</td>
-                            <td> {{ $data['signatures_data']->postion }}</td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td> {{ $data['signatures_data']->email_id_sign }}</td>
-                        </tr>
-                        <tr>
-                            <td>Phone no:</td>
-                            <td> {{ $data['signatures_data']->phone_sign }}</td>
-                        </tr>
-                        <tr>
-                            <td>Signature</td>
-                            <td><img src="{{ $data['signatures_data']->signature_data }}" width="150px" height="40px" />
-                            </td>
-                        </tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-        </section>
-        @endforeach
-
-        <div class="watermark">
             <img src="{{ $base64Images['image2'] }}" alt="">
         </div>
 
         <div class="footer">
             <img src="{{ $base64Images['image3'] }}" alt="">
         </div>
-        </div>
+    </div>
 
-        @if ($page < $totalPages - 1) <!-- Add a page break if there are more pages -->
-            <div style="page-break-after: always;"></div>
-            @endif
-            @endfor --}}
+   
 
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-                crossorigin="anonymous">
-            </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

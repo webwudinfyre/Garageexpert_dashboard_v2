@@ -63,7 +63,7 @@
         }
 
         .header {
-            height: 125px;
+            height: 145px;
             position: relative;
             /* Added: Set position to relative */
         }
@@ -74,8 +74,8 @@
 
         .header_image img {
             width: 210mm;
-            height: 140px;
-            object-fit: cover;
+            height: 145px;
+            object-fit: fill;
         }
 
         .header_logo {
@@ -103,22 +103,34 @@
             /* Adjust opacity as needed */
         }
 
-        .footer {
+        /* .footer {
             position: absolute;
             bottom: 0;
             width: 100%;
 
-            padding: 10px 0;
+        padding: 10px 0;
             text-align: center;
         }
 
         .footer img {
-            width: 210mm;
-            height: 200px;
+           width: 210mm;
+            height: 60px;
             object-fit: cover;
+        } */
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            /* Adjust this to match the height of your footer image */
         }
 
-
+        .footer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
 
         table {
@@ -147,15 +159,13 @@
         <div class="header">
             <div class="header_image">
                 <img class="header_image_top" src="{{ $base64Images['image0'] }}" alt="">
-                <div class="header_logo">
-                    <img src="{{ $base64Images['image1'] }}" alt="">
-                </div>
+
             </div>
         </div>
 
-        <section class="section pt-3" id="section_admin" style="padding: 0px 20px 0px 20px ;">
+        <section class="section pt-3" id="section_admin" style="padding: 20px 20px 0px 20px ;">
             <div class="row text-center">
-                <div class="col-12 ">
+                <div class="col-12 mt-4">
                     <h2 class="card-title">Job Information</h2>
                 </div>
 
@@ -305,9 +315,9 @@
             <div class="header">
                 <div class="header_image">
                     <img class="header_image_top" src="{{ $base64Images['image0'] }}" alt="">
-                    <div class="header_logo">
+                    {{-- <div class="header_logo">
                         <img src="{{ $base64Images['image1'] }}" alt="">
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -315,9 +325,9 @@
                 // Slice the array to get sections for the current page
                 $currentPageSections = $sortedArray->slice($page * 2, 2);
             @endphp
-            <section class="section pt-1" id="section_admin" style="padding: 0px 20px 0px 20px ;">
+            <section class="section pt-1" id="section_admin" style="padding: 20px 20px 0px 20px ;">
                 <div class="row text-center">
-                    <div class="col-12 ">
+                    <div class="col-12 mt-4">
                         <h2 class="card-title">Task History</h2>
                     </div>
                 </div>

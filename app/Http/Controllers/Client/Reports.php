@@ -225,10 +225,11 @@ class Reports extends Controller
         $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt', 'sign', 'product_add', 'product_add.client_pdt', 'product_add.equip_pdt', 'product_add.warranty'])->find($id);
 
         $imagePaths = array(
-            public_path() . '/admin/assets/img/Asset_6@4x.png',
-            public_path() . '/admin/assets/img/Asset_6@4x.png',
+            public_path() . '/admin/assets/img/Header.png',
+            public_path() . '/admin/assets/img/Garage-Logo-White.png',
             public_path() . '/admin/assets/img/watermark.png',
-            public_path() . '/admin/assets/img/Footer_1@4x.png',
+            public_path() . '/admin/assets/img/Footer.png',
+
         );
 
         // Initialize an array to store base64 encoded images
@@ -358,10 +359,10 @@ class Reports extends Controller
         $tech = techUser::all();
 
         $imagePaths = array(
-            public_path() . '/admin/assets/img/header@4x.png',
+            public_path() . '/admin/assets/img/Header.png',
             public_path() . '/admin/assets/img/Garage-Logo-White.png',
             public_path() . '/admin/assets/img/watermark.png',
-            public_path() . '/admin/assets/img/Footer_1@4x.png',
+            public_path() . '/admin/assets/img/Footer.png',
 
         );
 

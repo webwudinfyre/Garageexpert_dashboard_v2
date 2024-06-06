@@ -276,12 +276,11 @@ class JobAllocation extends Controller
 
         $tech = techUser::all();
 
-
         $imagePaths = array(
-            public_path() . '/admin/assets/img/header@4x.png',
+            public_path() . '/admin/assets/img/Header.png',
             public_path() . '/admin/assets/img/Garage-Logo-White.png',
             public_path() . '/admin/assets/img/watermark.png',
-            public_path() . '/admin/assets/img/Footer_1@4x.png',
+            public_path() . '/admin/assets/img/Footer.png',
 
         );
 

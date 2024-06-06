@@ -63,7 +63,7 @@
         }
 
         .header {
-            height: 125px;
+            height: 145px;
             position: relative;
             /* Added: Set position to relative */
         }
@@ -74,8 +74,8 @@
 
         .header_image img {
             width: 210mm;
-            height: 140px;
-            object-fit: cover;
+            height: 145px;
+            object-fit: fill;
         }
 
         .header_logo {
@@ -103,22 +103,34 @@
             /* Adjust opacity as needed */
         }
 
-        .footer {
+        /* .footer {
             position: absolute;
             bottom: 0;
             width: 100%;
 
-            padding: 10px 0;
+        padding: 10px 0;
             text-align: center;
         }
 
         .footer img {
-            width: 210mm;
-            height: 200px;
+           width: 210mm;
+            height: 60px;
             object-fit: cover;
+        } */
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            /* Adjust this to match the height of your footer image */
         }
 
-
+        .footer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
 
         table {
@@ -147,9 +159,9 @@
         <div class="header">
             <div class="header_image">
                 <img class="header_image_top" src="{{ $base64Images['image0'] }}" alt="">
-                <div class="header_logo">
+                {{-- <div class="header_logo">
                     <img src="{{ $base64Images['image1'] }}" alt="">
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -305,9 +317,9 @@
             <div class="header">
                 <div class="header_image">
                     <img class="header_image_top" src="{{ $base64Images['image0'] }}" alt="">
-                    <div class="header_logo">
+                    {{-- <div class="header_logo">
                         <img src="{{ $base64Images['image1'] }}" alt="">
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
