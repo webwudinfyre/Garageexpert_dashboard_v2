@@ -126,9 +126,7 @@ class JobAllocation extends Controller
         $id = decrypt($id);
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
         $prdt_task = product_task::with(['Type_service', 'task', 'users_pdt', 'sign'])->where('product_id', $data->product_id)->get();
-        $prdt_task_2 = product_task::where('product_id', $data->product_id)
-
-            ->first();
+        $prdt_task_2 = product_task::where('product_id', $data->product_id)->first();
 
         foreach ($prdt_task as $task) {
 
@@ -196,9 +194,10 @@ class JobAllocation extends Controller
             $taskHistoryArray[$taskId] = $mergedArray; // Use the task ID as the key in the task history array
         }
 
-
+        // $cmpltd=$id;
+        $cmpltd= product_task::where('product_id', $data->product_id)->where('task_id',4)->get();
         $tech = techUser::all();
-        return view('tech.joballocation.job_view', compact('data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job', 'prdt_task_2', 'taskNames'));
+        return view('tech.joballocation.job_view', compact('cmpltd','data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job', 'prdt_task_2', 'taskNames'));
     }
 
     public function jobpdfdowmload(Request $request, $id)
@@ -591,7 +590,7 @@ class JobAllocation extends Controller
     {
 
 
-// print_r($request->all());die();
+            // print_r($request->all());die();
         $data = product_task::with('Type_service')->find($request->producttask_id);
 
         $slnum1 = product_add::where('product_id', $data->product_id)->first();
@@ -717,7 +716,7 @@ class JobAllocation extends Controller
 
 
         $tech_id=techUser::where('user_id', Auth::user()->id)->first();
-//  printf($data3);die();
+        //  printf($data3);die();
         $customer = customer_review::create([
             'product_tasks_id' =>  $data3->id ,
             'type_services_id' => $data3['type_services_id'],
@@ -835,27 +834,27 @@ class JobAllocation extends Controller
         $startString_date = $start->format('Y-m-d H:i:s');
         $endString_date = $end->format('Y-m-d H:i:s');
 
- // Retrieve tasks where date_of_schedule is within the specified range
- $tasks = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
- ->whereBetween('date_of_schedule', [$startString, $endString])
- ->where('admin_id', Auth::user()->id)
- ->where('task_id', '!=', 4)
- ->get();
+        // Retrieve tasks where date_of_schedule is within the specified range
+        $tasks = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
+        ->whereBetween('date_of_schedule', [$startString, $endString])
+        ->where('admin_id', Auth::user()->id)
+        ->where('task_id', '!=', 4)
+        ->get();
 
-// Retrieve tasks where task_id = 4 and updated_at is within the specified range
-$tasks2 = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
- ->where('task_id', 4)
- ->where('admin_id', Auth::user()->id)
- ->whereBetween('updated_at', [$startString_date, $endString_date])
- ->get();
+        // Retrieve tasks where task_id = 4 and updated_at is within the specified range
+        $tasks2 = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
+        ->where('task_id', 4)
+        ->where('admin_id', Auth::user()->id)
+        ->whereBetween('updated_at', [$startString_date, $endString_date])
+        ->get();
 
-// Store results into arrays
-$tasksArray = $tasks->toArray();
-$tasks2Array = $tasks2->toArray();
-$result = [
- 'tasks' => $tasksArray,
- 'tasks2' => $tasks2Array
-];
+        // Store results into arrays
+        $tasksArray = $tasks->toArray();
+        $tasks2Array = $tasks2->toArray();
+        $result = [
+        'tasks' => $tasksArray,
+        'tasks2' => $tasks2Array
+        ];
 
 
 

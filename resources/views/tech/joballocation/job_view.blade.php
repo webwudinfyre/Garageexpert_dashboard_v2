@@ -48,6 +48,7 @@
                                 <i class="bi bi-download"></i></i>
                             </button>
                         </a>
+                   
                         @if ($prdt_task_2->task_id !== 3)
                             <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Start Work"
                                 href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($pdut_id)]) }}">
