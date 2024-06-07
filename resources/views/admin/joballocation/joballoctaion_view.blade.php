@@ -127,7 +127,7 @@
                                     <input type="text" class="form-control" id="Client_name" name="Client_name"
                                         placeholder="Office Name" required autocomplete="Client_name" autofocus
                                         value="{{ old('Client_name') }}">
-                                    <label for="name">Office Name</label>
+                                    <label for="name">Company Name</label>
 
                                     <input type="hidden" id="client_id" name="client_id" readonly>
                                 </div>

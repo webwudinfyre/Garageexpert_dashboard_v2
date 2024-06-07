@@ -150,10 +150,10 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Office Name</p>
+                                <p class="mb-0">Company Name</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">@nullOrValue($Adminusers->office, 'Office')</p>
+                                <p class="text-muted mb-0">@nullOrValue($Adminusers->office, 'Company Name')</p>
                             </div>
                         </div>
                         <hr>
@@ -826,7 +826,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dynamicAddRemove">
                                     <tr>
-                                        <th>Sub Office Name</th>
+                                        <th>Sub Company Name</th>
                                         <th>Location</th>
                                         <th>Email</th>
                                         <th>Password</th>
@@ -888,7 +888,7 @@
                     function addNewRow() {
                         ++i;
                         const newRow = $(`<tr>
-                                <td><input type="text" id="subOfficeName_${i}" name="officedetails[${i}][Sub_Office_Name]" placeholder="Sub Office Name" class="form-control Sub_Office_Name-input" required /><span class="error-message"></span></td>
+                                <td><input type="text" id="subOfficeName_${i}" name="officedetails[${i}][Sub_Office_Name]" placeholder="Sub Company Name" class="form-control Sub_Office_Name-input" required /><span class="error-message"></span></td>
                                 <td><input type="text" id="location_${i}" name="officedetails[${i}][Location]" placeholder="Location" class="form-control" required /></td>
                                 <td><input type="email" id="emailOffice_${i}" name="officedetails[${i}][email_office]" placeholder="Email" class="form-control email-input" required /><span class="error-message"></span></td>
                                 <td><input type="password" id="passwordOffice_${i}" name="officedetails[${i}][password_office]" placeholder="Password" class="form-control" required /><span class="error-message"></span></td>

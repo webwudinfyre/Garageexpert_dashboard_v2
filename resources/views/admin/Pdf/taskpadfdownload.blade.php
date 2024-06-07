@@ -202,7 +202,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <span class="left_heading">Office Name :</span>
+                                    <span class="left_heading">Company Name :</span>
                                     <span class="left_answer">{{ $prdt_task->product_add->client_pdt->office }} </span>
 
                                 </td>

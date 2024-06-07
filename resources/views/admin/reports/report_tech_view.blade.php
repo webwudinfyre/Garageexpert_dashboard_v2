@@ -81,7 +81,7 @@
                                             </td>
                                             <td>
                                                 <ul>
-                                                    <li>Office Name : {{ $prdt_task->product_add->client_pdt->office }}
+                                                    <li>Company Name : {{ $prdt_task->product_add->client_pdt->office }}
                                                     </li>
                                                     <li>Location :{{ $prdt_task->product_add->client_pdt->location }}
                                                     </li>

@@ -195,7 +195,7 @@
                                                     <table>
 
                                                         <tr>
-                                                            <td>Office Name</td>
+                                                            <td>Company Name</td>
                                                             <td>{{ $data->client_pdt->office }}</td>
                                                         </tr>
                                                         <tr>

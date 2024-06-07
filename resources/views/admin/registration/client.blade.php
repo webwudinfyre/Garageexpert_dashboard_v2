@@ -198,9 +198,9 @@
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="floatingofficename"
-                                            name="Office_Name" placeholder="Office Name" required
+                                            name="Office_Name" placeholder="Company Name" required
                                             autocomplete="Office_Name" autofocus value="{{ old('Office_Name') }}">
-                                        <label for="floatingofficename">Office Name</label>
+                                        <label for="floatingofficename">Company Name</label>
                                         @error('Office_Name')
                                             <div class="alert-color" role="alert">
                                                 {{ $message }}
@@ -262,7 +262,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dynamicAddRemove">
                                     <tr>
-                                        <th>Sub Office Name</th>
+                                        <th>Sub Company Name</th>
                                         <th>Location</th>
                                         <th>Email</th>
                                         <th>Password</th>
@@ -542,7 +542,7 @@
                 function addNewRow() {
                     ++i;
                     const newRow = $(`<tr>
-                            <td><input type="text" id="subOfficeName_${i}" name="officedetails[${i}][Sub_Office_Name]" placeholder="Sub Office Name" class="form-control Sub_Office_Name-input" required /><span class="error-message"></span></td>
+                            <td><input type="text" id="subOfficeName_${i}" name="officedetails[${i}][Sub_Office_Name]" placeholder="Sub Company Name" class="form-control Sub_Office_Name-input" required /><span class="error-message"></span></td>
                             <td><input type="text" id="location_${i}" name="officedetails[${i}][Location]" placeholder="Location" class="form-control" required /></td>
                             <td><input type="email" id="emailOffice_${i}" name="officedetails[${i}][email_office]" placeholder="Email" class="form-control email-input" required /><span class="error-message"></span></td>
                             <td>

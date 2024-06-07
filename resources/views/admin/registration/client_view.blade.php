@@ -70,9 +70,9 @@
                         <div class="col-md-12">
                             <div class="form-floating">
                                 <input disabled type="text" class="form-control" id="floatingofficename"
-                                    name="Office_Name" placeholder="Office Name" required
+                                    name="Office_Name" placeholder="Company Name" required
                                     autocomplete="Office_Name" autofocus value={{ $posts['client']->office }}>
-                                <label for="floatingofficename">Office Name</label>
+                                <label for="floatingofficename">Company Name</label>
                                 @error('Office_Name')
                                     <div class="alert-color" role="alert">
                                         {{ $message }}
@@ -136,7 +136,7 @@
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dynamicAddRemove">
                             <tr>
-                                <th>Sub Office Name</th>
+                                <th>Sub Company Name</th>
                                 <th>Location</th>
                                 <th>Email</th>
                                 <th>Password</th>
@@ -146,7 +146,7 @@
                             @foreach ($posts['suboffice'] as $suboffice )
                             <tr>
                                 <td><input disabled type="text"
-                                     placeholder="Sub Office Name"
+                                     placeholder="Sub Company Name"
                                      class="form-control Sub_Office_Name-input" required   value={{ $suboffice->office }}/>
                                 </td>
                                 <td><input disabled type="text"

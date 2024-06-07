@@ -168,7 +168,7 @@
                                 <div class="card_head">
                                     <div class="row d-flex justify-content-between align-items-center">
                                         <div class="col-12">
-                                            <h5 class="card-title">Sub Office Name : {{ $data_sub->office }} </h5>
+                                            <h5 class="card-title">Sub Company Name : {{ $data_sub->office }} </h5>
 
                                         </div>
 

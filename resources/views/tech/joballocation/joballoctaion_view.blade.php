@@ -80,9 +80,9 @@
                                     <div class="form-floating">
 
                                         <input type="text" class="form-control" id="Client_name" name="Client_name"
-                                            placeholder="Office Name" required autocomplete="Client_name" autofocus
+                                            placeholder="Company Name" required autocomplete="Client_name" autofocus
                                             value="{{ old('Client_name') }}">
-                                        <label for="name">Office Name</label>
+                                        <label for="name">Company Name</label>
 
                                         <input type="hidden" id="client_id" name="client_id" readonly>
                                     </div>
@@ -93,7 +93,7 @@
                                         <div class="form-floating " style="display:flex; flex-direction:row-reverse;">
 
                                             <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                data-bs-title="Add Office Name"
+                                                data-bs-title="Add Company Name"
                                                 href="{{ route('tech.registration.clientdetails') }}">
 
                                                 <i class="bi bi-plus-square"></i>

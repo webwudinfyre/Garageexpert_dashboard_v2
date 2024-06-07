@@ -139,7 +139,7 @@
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
-                                                        <p class="mb-0">Office Name</p>
+                                                        <p class="mb-0">Company Name</p>
                                                     </div>
                                                     <div class="col-6">
                                                         <p class="text-muted job_detatil_v3">{{ $data->client_pdt->office }}
@@ -417,10 +417,10 @@
                                                     </div>
 
                                                     @php
-                                                        $isInstallation = $type_services === 'Installation';
+                                                        $isInstallation = $type_services === 'Installation Report';
                                                     @endphp
 
-                                                    @if ($type_services !== 'Installation')
+                                                    @if ($type_services !== 'Installation Report')
                                                         <div class="col-12">
                                                             <fieldset class="row mb-3 ms-.5 gy-3">
                                                                 <div class="col-12">

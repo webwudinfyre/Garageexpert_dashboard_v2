@@ -202,7 +202,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <span class="left_heading">Office Name :</span>
+                                    <span class="left_heading">Company Name :</span>
                                     <span class="left_answer">{{ $prdt_task->product_add->client_pdt->office }} </span>
 
                                 </td>
@@ -374,7 +374,7 @@
         </div>
     </div>
 
-   
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">

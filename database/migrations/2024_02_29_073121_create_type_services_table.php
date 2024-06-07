@@ -19,9 +19,9 @@ return new class extends Migration
         });
 
         DB::table('type_services')->insert([
-            ['service_name' => 'Installation'],
-            ['service_name' => 'Inspection'],
-            ['service_name' => 'Complaint'],
+            ['service_name' => 'Installation Report'],
+            ['service_name' => 'Service Reports'],
+            // ['service_name' => 'Complaint'],
             ['service_name' => 'AMC'],
 
         ]);
