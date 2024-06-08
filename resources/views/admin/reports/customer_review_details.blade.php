@@ -183,7 +183,7 @@
                                                     </td>
                                                     <td>
                                                          <ul>
-                                                            <li>office Name
+                                                            <li>Company Name
                                                                 : {{ $customer_reviews->product_task_rew->product_add->client_pdt->office }}</li>
 
                                                             <li>Location

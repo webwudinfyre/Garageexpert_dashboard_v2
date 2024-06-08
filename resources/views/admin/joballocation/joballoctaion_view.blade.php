@@ -125,7 +125,7 @@
                                 <div class="form-floating">
 
                                     <input type="text" class="form-control" id="Client_name" name="Client_name"
-                                        placeholder="Office Name" required autocomplete="Client_name" autofocus
+                                        placeholder="Company Name" required autocomplete="Client_name" autofocus
                                         value="{{ old('Client_name') }}">
                                     <label for="name">Company Name</label>
 
