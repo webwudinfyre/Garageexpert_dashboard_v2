@@ -123,7 +123,7 @@
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
-                                                        <p class="mb-0">Location Name</p>
+                                                        <p class="mb-0">Location Details</p>
                                                     </div>
                                                     <div class="col-6">
                                                         <p class="text-muted job_detatil_v3">

@@ -66,7 +66,7 @@
                             </a>
                         @endif
 
-                        
+
                         @if ($admin_id !== Auth::user()->id)
                             <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add My Job">
                                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#taken_by"
@@ -131,7 +131,7 @@
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
-                                                        <p class="mb-0">Location Name</p>
+                                                        <p class="mb-0">Location Details</p>
                                                     </div>
                                                     <div class="col-6">
                                                         <p class="text-muted job_detatil_v3">
@@ -784,7 +784,7 @@
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
-                                                        <p class="mb-0">Location Name</p>
+                                                        <p class="mb-0">Location Details</p>
                                                     </div>
                                                     <div class="col-6">
                                                         <p class="text-muted job_detatil_v3" id='Location_Name'>
@@ -966,7 +966,7 @@
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
-                                                        <p class="mb-0">Location Name</p>
+                                                        <p class="mb-0">Location Details</p>
                                                     </div>
                                                     <div class="col-6">
                                                         <p class="text-muted job_detatil_v3" id='Location_Name_assign'>

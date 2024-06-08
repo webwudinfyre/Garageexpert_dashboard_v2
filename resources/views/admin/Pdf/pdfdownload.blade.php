@@ -199,7 +199,7 @@
                                                             <td>{{ $data->client_pdt->office }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Location Name</td>
+                                                            <td>Location Details</td>
                                                             <td>{{ $data->client_pdt->location }}</td>
                                                         </tr>
                                                         <tr>
