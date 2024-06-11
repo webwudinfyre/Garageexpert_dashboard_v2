@@ -82,6 +82,12 @@
                         <i class="bi bi-circle"></i><span>Job List</span>
                     </a>
                 </li>
+                <li>
+                    <a class="{{ Request::is('admin/joballocation/job_list') ? 'active' : '' }}"
+                        href="{{ route('admin.joballocation.add_product') }}">
+                        <i class="bi bi-circle"></i><span>Add Product</span>
+                    </a>
+                </li>
                 <!-- Add more list items for other job allocation pages -->
             </ul>
         </li>
@@ -119,6 +125,12 @@
                     <a class="{{ Request::is('admin/report/customer_review') ? 'active' : '' }}"
                         href="{{ route('admin.reports.customer_review') }}">
                         <i class="bi bi-circle"></i><span>Customer Review</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="{{ Request::is('admin/report/customer_review') ? 'active' : '' }}"
+                        href="{{ route('admin.reports.product_list') }}">
+                        <i class="bi bi-circle"></i><span>Product List</span>
                     </a>
                 </li>
 

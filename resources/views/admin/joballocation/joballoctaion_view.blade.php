@@ -524,7 +524,7 @@
                                         formattedDate ? 'Active' : 'Expired';
 
                                     return {
-                                        label: obj.product_code,
+                                        label: obj.product_code + ' , ' + obj.client_pdt.office +' , '+  Equipment_itemName,
                                         productcode: obj.product_code,
                                         value: obj.id,
                                         serial_no: obj.serial_number,

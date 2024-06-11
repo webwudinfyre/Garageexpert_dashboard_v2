@@ -24,6 +24,7 @@ return new class extends Migration
             ['task_name' => 'Completed'],
             ['task_name' => 'Assign To Other'],
             ['task_name' => 'Waiting Approve'],
+            ['task_name' => 'Early Completion'],
 
 
         ]);

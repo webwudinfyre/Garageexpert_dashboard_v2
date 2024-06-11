@@ -197,6 +197,99 @@ class JobAllocation extends Controller
         }
     }
 
+    public function add_product(Request $request) :  view {
+
+
+
+
+        return view('admin.other.productadd');
+
+    }
+
+    public function add_product_save (Request $request): RedirectResponse{
+
+
+        $time = Carbon::now()->toTimeString();
+        $date_of_sch = $request->Date_Schedule;
+        $req_date = Carbon::parse($date_of_sch)->setTimeFromTimeString($time);
+        $dateTimeSuffix = date('Ymd_His');
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $request->Date_Schedule);
+            $endDate = $startDate->addMonths($request->Warranty_month);
+            $endDate = $endDate->format('Y-m-d');
+            $month = $request->Warranty_month ?: '0';
+            $warranty = warranty::create([
+                'month' => $month,
+                'Start_date' => $request->Date_Schedule,
+                'end_date' => $endDate,
+                'warranty_type' => $request->warranty_type,
+            ]);
+            $WarrantyId = $warranty->id;
+
+            $product = product_add::create([
+                'client_id' => $request->client_id,
+                'equipment_id' => $request->Equipment_id,
+                'admin_id' => Auth::user()->id,
+                'warranties_id' => $WarrantyId,
+            ]);
+            $productId = $product->product_id;
+
+
+            $task = task_data::select('id')->where('id', 7)->first();
+            $already = 'admin';
+            $taskHistory = [
+                'task_id' => $task->id,
+                'date_time' =>  now(),
+                'user_id' => Auth::user()->id,
+                'already' => $already,
+                'assign' => Auth::user()->id,
+                'date_of_schedule' => $request->Date_Schedule,
+                'Remarks' => $request->Remarks,
+            ];
+            $existingTaskHistory[$dateTimeSuffix . '_next_' . 'Early Completion'] = $taskHistory;
+            $updatedJsonString = json_encode($existingTaskHistory);
+
+            $prdt_task = product_task::create([
+                'product_id' => $productId,
+                'type_services_id' => '1',
+                'task_id' => $task->id,
+                'date_of_schedule' => $request->Date_Schedule,
+                'Reamarks' => $request->Remarks,
+                'admin_id' => Auth::user()->id,
+                'already' => $already,
+                'taskhistory' => $updatedJsonString,
+                'client_id' => $request->client_id,
+
+            ]);
+
+
+
+
+            $savedData=product_add::find($productId);
+
+
+
+
+            session()->flash('message',$savedData);
+
+            // session()->flash('savedData', $savedData);
+
+        toastr()->success('Data has been saved successfully!'.' '.' <br> Product Code :'.$savedData['product_code']);
+        return redirect()->back();
+
+    }
+
+    public function check_equipment(Request $request) : JsonResponse{
+
+
+
+        $data = product_add::where('client_id', $request->client_data)
+        ->where('equipment_id', $request->id)
+        ->first();
+        return response()->json($data);
+
+    }
+
     public function job_list(): view
     {
         $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->get()->sortBy('task_id');

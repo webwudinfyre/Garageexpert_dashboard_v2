@@ -97,7 +97,7 @@
             </div>
         </div>
     </section>
-
+   
     @if (!empty($client_users))
         <section class="section pt-3" id="section_admin">
             <div class="row">

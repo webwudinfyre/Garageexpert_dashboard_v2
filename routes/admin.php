@@ -119,6 +119,15 @@ Route::middleware(['auth', 'user.type:admin'])
 
     Route::get('/admin/tracking_details', [Reports::class, 'tracking_details'])->name('admin.tracking_details');
 
+
+    Route::get('/joballocation/add_product',[JobAllocation::class, 'add_product'])->name('joballocation.add_product');
+    Route::get('/joballocation/check_equipment',[JobAllocation::class, 'check_equipment'])->name('joballocation.check_equipment');
+
+    Route::get('/joballocation/add_product_save',[JobAllocation::class, 'add_product_save'])->name('joballocation.add_product_save');
+
+    Route::get('/reports/product_list',[Reports::class, 'product_list'])->name('reports.product_list');
+
+
 });
 
 Route::get('/tasks', [Reports::class, 'index_task']);

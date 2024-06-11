@@ -506,4 +506,12 @@ class Reports extends Controller
         }
         return view('admin.other.timeline', compact('client_data', 'task_history_data', 'taskHistoryArray', 'client_latest'));
     }
+
+    public function product_list() :view {
+
+        $data= product_add::with(['equip_pdt','client_pdt', 'warranty'])->get();
+
+        return view('admin.reports.productlist',compact('data'));
+
+    }
 }
