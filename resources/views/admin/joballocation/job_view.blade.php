@@ -273,7 +273,7 @@
                                             </div>
 
                                         </div>
-                                        @if ($data->warranty->warranty_type === '1')
+                                        {{-- @if ($data->warranty->warranty_type === '1') --}}
                                             <div class="col-md-6 custom-border">
                                                 <div class="under_line ">
 
@@ -332,7 +332,7 @@
                                                 </div>
 
                                             </div>
-                                        @endif
+                                        {{-- @endif --}}
 
 
 

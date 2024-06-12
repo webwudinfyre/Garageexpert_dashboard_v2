@@ -247,7 +247,7 @@
                                                             <td>{{ $data->warranty->warranty_type === '1' ? 'Yes' : 'No' }}
                                                             </td>
                                                         </tr>
-                                                        @if ($data->warranty->warranty_type === '1')
+                                                        {{-- @if ($data->warranty->warranty_type === '1') --}}
                                                             @php
                                                                 $endDate = \Carbon\Carbon::parse(
                                                                     $data->warranty->end_date,
@@ -267,7 +267,7 @@
                                                                 <td>Warranty End Date</td>
                                                                 <td>{{ $data->warranty->end_date }}</td>
                                                             </tr>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                     </table>
                                                 </div>
                                             </div>

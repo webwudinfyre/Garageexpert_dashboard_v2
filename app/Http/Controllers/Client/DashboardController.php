@@ -9,6 +9,7 @@ use App\Models\product_task;
 use App\Models\signatures;
 use App\Models\task_data;
 use App\Models\User;
+use App\Models\warranty;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -119,7 +120,7 @@ class DashboardController extends Controller
 
             $review->color_class = $war[$color_index];
         }
-
+        $warranties = warranty::where('end_date', '<', Carbon::today())->update(['warranty_type' => '2']);
 // print_r($taskHistoryArray);die();
 
         return view('client.dashboard.index', compact('client_data','task_history_data','taskHistoryArray','client_latest','customer_reviews'));

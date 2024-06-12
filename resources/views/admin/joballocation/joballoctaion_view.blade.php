@@ -518,7 +518,7 @@
                                     var equip_model = obj.equip_pdt.Model !== null ? obj
                                         .equip_pdt.Model :
                                         'Please update Model Name into DB ';
-                                    var warranty_type = obj.warranty.warranty_type ===
+                                    var warranty_type_data = obj.warranty.warranty_type ==
                                         '1' ? 'Active' : 'InAcive';
                                     var warranty_check = obj.warranty.end_date >=
                                         formattedDate ? 'Active' : 'Expired';
@@ -538,10 +538,10 @@
                                         Equipment_Model: equip_model,
                                         Equipment_item_id: obj.equip_pdt.item_id,
 
-                                        warranty_type: warranty_type,
+                                        warranty_type: warranty_type_data,
                                         warranty_check: warranty_check,
                                         Start_date: obj.warranty.Start_date,
-                                        end_date: obj.warranty.Start_date,
+                                        end_date: obj.warranty.end_date,
                                         month: obj.warranty.month,
                                         Product_id: obj.product_id,
 

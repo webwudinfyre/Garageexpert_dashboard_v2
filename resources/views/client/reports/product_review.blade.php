@@ -321,7 +321,7 @@
                                             </div>
 
                                         </div>
-                                        @if ($customer_reviews->product_task_rew->product_add->warranty->warranty_type === '1')
+                                        {{-- @if ($customer_reviews->product_task_rew->product_add->warranty->warranty_type === '1') --}}
                                             <div class="col-md-6 custom-border">
                                                 <div class="under_line ">
 
@@ -383,7 +383,7 @@
                                                 </div>
 
                                             </div>
-                                        @endif
+                                        {{-- @endif --}}
 
 
 

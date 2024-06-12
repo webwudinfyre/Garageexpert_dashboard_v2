@@ -7,6 +7,7 @@ use App\Models\customer_review;
 use App\Models\product_task;
 use App\Models\task_data;
 use App\Models\User;
+use App\Models\warranty;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -116,6 +117,9 @@ class DashboardController extends Controller
 
             $taskHistoryArray[$taskId] = $mergedArray; // Use the task ID as the key in the task history array
         }
+
+
+        $warranties = warranty::where('end_date', '<', Carbon::today())->update(['warranty_type' => '2']);
         // printf( $today .'--'.$new_task);die();
 
 
