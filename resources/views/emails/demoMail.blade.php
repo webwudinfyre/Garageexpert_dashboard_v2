@@ -164,10 +164,7 @@
                 <div class="grid-item">
                     <div class="table-container">
                         <table>
-                            <tr>
-                                <th>Attribute</th>
-                                <th>Value</th>
-                            </tr>
+
                             <tr>
                                 <td><strong>Product Code</strong></td>
                                 <td>{{ $mailData['data']->product_code }}</td>
@@ -214,6 +211,69 @@
                         </table>
                     </div>
                 </div>
+                <h1></h1>
+
+
+                <div class="card">
+                    {{-- <h2>Task History Details</h2>222 --}}
+                    <h1>{{ $mailData['taskHistory_detail']['ServiceName'] }}</h1>
+
+
+                    <div class="grid-cat">
+                        <div class="grid-item">
+                            <div class="table-container">
+                                <table>
+
+                                    <tr>
+                                        <td><strong>Services</strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['ServiceName'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Technician name</strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['user_id'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Date Of Action </strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['date_time'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>QuotationValue Details</strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['quotationValue_name'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Remarks </strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['Remarks'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Signature person </strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['signatures_data']['name'] }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>Postion </strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['signatures_data']['postion'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Email </strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['signatures_data']['email_id_sign'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Phone no: </strong></td>
+                                        <td>{{ $mailData['taskHistory_detail']['signatures_data']['phone_sign'] }}</td>
+                                    </tr>
+                                    {{-- <tr>
+                                        <td><strong>Signature </strong></td>
+                                        {{ $mailData['taskHistory_detail']['signatures_data']['signature_data'] }}
+                                        <td><img src="{{ $mailData['taskHistory_detail']['signatures_data']['signature_data'] }}" width="150px"
+                                            height="40px" /></td>
+
+                                    </tr> --}}
+
+                                </table>
+                            </div>
+                        </div>
+
+
                 <div class="grid-item">
                     <p class="card-content">
 

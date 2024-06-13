@@ -19,7 +19,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class MailController extends Controller
 {
-    public function index($id, $id2,$sign_email)
+    public function index($id, $id2,$sign_email,$taskHistory_detail_1)
     {
         $imagePaths = array(
             public_path() . '/admin/assets/img/Asset_6@4x.png',
@@ -39,14 +39,21 @@ class MailController extends Controller
         }
 
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
+
+
+        $data_mail = mail_sending::where('product_tasks_id', $id2)->where('product_id', $id)->get();
+
+        $taskHistory_detail = $taskHistory_detail_1;
+
+
         $mailData = [
             'title' => 'GarageXpert',
             'body' => 'http://127.0.0.1:8000/admin/joballocation/job_pdf_dowmload/eyJpdiI6IlgvYmJ3VWgxQmI2WE54MXd3UklDWmc9PSIsInZhbHVlIjoiWU1pOVhZNFY0KzZkWG95bTI3c1JGUT09IiwibWFjIjoiN2ExZThmNzhhMDc3NDg4YTZkOGFjN2ViYWI0MmU2MTZmY2QzYzA0NTUyYjZmYzQzNjc5M2YyNDg0NDIyOGFjZiIsInRhZyI6IiJ9',
             'base64Images' => $base64Images['image2'],
             'data' => $data,
-        ];
+            'taskHistory_detail'=>$taskHistory_detail,
 
-        $data_mail = mail_sending::where('product_tasks_id', $id2)->where('product_id', $id)->get();
+        ];
 
         $recipients=[];
         // Assuming $recipients is already defined with your primary recipient(s)
@@ -168,13 +175,12 @@ class MailController extends Controller
         $tech = techUser::all();
 
         $imagePaths = array(
-            public_path() . '/admin/assets/img/header@4x.png',
+            public_path() . '/admin/assets/img/Header.png',
             public_path() . '/admin/assets/img/Garage-Logo-White.png',
             public_path() . '/admin/assets/img/watermark.png',
-            public_path() . '/admin/assets/img/Footer_1@4x.png',
+            public_path() . '/admin/assets/img/Footer.png',
 
         );
-
         // Associative array to store base64 encoded images
         $base64Images = array();
 

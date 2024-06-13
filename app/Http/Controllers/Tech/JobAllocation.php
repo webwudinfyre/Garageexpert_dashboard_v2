@@ -641,10 +641,10 @@ class JobAllocation extends Controller
         $quotationValue = $request->Quotation_value === '1' ? 'Send Quotation' : "Don't Send Quotation";
 
         if ($quotationValue === 'Send Quotation') {
-            $task = task_data::select('id')->where('id', 3)->first();
+            $task = task_data::select('id','task_name')->where('id', 3)->first();
             $quotationValue_name = '1';
         } else {
-            $task = task_data::select('id')->where('id', 4)->first();
+            $task = task_data::select('id','task_name')->where('id', 4)->first();
             $quotationValue_name = '1';
         }
 
@@ -665,7 +665,12 @@ class JobAllocation extends Controller
 
         ];
 
+
+
+
         $data = product_task::with('Type_service')->find($request->producttask_id);
+
+
 
 
         $pduct_id = product_add::find($data->product_id);
@@ -752,10 +757,23 @@ class JobAllocation extends Controller
             }
         }
 
+        $taskHistory_detail = [
+            'ServiceName'=>$data->Type_service->service_name,
+            'task_id' =>  $task->task_name,
+            'date_time' => now(),
+            'user_id' => Auth::user()->name,
+            'already' => $already,
+            'assign' =>  Auth::user()->name,
+            'Remarks' => $request->Remarks,
+            'quotationValue_name' => $quotationValue_name,
+            'Quotation_value' => $quotationValue,
+            'signatures_data' =>$signatures_data,
 
 
+        ];
+        $taskHistory_detail_1=$taskHistory_detail;
 
-        $result = app('App\Http\Controllers\MailController')->index($data3->product_id, $data3->id,$sign_email);
+        $result = app('App\Http\Controllers\MailController')->index($data3->product_id, $data3->id,$sign_email,$taskHistory_detail_1);
         toastr()->success('Job has been Assign successfully!');
 
 
