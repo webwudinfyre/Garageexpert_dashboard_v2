@@ -170,83 +170,90 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
+                        {{-- // <hr> --}}
                         @foreach ($prdt_task as $productId => $groupedItems)
-                            <div class="bluck_add mb-5 mt-2">
-                                <h6 class="task_name mb-2 mt-2">Task : {{ $productId }}</h6>
-                                <!-- Table with stripped rows -->
-                                <div class="table-responsive">
-                                    <table id="admin_table" class="table datatable table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>sl.no</th>
-                                                <th> Product Code</th>
-                                                <th>Company Name</th>
-                                                <th>Loaction</th>
-                                                <th>Service</th>
+                            @if ($productId !== 'Early Completion')
+                                <div class="bluck_add mb-5 mt-2">
+                                    <h6 class="task_name mb-2 mt-2">Task : {{ $productId }}</h6>
 
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
 
-                                            @foreach ($groupedItems as $prdt_task)
+
+
+                                    <!-- Table with stripped rows -->
+                                    <div class="table-responsive">
+                                        <table id="admin_table" class="table datatable table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $prdt_task->product_add->product_code }}</td>
-                                                    <td>{{ $prdt_task->product_add->client_pdt->office }}</td>
-                                                    <td>{{ $prdt_task->product_add->client_pdt->location }}</td>
-                                                    <td>{{ $prdt_task->type_service->service_name }}</td>
-                                                    <td>
-                                                        <div class="action_icon ">
-                                                            <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="View"
-                                                                href="{{ route('tech.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}">
+                                                    <th>sl.no</th>
+                                                    <th> Product Code</th>
+                                                    <th>Company Name</th>
+                                                    <th>Loaction</th>
+                                                    <th>Service</th>
 
-                                                                <button type="button" class="btn">
-                                                                    <i class="bi bi-eye"></i>
-                                                                </button>
-                                                            </a>
-
-                                                            <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Start Work"
-                                                                href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($prdt_task->id)]) }}">
-                                                                <button type="button" class="btn">
-
-
-                                                                    <i class="bi bi-lightning"></i>
-                                                                </button>
-                                                            </a>
-                                                            <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Add My Job">
-                                                                <button type="button" class="btn"
-                                                                    data-bs-toggle="modal" data-bs-target="#taken_by"
-                                                                    data-bs-whatever={{ $prdt_task->id }}>
-                                                                    <i class="bi bi-person-fill-add"></i>
-                                                                </button>
-                                                            </a>
-
-                                                            <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Assign to Job">
-                                                                <button type="button" class="btn"
-                                                                    data-bs-toggle="modal" data-bs-target="#assign_to"
-                                                                    data-bs-whatever={{ $prdt_task->id }}>
-                                                                    <i class="bi bi-person-fill-up"></i>
-                                                                </button>
-                                                            </a>
-
-
-                                                        </div>
-
-                                                    </td>
-
+                                                    <th>Action</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach ($groupedItems as $prdt_task)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $prdt_task->product_add->product_code }}</td>
+                                                        <td>{{ $prdt_task->product_add->client_pdt->office }}</td>
+                                                        <td>{{ $prdt_task->product_add->client_pdt->location }}</td>
+                                                        <td>{{ $prdt_task->type_service->service_name }}</td>
+                                                        <td>
+                                                            <div class="action_icon ">
+                                                                <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="View"
+                                                                    href="{{ route('tech.joballocation.job_list_view', ['id' => encrypt($prdt_task->product_id)]) }}">
+
+                                                                    <button type="button" class="btn">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                </a>
+
+
+                                                                <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Start Work"
+                                                                    href="{{ route('tech.joballocation.jobinstall', ['id' => encrypt($prdt_task->id)]) }}">
+                                                                    <button type="button" class="btn">
+
+
+                                                                        <i class="bi bi-lightning"></i>
+                                                                    </button>
+                                                                </a>
+                                                                <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Add My Job">
+                                                                    <button type="button" class="btn"
+                                                                        data-bs-toggle="modal" data-bs-target="#taken_by"
+                                                                        data-bs-whatever={{ $prdt_task->id }}>
+                                                                        <i class="bi bi-person-fill-add"></i>
+                                                                    </button>
+                                                                </a>
+
+                                                                <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Assign to Job">
+                                                                    <button type="button" class="btn"
+                                                                        data-bs-toggle="modal" data-bs-target="#assign_to"
+                                                                        data-bs-whatever={{ $prdt_task->id }}>
+                                                                        <i class="bi bi-person-fill-up"></i>
+                                                                    </button>
+                                                                </a>
+
+
+                                                            </div>
+
+                                                        </td>
+
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
-                            <hr>
+                                <hr>
+                            @endif
                         @endforeach
                     </div>
                 </div>
