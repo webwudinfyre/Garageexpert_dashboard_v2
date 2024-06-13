@@ -392,7 +392,7 @@
                                         <td> {{ $data['signatures_data']->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Postion</td>
+                                        <td>Position</td>
                                         <td> {{ $data['signatures_data']->postion }}</td>
                                     </tr>
                                     <tr>

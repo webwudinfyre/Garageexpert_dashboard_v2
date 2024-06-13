@@ -318,7 +318,7 @@
 
                                 </td>
                                 <td>
-                                    <span class="left_heading">Postion :</span>
+                                    <span class="left_heading">Position :</span>
                                     <span class="left_answer">{{ $client_signatures->postion }} </span>
                                 </td>
                             </tr>

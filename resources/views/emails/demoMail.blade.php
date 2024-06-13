@@ -250,7 +250,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td><strong>Postion </strong></td>
+                                        <td><strong>Position </strong></td>
                                         <td>{{ $mailData['taskHistory_detail']['signatures_data']['postion'] }}</td>
                                     </tr>
                                     <tr>
