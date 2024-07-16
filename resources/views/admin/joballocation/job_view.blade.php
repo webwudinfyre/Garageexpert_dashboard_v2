@@ -484,6 +484,8 @@
                                                                 <div class="col-6">
                                                                     <p class="text-muted job_detatil_v3">
                                                                         {{ $data['date'] }} {{ $data['time'] }}
+
+
                                                                     </p>
                                                                 </div>
 

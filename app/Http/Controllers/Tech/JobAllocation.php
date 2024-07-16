@@ -168,8 +168,7 @@ class JobAllocation extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                if(isset($details['date_of_schedule']))
-                {
+                if (isset($details['date_of_schedule'])) {
                     $details['Date_Of_Schedule'] = $details['date_of_schedule'];
                 }
 
@@ -185,7 +184,7 @@ class JobAllocation extends Controller
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
                 }
                 if (isset($details['aproval_waiting'])) {
-                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
+                    $details['aproval_waiting'] = aprovalquotation::find($details['aproval_waiting']);
                 }
 
                 $mergedArray[$key] = $details;
@@ -195,9 +194,9 @@ class JobAllocation extends Controller
         }
 
         // $cmpltd=$id;
-        $cmpltd= product_task::where('product_id', $data->product_id)->where('task_id',4)->get();
+        $cmpltd = product_task::where('product_id', $data->product_id)->where('task_id', 4)->get();
         $tech = techUser::all();
-        return view('tech.joballocation.job_view', compact('cmpltd','data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job', 'prdt_task_2', 'taskNames'));
+        return view('tech.joballocation.job_view', compact('cmpltd', 'data', 'prdt_task', 'admin_id', 'pdut_id', 'tech', 'taskHistoryArray', 'product_id_job', 'prdt_task_2', 'taskNames'));
     }
 
     public function jobpdfdowmload(Request $request, $id)
@@ -247,8 +246,7 @@ class JobAllocation extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                if(isset($details['date_of_schedule']))
-                {
+                if (isset($details['date_of_schedule'])) {
                     $details['Date_Of_Schedule'] = $details['date_of_schedule'];
                 }
 
@@ -264,7 +262,7 @@ class JobAllocation extends Controller
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
                 }
                 if (isset($details['aproval_waiting'])) {
-                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
+                    $details['aproval_waiting'] = aprovalquotation::find($details['aproval_waiting']);
                 }
                 $mergedArray[$key] = $details;
             }
@@ -590,7 +588,7 @@ class JobAllocation extends Controller
     {
 
 
-            // print_r($request->all());die();
+        // print_r($request->all());die();
         $data = product_task::with('Type_service')->find($request->producttask_id);
 
         $slnum1 = product_add::where('product_id', $data->product_id)->first();
@@ -637,14 +635,14 @@ class JobAllocation extends Controller
 
         ]);
 
-        $sign_email=$request->Email_client;
+        $sign_email = $request->Email_client;
         $quotationValue = $request->Quotation_value === '1' ? 'Send Quotation' : "Don't Send Quotation";
 
         if ($quotationValue === 'Send Quotation') {
-            $task = task_data::select('id','task_name')->where('id', 3)->first();
+            $task = task_data::select('id', 'task_name')->where('id', 3)->first();
             $quotationValue_name = '1';
         } else {
-            $task = task_data::select('id','task_name')->where('id', 4)->first();
+            $task = task_data::select('id', 'task_name')->where('id', 4)->first();
             $quotationValue_name = '1';
         }
 
@@ -654,7 +652,7 @@ class JobAllocation extends Controller
 
         $taskHistory = [
             'task_id' =>  $task->id,
-            'date_time' => now(),
+            'date_time' => now()->setTimezone('Asia/Dubai')->startOfDay(),
             'user_id' => Auth::user()->id,
             'already' => $already,
             'assign' =>  Auth::user()->id,
@@ -674,6 +672,24 @@ class JobAllocation extends Controller
 
 
         $pduct_id = product_add::find($data->product_id);
+
+
+
+        if ($data->type_services_id == 1) {
+            $warty_date_today = now();
+            $warranty_details = warranty::find($pduct_id->warranties_id);
+
+            $month_to_add = $warranty_details->month;
+
+            $new_date = $warty_date_today->copy()->addMonths($month_to_add);
+
+            $warranty_details->Start_date =$warty_date_today->format('Y-m-d');;
+            $warranty_details->end_date =$new_date->format('Y-m-d');;
+
+            $warranty_details->save();
+        }
+
+
 
         $existingTaskHistory = json_decode($data->taskhistory, true);
 
@@ -713,17 +729,17 @@ class JobAllocation extends Controller
             'product_task_id' => $request->producttask_id,
             'tech_user_id' => $already,
             'date_of_schedule' => $data->date_of_schedule,
-            'date' => now(),
+            'date' =>now()->setTimezone('Asia/Dubai')->startOfDay(),
 
         ]);
 
         $data3 = product_task::with('Type_service', 'product_add', 'product_add.client_pdt', 'product_add.equip_pdt')->find($request->producttask_id);
 
 
-        $tech_id=techUser::where('user_id', Auth::user()->id)->first();
+        $tech_id = techUser::where('user_id', Auth::user()->id)->first();
         //  printf($data3);die();
         $customer = customer_review::create([
-            'product_tasks_id' =>  $data3->id ,
+            'product_tasks_id' =>  $data3->id,
             'type_services_id' => $data3['type_services_id'],
             'admin_id' => $data3->product_add->client_pdt->user_id,
             'product_id' => $data3->product_id,
@@ -731,9 +747,8 @@ class JobAllocation extends Controller
             'equipment_id' => $data3->product_add->equip_pdt->id,
             'tech_user_id' => $tech_id['user_id'],
         ]);
-        if($request->addmore)
-        {
-            foreach($request->addmore as $addmore) {
+        if ($request->addmore) {
+            foreach ($request->addmore as $addmore) {
 
                 $mail_sending = mail_sending::firstWhere([
                     'email' => $addmore['email_mail'],
@@ -748,7 +763,7 @@ class JobAllocation extends Controller
                         'email' => $addmore['email_mail'],
                         'name' => $addmore['name_mail'],
                         'product_tasks_id' => $data3->id,
-                    'product_id' => $data3->product_id,
+                        'product_id' => $data3->product_id,
                     ]);
 
                     // Save the new mail_sending record to the database
@@ -758,22 +773,22 @@ class JobAllocation extends Controller
         }
 
         $taskHistory_detail = [
-            'ServiceName'=>$data->Type_service->service_name,
+            'ServiceName' => $data->Type_service->service_name,
             'task_id' =>  $task->task_name,
-            'date_time' => now(),
+            'date_time' =>now()->setTimezone('Asia/Dubai')->startOfDay(),
             'user_id' => Auth::user()->name,
             'already' => $already,
             'assign' =>  Auth::user()->name,
             'Remarks' => $request->Remarks,
             'quotationValue_name' => $quotationValue_name,
             'Quotation_value' => $quotationValue,
-            'signatures_data' =>$signatures_data,
+            'signatures_data' => $signatures_data,
 
 
         ];
-        $taskHistory_detail_1=$taskHistory_detail;
+        $taskHistory_detail_1 = $taskHistory_detail;
 
-        $result = app('App\Http\Controllers\MailController')->index($data3->product_id, $data3->id,$sign_email,$taskHistory_detail_1);
+        $result = app('App\Http\Controllers\MailController')->index($data3->product_id, $data3->id, $sign_email, $taskHistory_detail_1);
         toastr()->success('Job has been Assign successfully!');
 
 
@@ -794,26 +809,25 @@ class JobAllocation extends Controller
                 $query->where('admin_id', Auth::user()->id)
                     ->whereBetween('updated_at', [$start, $end])
                     ->orWhereBetween('date_of_schedule', [$start, $end]);
-
             })
             ->get();
-            $events = $tasks->map(function ($task) {
-                $start = $task->date_of_schedule; // Default start date
-                $end = $task->date_of_schedule; // Default end date
+        $events = $tasks->map(function ($task) {
+            $start = $task->date_of_schedule; // Default start date
+            $end = $task->date_of_schedule; // Default end date
 
-                // Replace start and end dates if task_id is 4
-                if ($task->task_id == 4) {
-                    $start = $task->updated_at->format('Y-m-d');
-                    $end = $task->updated_at->format('Y-m-d');
-                }
+            // Replace start and end dates if task_id is 4
+            if ($task->task_id == 4) {
+                $start = $task->updated_at->format('Y-m-d');
+                $end = $task->updated_at->format('Y-m-d');
+            }
 
-                return [
-                    'title' => $task->product_add->client_pdt->office, // Assuming 'office' is the title
-                    'start' => $start,
-                    'end' => $end,
-                    'color' => $this->getEventColor($task->task->task_name), // Get color based on task name
-                ];
-            })->toArray();
+            return [
+                'title' => $task->product_add->client_pdt->office, // Assuming 'office' is the title
+                'start' => $start,
+                'end' => $end,
+                'color' => $this->getEventColor($task->task->task_name), // Get color based on task name
+            ];
+        })->toArray();
 
         return response()->json($events);
     }
@@ -828,8 +842,8 @@ class JobAllocation extends Controller
                 return 'orange';
             case 'Quotation':
                 return 'red';
-                case 'Waiting Approve':
-                    return 'black';
+            case 'Waiting Approve':
+                return 'black';
             default:
                 return 'white';
         }
@@ -854,24 +868,24 @@ class JobAllocation extends Controller
 
         // Retrieve tasks where date_of_schedule is within the specified range
         $tasks = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
-        ->whereBetween('date_of_schedule', [$startString, $endString])
-        ->where('admin_id', Auth::user()->id)
-        ->where('task_id', '!=', 4)
-        ->get();
+            ->whereBetween('date_of_schedule', [$startString, $endString])
+            ->where('admin_id', Auth::user()->id)
+            ->where('task_id', '!=', 4)
+            ->get();
 
         // Retrieve tasks where task_id = 4 and updated_at is within the specified range
         $tasks2 = product_task::with('product_add', 'product_add.equip_pdt', 'task', 'product_add.client_pdt')
-        ->where('task_id', 4)
-        ->where('admin_id', Auth::user()->id)
-        ->whereBetween('updated_at', [$startString_date, $endString_date])
-        ->get();
+            ->where('task_id', 4)
+            ->where('admin_id', Auth::user()->id)
+            ->whereBetween('updated_at', [$startString_date, $endString_date])
+            ->get();
 
         // Store results into arrays
         $tasksArray = $tasks->toArray();
         $tasks2Array = $tasks2->toArray();
         $result = [
-        'tasks' => $tasksArray,
-        'tasks2' => $tasks2Array
+            'tasks' => $tasksArray,
+            'tasks2' => $tasks2Array
         ];
 
 

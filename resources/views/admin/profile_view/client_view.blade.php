@@ -438,7 +438,7 @@
                 <div class="modal-dialog modal-lg  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Basic_etails</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Basic Details</h1>
                             <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close"><i
                                     class="bi bi-x"></i></button>
                         </div>
@@ -604,9 +604,9 @@
                                     <div class="col-md-12">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="floatingOffice"
-                                                name="office" placeholder="Office" required autocomplete="office"
+                                                name="office" placeholder="Company Name" required autocomplete="office"
                                                 autofocus value="@nullOrValuenostyle($Adminusers->office, 'office')">
-                                            <label for="floatingOffice">Office</label>
+                                            <label for="floatingOffice">Company Name</label>
                                             @error('office')
                                                 <div class="alert-color" role="alert">
                                                     {{ $message }}

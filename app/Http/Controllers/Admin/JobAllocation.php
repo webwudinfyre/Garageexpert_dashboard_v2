@@ -364,6 +364,8 @@ class JobAllocation extends Controller
                 $details['date'] = $dateTime->toDateString();
                 $details['time'] = $dateTime->toTimeString();
 
+
+        
                 if (isset($details['signatures_data'])) {
                     $details['signatures_data'] = signatures::find($details['signatures_data']);
                 }

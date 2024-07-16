@@ -96,7 +96,7 @@ class MailController extends Controller
         //     Mail::to($recipients)->cc($bccRecipients)->send(new DemoMail($mailData));
         // }
 
-        Mail::to($recipients)->Cc($bccRecipients)->send(new DemoMail($mailData));
+        // Mail::to($recipients)->Cc($bccRecipients)->send(new DemoMail($mailData));
     }
 
     public function jobpdfdowmload_mail(Request $request, $id)
