@@ -652,7 +652,7 @@ class JobAllocation extends Controller
 
         $taskHistory = [
             'task_id' =>  $task->id,
-            'date_time' => now()->setTimezone('Asia/Dubai')->startOfDay(),
+            'date_time' => Carbon::now('Asia/Dubai')->toDateTimeString(),
             'user_id' => Auth::user()->id,
             'already' => $already,
             'assign' =>  Auth::user()->id,
@@ -662,7 +662,6 @@ class JobAllocation extends Controller
             'signatures_data' => $signatures_data->id,
 
         ];
-
 
 
 
@@ -709,6 +708,7 @@ class JobAllocation extends Controller
         $updatedJsonString = json_encode($existingTaskHistory);
 
 
+
         $takenby = $already;
         $admin_id = $already;
 
@@ -729,7 +729,7 @@ class JobAllocation extends Controller
             'product_task_id' => $request->producttask_id,
             'tech_user_id' => $already,
             'date_of_schedule' => $data->date_of_schedule,
-            'date' =>now()->setTimezone('Asia/Dubai')->startOfDay(),
+            'date' =>now(),
 
         ]);
 
@@ -775,7 +775,7 @@ class JobAllocation extends Controller
         $taskHistory_detail = [
             'ServiceName' => $data->Type_service->service_name,
             'task_id' =>  $task->task_name,
-            'date_time' =>now()->setTimezone('Asia/Dubai')->startOfDay(),
+            'date_time' =>now()->setTimezone('Asia/Dubai'),
             'user_id' => Auth::user()->name,
             'already' => $already,
             'assign' =>  Auth::user()->name,
