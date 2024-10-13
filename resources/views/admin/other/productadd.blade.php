@@ -46,7 +46,7 @@
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
             <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-12  align-items-center ">
+                <div class="col-12 align-items-center ">
                     <h1>Add Product</h1>
                     <nav>
                         <ol class="breadcrumb ">
@@ -61,7 +61,7 @@
         </div>
     </section>
 
-    <section class="section pt-3" id="section_admin">
+    <section class="pt-3 section" id="section_admin">
         <div class="row">
             <div class="col-lg-12">
 
@@ -86,9 +86,10 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
 
-                                        <input type="text" class="form-control" id="Add_Product_data" name="Add_Product_data"
-                                            placeholder="Add Product" required autocomplete="Add_Product_data" autofocus
-                                            value="{{ old('Add_Product_data') }}" disabled>
+                                        <input type="text" class="form-control" id="Add_Product_data"
+                                            name="Add_Product_data" placeholder="Add Product" required
+                                            autocomplete="Add_Product_data" autofocus value="{{ old('Add_Product_data') }}"
+                                            disabled>
                                         <label for="name">Add Product</label>
 
 
@@ -107,7 +108,7 @@
                                     </div>
                                 </div>
 
-                                <div id="Client_add_col" class="col-md-12 mb-0 me-1">
+                                <div id="Client_add_col" class="mb-0 col-md-12 me-1">
                                     <div id="Client_add" style="display: none" class="Client_add">
                                         <div class="form-floating " style="display:flex; flex-direction:row-reverse;">
 
@@ -217,7 +218,7 @@
                                     </div>
                                 </div>
 
-                                <div id="view_equip_button_col" class="col-md-12 mb-0">
+                                <div id="view_equip_button_col" class="mb-0 col-md-12">
                                     <div class="form-floating " style="display:flex; flex-direction:row-reverse;">
 
                                         <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
@@ -238,7 +239,7 @@
                                 <div id='warranty_type_col' class="col-md-6">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="form-floating mb-3">
+                                            <div class="mb-3 form-floating">
                                                 <select class="form-select" id="floatingWarranty" aria-label="Warranty"
                                                     name='warranty_type' required>
                                                     <option value="" disabled selected>Please Choose warranty
@@ -302,7 +303,7 @@
     </section>
     <section class="view" id="view">
         <div class="modal fade" id="view_equip" tabindex="-1" aria-labelledby="view_equip" aria-hidden="true">
-            <div class="modal-dialog modal-lg  modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Equipment Edit</h1>
@@ -392,7 +393,7 @@
 
     <section class="view" id="view">
         <div class="modal fade" id="view_equip_2" tabindex="-1" aria-labelledby="view_equip_2" aria-hidden="true">
-            <div class="modal-dialog modal-lg  modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Equipment Edit</h1>
@@ -423,8 +424,8 @@
             </div>
         </div>
     </div> --}}
-<!-- In your Blade template -->
-{{-- @if(session('message'))
+    <!-- In your Blade template -->
+    {{-- @if (session('message'))
 <div id="message">{{ session('message') }}</div>
 <script>
     setTimeout(function() {
@@ -433,36 +434,36 @@
     }, 60000); // Hide after 1 minute (60000 milliseconds)
 </script>
 @endif --}}
-@if(session('message'))
-<script>
-    $(document).ready(function() {
-        const view_details = document.getElementById("view_equip_2");
+    @if (session('message'))
+        <script>
+            $(document).ready(function() {
+                const view_details = document.getElementById("view_equip_2");
 
-    if (view_details) {
-        view_details.addEventListener("show.bs.modal", (event) => {
-            const button = event.relatedTarget;
-            const recipient = button.getAttribute("data-bs-whatever");
+                if (view_details) {
+                    view_details.addEventListener("show.bs.modal", (event) => {
+                        const button = event.relatedTarget;
+                        const recipient = button.getAttribute("data-bs-whatever");
 
-            fetch("/admin/joballocation/job_list_view", {
-                method: "get",
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
-                    const id = data;
-                    const brandInput =
-                        view_details.querySelector("#floatingModel");
-                    brandInput.value = id;
-                    document.getElementById("demo").innerHTML = `${id}`;
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
-        });
-    }
-    });
-</script>
-@endif
+                        fetch("/admin/joballocation/job_list_view", {
+                                method: "get",
+                            })
+                            .then((response) => response.json())
+                            .then((data) => {
+                                console.log(data);
+                                const id = data;
+                                const brandInput =
+                                    view_details.querySelector("#floatingModel");
+                                brandInput.value = id;
+                                document.getElementById("demo").innerHTML = `${id}`;
+                            })
+                            .catch((error) => {
+                                console.error("Error:", error);
+                            });
+                    });
+                }
+            });
+        </script>
+    @endif
 
     @push('scripts')
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -570,7 +571,7 @@
                         $("#Equipment_Brand").val(ui.item.Brand);
                         $("#Equipment_item_id").val(ui.item.item_id);
                         $("#view_equip_button").attr('data-bs-whatever', ui.item.id);
-                        checkEquipmentExists(ui.item.id);
+                        //checkEquipmentExists(ui.item.id);
                         return false;
                     }
                 });
