@@ -588,7 +588,8 @@ class JobAllocation extends Controller
     {
 
 
-        // print_r($request->all());die();
+        // print_r($request->all());
+        // die();
         $data = product_task::with('Type_service')->find($request->producttask_id);
 
         $slnum1 = product_add::where('product_id', $data->product_id)->first();
@@ -631,7 +632,7 @@ class JobAllocation extends Controller
             'email_id_sign' => $request->Email_client,
             'phone_sign' => $request->phone_client,
             'signature_data' => $request->signature,
-
+            'client_id' => $request->client_pdt,
 
         ]);
 
@@ -682,8 +683,8 @@ class JobAllocation extends Controller
 
             $new_date = $warty_date_today->copy()->addMonths($month_to_add);
 
-            $warranty_details->Start_date =$warty_date_today->format('Y-m-d');;
-            $warranty_details->end_date =$new_date->format('Y-m-d');;
+            $warranty_details->Start_date = $warty_date_today->format('Y-m-d');;
+            $warranty_details->end_date = $new_date->format('Y-m-d');;
 
             $warranty_details->save();
         }
@@ -729,7 +730,7 @@ class JobAllocation extends Controller
             'product_task_id' => $request->producttask_id,
             'tech_user_id' => $already,
             'date_of_schedule' => $data->date_of_schedule,
-            'date' =>now(),
+            'date' => now(),
 
         ]);
 
@@ -749,16 +750,26 @@ class JobAllocation extends Controller
         ]);
         if ($request->addmore) {
             foreach ($request->addmore as $addmore) {
+                // Validate email and name to prevent null or invalid values
+                if (!isset($addmore['email_mail']) || !filter_var($addmore['email_mail'], FILTER_VALIDATE_EMAIL)) {
+                    // Skip this iteration if email is not set or invalid
+                    continue;
+                }
 
+                if (!isset($addmore['name_mail']) || empty(trim($addmore['name_mail']))) {
+                    // Skip this iteration if name is not set or empty
+                    continue;
+                }
+
+                // Find an existing record with the same email, product_tasks_id, and product_id
                 $mail_sending = mail_sending::firstWhere([
                     'email' => $addmore['email_mail'],
-
                     'product_tasks_id' => $data3->id,
                     'product_id' => $data3->product_id,
                 ]);
 
+                // If no existing record is found, create a new one
                 if (!$mail_sending) {
-
                     $mail_sending = new mail_sending([
                         'email' => $addmore['email_mail'],
                         'name' => $addmore['name_mail'],
@@ -772,10 +783,11 @@ class JobAllocation extends Controller
             }
         }
 
+
         $taskHistory_detail = [
             'ServiceName' => $data->Type_service->service_name,
             'task_id' =>  $task->task_name,
-            'date_time' =>now()->setTimezone('Asia/Dubai'),
+            'date_time' => now()->setTimezone('Asia/Dubai'),
             'user_id' => Auth::user()->name,
             'already' => $already,
             'assign' =>  Auth::user()->name,
@@ -904,5 +916,22 @@ class JobAllocation extends Controller
 
 
         return redirect()->back();
+    }
+
+    public function search_client_names(Request $request): JsonResponse
+    {
+        $name = $request->input('name');
+        $clientPdt = $request->input('client_pdt');
+
+
+        $res = signatures::select('name', 'email_id_sign', 'phone_sign', 'postion', 'phone_sign')
+            ->where("client_id", $clientPdt)
+            ->orWhere("name", "LIKE", "%{$name}%")
+            ->groupBy('name', 'email_id_sign', 'phone_sign', 'postion', 'phone_sign')  // Include 'email_id_sign' in GROUP BY
+            ->get();
+        return response()->json([
+            'success' => true,
+            'data' => $res
+        ]);
     }
 }

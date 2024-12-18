@@ -15,5 +15,6 @@ class signatures extends Model
         'signature_data',
         'email_id_sign',
         'phone_sign',
+        'client_id',
     ];
 }

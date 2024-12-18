@@ -16,7 +16,7 @@ class product_add extends Model
         // Add other fillable attributes here
 
         'client_id',
-
+        'Reamarks',
         'equipment_id',
         'admin_id',
         'warranties_id',

@@ -61,6 +61,9 @@ Route::middleware(['auth', 'user.type:tech'])
             Route::get('/joballocation/myjob_list', [JobAllocation::class, 'myjob_list'])->name('joballocation.myjob_list');
             Route::get('/joballocation/myjob_search/', [JobAllocation::class, 'myjob_search'])->name('joballocation.myjobsearch');
 
+
+            Route::get('/joballocation/search_client_names', [JobAllocation::class, 'search_client_names'])->name('joballocation.search_client_names');
+
             Route::get('/joballocation/jobinstall/{id}', [JobAllocation::class, 'jobinstall'])->name('joballocation.jobinstall');
 
             Route::get('/joballocation/job_pdf_dowmload/{id}', [JobAllocation::class, 'jobpdfdowmload'])->name('joballocation.job_pdf_dowmload');
@@ -72,9 +75,8 @@ Route::middleware(['auth', 'user.type:tech'])
             Route::post('/save-signature', [JobAllocation::class, 'signature_save'])->name('signature.save');
 
             Route::get('/joballocation/mark_as_read_all/{id}', [JobAllocation::class, 'mark_as_read_all'])->name('joballocation.mark_as_read_all');
-
         }
     );
-    Route::get('/tasks_1', [JobAllocation::class, 'index_task']);
+Route::get('/tasks_1', [JobAllocation::class, 'index_task']);
 
-    Route::get('/get_event_details_1', [JobAllocation::class, 'get_event_details']);
+Route::get('/get_event_details_1', [JobAllocation::class, 'get_event_details']);

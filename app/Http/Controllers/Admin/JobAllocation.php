@@ -25,6 +25,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\DatabaseNotification;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Illuminate\Support\Facades\DB;
+use App\Exports\DynamicExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JobAllocation extends Controller
 {
@@ -196,17 +199,80 @@ class JobAllocation extends Controller
             return redirect()->back();
         }
     }
-
-    public function add_product(Request $request) :  view {
-
-
+    public function  updateedit(Request $request): RedirectResponse
+    {
 
 
-        return view('admin.other.productadd');
+        try {
+            // Begin transaction
+            DB::beginTransaction();
 
+
+            $productTask = product_task::with(['product_add.equip_pdt', 'product_add.warranty', 'product_add.client_pdt', 'type_service', 'task'])
+                ->where('id', $request->Product_code)
+                ->first();
+
+            if (!$productTask) {
+                return redirect()->back()->withErrors(['Product_code' => 'Product task not found.']);
+            }
+
+
+            $productTask->update([
+                'date_of_schedule' => $request->Date_Schedule,
+                'Reamarks' => $request->Remarks,
+            ]);
+
+
+            $productAdd = $productTask->product_add;
+            if ($productAdd) {
+                $productAdd->update([
+                    'serial_number' => $request->serial_no,
+
+                ]);
+
+
+                if ($productAdd->warranty) {
+                    // Check warranty_type and handle accordingly
+                    if ($request->warranty_type == 2) {
+                        // Set month to 0 if warranty_type is 2
+                        $productAdd->warranty->update([
+                            'warranty_type' => $request->warranty_type,
+                            'month' => 0,
+                            'end_date' => $productAdd->warranty->Start_date, // Keep the original Start_date as end_date
+                        ]);
+                    } else {
+                        // Calculate the new end_date for other warranty types
+                        $startDate = Carbon::parse($productAdd->warranty->Start_date);
+                        $newEndDate = $startDate->addMonths($request->Warranty_month);
+
+                        $productAdd->warranty->update([
+                            'warranty_type' => $request->warranty_type,
+                            'month' => $request->Warranty_month,
+                            'end_date' => $newEndDate->toDateString(),
+                        ]);
+                    }
+                }
+            }
+
+            // Commit transaction
+            DB::commit();
+            toastr()->success('success', 'Product task updated successfully.');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            // Rollback transaction in case of error
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Failed to update product task: ' . $e->getMessage()]);
+        }
     }
 
-    public function add_product_save (Request $request): RedirectResponse{
+    public function add_product(Request $request): view
+    {
+
+        return view('admin.other.productadd');
+    }
+
+    public function add_product_save(Request $request): RedirectResponse
+    {
 
 
         $time = Carbon::now()->toTimeString();
@@ -215,79 +281,78 @@ class JobAllocation extends Controller
         $dateTimeSuffix = date('Ymd_His');
 
         $startDate = Carbon::createFromFormat('Y-m-d', $request->Date_Schedule);
-            $endDate = $startDate->addMonths($request->Warranty_month);
-            $endDate = $endDate->format('Y-m-d');
-            $month = $request->Warranty_month ?: '0';
-            $warranty = warranty::create([
-                'month' => $month,
-                'Start_date' => $request->Date_Schedule,
-                'end_date' => $endDate,
-                'warranty_type' => $request->warranty_type,
-            ]);
-            $WarrantyId = $warranty->id;
+        $endDate = $startDate->addMonths($request->Warranty_month);
+        $endDate = $endDate->format('Y-m-d');
+        $month = $request->Warranty_month ?: '0';
+        $warranty = warranty::create([
+            'month' => $month,
+            'Start_date' => $request->Date_Schedule,
+            'end_date' => $endDate,
+            'warranty_type' => $request->warranty_type,
+        ]);
+        $WarrantyId = $warranty->id;
 
-            $product = product_add::create([
-                'client_id' => $request->client_id,
-                'equipment_id' => $request->Equipment_id,
-                'admin_id' => Auth::user()->id,
-                'warranties_id' => $WarrantyId,
-            ]);
-            $productId = $product->product_id;
-
-
-            $task = task_data::select('id')->where('id', 7)->first();
-            $already = 'admin';
-            $taskHistory = [
-                'task_id' => $task->id,
-                'date_time' =>  now(),
-                'user_id' => Auth::user()->id,
-                'already' => $already,
-                'assign' => Auth::user()->id,
-                'date_of_schedule' => $request->Date_Schedule,
-                'Remarks' => $request->Remarks,
-            ];
-            $existingTaskHistory[$dateTimeSuffix . '_next_' . 'Early Completion'] = $taskHistory;
-            $updatedJsonString = json_encode($existingTaskHistory);
-
-            $prdt_task = product_task::create([
-                'product_id' => $productId,
-                'type_services_id' => '1',
-                'task_id' => $task->id,
-                'date_of_schedule' => $request->Date_Schedule,
-                'Reamarks' => $request->Remarks,
-                'admin_id' => Auth::user()->id,
-                'already' => $already,
-                'taskhistory' => $updatedJsonString,
-                'client_id' => $request->client_id,
-
-            ]);
+        $product = product_add::create([
+            'client_id' => $request->client_id,
+            'equipment_id' => $request->Equipment_id,
+            'admin_id' => Auth::user()->id,
+            'warranties_id' => $WarrantyId,
+        ]);
+        $productId = $product->product_id;
 
 
+        $task = task_data::select('id')->where('id', 7)->first();
+        $already = 'admin';
+        $taskHistory = [
+            'task_id' => $task->id,
+            'date_time' =>  now(),
+            'user_id' => Auth::user()->id,
+            'already' => $already,
+            'assign' => Auth::user()->id,
+            'date_of_schedule' => $request->Date_Schedule,
+            'Remarks' => $request->Remarks,
+        ];
+        $existingTaskHistory[$dateTimeSuffix . '_next_' . 'Early Completion'] = $taskHistory;
+        $updatedJsonString = json_encode($existingTaskHistory);
 
+        $prdt_task = product_task::create([
+            'product_id' => $productId,
+            'type_services_id' => '1',
+            'task_id' => $task->id,
+            'date_of_schedule' => $request->Date_Schedule,
+            'Reamarks' => $request->Remarks,
+            'admin_id' => Auth::user()->id,
+            'already' => $already,
+            'taskhistory' => $updatedJsonString,
+            'client_id' => $request->client_id,
 
-            $savedData=product_add::find($productId);
+        ]);
 
 
 
 
-            session()->flash('message',$savedData);
+        $savedData = product_add::find($productId);
 
-            // session()->flash('savedData', $savedData);
 
-        toastr()->success('Data has been saved successfully!'.' '.' <br> Product Code :'.$savedData['product_code']);
+
+
+        session()->flash('message', $savedData);
+
+        // session()->flash('savedData', $savedData);
+
+        toastr()->success('Data has been saved successfully!' . ' ' . ' <br> Product Code :' . $savedData['product_code']);
         return redirect()->back();
-
     }
 
-    public function check_equipment(Request $request) : JsonResponse{
+    public function check_equipment(Request $request): JsonResponse
+    {
 
 
 
         $data = product_add::where('client_id', $request->client_data)
-        ->where('equipment_id', $request->id)
-        ->first();
+            ->where('equipment_id', $request->id)
+            ->first();
         return response()->json($data);
-
     }
 
     public function job_list(): view
@@ -297,11 +362,46 @@ class JobAllocation extends Controller
 
         return view('admin.joballocation.joblist', compact('prdt_task', 'task'));
     }
-    public function job_list_each_task($task_id): view
+    public function job_list_each_task($task_id)
     {
 
         $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.client_pdt', 'Type_service', 'task'])->where('task_id', $task_id)->get()->sortBy('task_id');;
         $task = task_data::all();
+
+        if (request()->has('export') && request()->export === 'excel') {
+            // Flatten the data for Excel
+            $data = $prdt_task->map(function ($item) {
+
+                return [
+                    'Task ID' => $item->task_id,
+                    'Product Code' => $item->product_add->product_code ?? 'N/A',
+                    'Client Name' => $item->product_add->client_pdt->firstname . ' ' . $item->product_add->client_pdt->lastname,
+                    'Office' => $item->product_add->client_pdt->office ?? 'N/A',
+                    'Location' => $item->product_add->client_pdt->location ?? 'N/A',
+                    'Item Name' => $item->product_add->equip_pdt->Item_name ?? 'N/A',
+                    'Service Name' => $item->Type_service->service_name ?? 'N/A',
+                    'Task Name' => $item->task->task_name ?? 'N/A',
+                    'Date of Schedule' => $item->date_of_schedule ?? 'N/A',
+                    'Remarks' => $item->Reamarks ?? 'N/A',
+                ];
+            })->toArray();
+
+            $headings = [
+                'Task ID',
+                'Product Code',
+                'Client Name',
+                'Office',
+                'Location',
+                'Item Name',
+                'Service Name',
+                'Task Name',
+                'Date of Schedule',
+                'Remarks'
+            ];
+
+            // Export to Excel
+            return Excel::download(new DynamicExport($data, $headings), 'task_details.xlsx');
+        }
 
         return view('admin.joballocation.joblist', compact('prdt_task', 'task', 'task_id'));
     }
@@ -354,8 +454,7 @@ class JobAllocation extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                if(isset($details['date_of_schedule']))
-                {
+                if (isset($details['date_of_schedule'])) {
                     $details['Date_Of_Schedule'] = $details['date_of_schedule'];
                 }
 
@@ -365,7 +464,7 @@ class JobAllocation extends Controller
                 $details['time'] = $dateTime->toTimeString();
 
 
-        
+
                 if (isset($details['signatures_data'])) {
                     $details['signatures_data'] = signatures::find($details['signatures_data']);
                 }
@@ -373,7 +472,7 @@ class JobAllocation extends Controller
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
                 }
                 if (isset($details['aproval_waiting'])) {
-                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
+                    $details['aproval_waiting'] = aprovalquotation::find($details['aproval_waiting']);
                 }
 
 
@@ -439,8 +538,7 @@ class JobAllocation extends Controller
                 $details['user_name'] = User::find($details['user_id'])->name;
                 $details['assign_name'] = User::find($details['assign'])->name;
                 $details['Services'] = $task->type_service->service_name;
-                if(isset($details['date_of_schedule']))
-                {
+                if (isset($details['date_of_schedule'])) {
                     $details['Date_Of_Schedule'] = $details['date_of_schedule'];
                 }
 
@@ -456,7 +554,7 @@ class JobAllocation extends Controller
                     $details['quotationValue_value_data'] = $details['Quotation_value'];
                 }
                 if (isset($details['aproval_waiting'])) {
-                    $details['aproval_waiting'] =aprovalquotation::find($details['aproval_waiting']);
+                    $details['aproval_waiting'] = aprovalquotation::find($details['aproval_waiting']);
                 }
                 $mergedArray[$key] = $details;
             }
@@ -583,6 +681,19 @@ class JobAllocation extends Controller
         $res = $prdt_task;
         return response()->json($res);
     }
+
+
+    public function job_edit(Request $request, $id): view
+    {
+        $id = decrypt($id);
+
+        $service = type_service::all();
+
+        $prdt_task = product_task::with(['product_add.equip_pdt', 'product_add.warranty', 'product_add.client_pdt', 'Type_service', 'task'])->where('id', $id)->get()->sortBy('task_id');;
+
+        return view('admin.joballocation.joballoctaion_edit', compact('prdt_task', 'service'));
+    }
+
     public function Quotation_aproval(Request $request): RedirectResponse
     {
 

@@ -60,56 +60,53 @@
                                         </thead>
 
                                         <tbody>
+
                                             @foreach ($product_review as $key => $product_review)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>Item Id: {{ $product_review->item_id }}</li>
+                                                        <li>Brand: {{ $product_review->Brand }}</li>
+                                                        <li>Model: {{ $product_review->Model }}</li>
+                                                        <li>Item Name: {{ $product_review->Item_name }}</li>
+                                                    </ul>
+                                                </td>
+                                                <td>{{ $product_review->total_reviews }}</td>
+                                                <td>
+                                                    {{-- Render filled stars --}}
+                                                    @for ($i = 1; $i <= floor($product_review->average_rating_out_of_5); $i++)
+                                                        <label class="star-rating-complete" title="Filled Star">
+                                                            <i class="bi bi-star-fill"></i>
+                                                        </label>
+                                                    @endfor
 
+                                                    {{-- Render half star if needed --}}
+                                                    @if ($product_review->average_rating_out_of_5 - floor($product_review->average_rating_out_of_5) >= 0.5)
+                                                        <label class="star-rating-complete" title="Half Star">
+                                                            <i class="bi bi-star-half"></i>
+                                                        </label>
+                                                    @endif
 
-
-                                                    <td>
-                                                        <ul>
-                                                            <li>Item Id
-                                                                :{{ $product_review->item_id }}</li>
-
-                                                            <li>Brand
-                                                                :{{ $product_review->Brand }}
-                                                            </li>
-                                                            <li>Model
-                                                                :{{ $product_review->Model }}
-                                                            </li>
-                                                            <li>Item name
-                                                                :{{ $product_review->Item_name }}
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                    <td>{{ $product_review->total_reviews }}</td>
-                                                    <td>
-                                                        @for ($i = 1; $i <= $product_review->average_rating_out_of_5; $i++)
-
-                                                            <label class="star-rating-complete" title="text"><i
-                                                                    class="bi bi-star-fill"></i> </label>
-                                                        @endfor
-                                                    </td>
-                                                    <td>
-                                                      <div class="action_icon ">
-                                                        <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="View"
-                                                            href="{{ route('admin.reports.customer.reviewdetails', ['id' =>$product_review->equipment_id]) }}">
+                                                    {{-- Render empty stars --}}
+                                                    @for ($i = ceil($product_review->average_rating_out_of_5) + 1; $i <= 5; $i++)
+                                                        <label class="star-rating-complete" title="Empty Star">
+                                                            <i class="bi bi-star"></i>
+                                                        </label>
+                                                    @endfor
+                                                </td>
+                                                <td>
+                                                    <div class="action_icon">
+                                                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"
+                                                            href="{{ route('admin.reports.customer.reviewdetails', ['id' => $product_review->equipment_id]) }}">
                                                             <button type="button" class="btn">
                                                                 <i class="bi bi-eye"></i>
                                                             </button>
                                                         </a>
-
-
-
                                                     </div>
-                                                    </td>
-
-
-
-                                                </tr>
+                                                </td>
+                                            </tr>
                                             @endforeach
-
 
                                         </tbody>
                                     </table>
@@ -130,39 +127,44 @@
                                         </thead>
 
                                      <tbody>
-                                        @foreach ($tech_reviews as $key => $tech_reviews)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{$tech_reviews->name}}</td>
-                                                <td>{{ $tech_reviews->total_reviews }}</td>
+                                        @foreach ($tech_reviews as $key => $tech_review)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $tech_review->name }}</td>
+                                            <td>{{ $tech_review->total_reviews }}</td>
+                                            <td>
+                                                {{-- Render filled stars --}}
+                                                @for ($i = 1; $i <= floor($tech_review->average_rating_out_of_5); $i++)
+                                                    <label class="star-rating-complete" title="Filled Star">
+                                                        <i class="bi bi-star-fill"></i>
+                                                    </label>
+                                                @endfor
 
-                                                <td>
-                                                    @for ($i = 1; $i <= $tech_reviews->average_rating_out_of_5; $i++)
+                                                {{-- Render half star if needed --}}
+                                                @if ($tech_review->average_rating_out_of_5 - floor($tech_review->average_rating_out_of_5) >= 0.5)
+                                                    <label class="star-rating-complete" title="Half Star">
+                                                        <i class="bi bi-star-half"></i>
+                                                    </label>
+                                                @endif
 
-                                                        <label class="star-rating-complete" title="text"><i
-                                                                class="bi bi-star-fill"></i> </label>
-                                                    @endfor
-                                                </td>
-
-
-                                                <td>
-                                                    <div class="action_icon ">
-                                                        <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="View"
-                                                           href="{{ route('admin.reports.customer.reviewdetails_tech', ['id' =>$tech_reviews->tech_user_id]) }}">
-                                                            <button type="button" class="btn">
-                                                                <i class="bi bi-eye"></i>
-                                                            </button>
-                                                        </a>
-
-
-
-                                                    </div>
-                                                </td>
-
-
-
-                                            </tr>
+                                                {{-- Render empty stars --}}
+                                                @for ($i = ceil($tech_review->average_rating_out_of_5) + 1; $i <= 5; $i++)
+                                                    <label class="star-rating-complete" title="Empty Star">
+                                                        <i class="bi bi-star"></i>
+                                                    </label>
+                                                @endfor
+                                            </td>
+                                            <td>
+                                                <div class="action_icon">
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"
+                                                       href="{{ route('admin.reports.customer.reviewdetails_tech', ['id' => $tech_review->tech_user_id]) }}">
+                                                        <button type="button" class="btn">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         @endforeach
 
 

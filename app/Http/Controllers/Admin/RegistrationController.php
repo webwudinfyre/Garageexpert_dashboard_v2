@@ -226,7 +226,7 @@ class RegistrationController extends Controller
             'officedetails.*.Sub_Office_Name' => 'required|string|max:255',
             'officedetails.*.Location' => 'required|string|max:255',
             'officedetails.*.email_office' => 'required|email|max:255|unique:users,email',
-            
+
         ]);
 
         try {
@@ -381,6 +381,7 @@ class RegistrationController extends Controller
             'email' => $adminUser->users->email,
             'Position' => $adminUser->Position,
             'Gender' => $adminUser->Gender,
+            'office'=>$adminUser->office,
 
         ];
         $userdata = [
@@ -394,6 +395,7 @@ class RegistrationController extends Controller
             'name' => $request->First_Name . ' ' . $request->Last_Name,
             'email' => $request->Email,
             'Gender' => $request->Gender,
+            'office'=>$request->office,
         ];
 
         $changes = array_diff($userdata, $existingData);
@@ -568,6 +570,7 @@ class RegistrationController extends Controller
 
     public function tech_profilebasic_details(Request $request, $id): RedirectResponse
     {
+
 
         $id = decrypt($id);
         $adminUser = techUser::with('users')->find($id);

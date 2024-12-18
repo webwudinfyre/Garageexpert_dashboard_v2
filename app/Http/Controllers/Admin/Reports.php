@@ -277,33 +277,40 @@ class Reports extends Controller
 
         $product_review = customer_review::select(
             'customer_reviews.equipment_id',
-
             'eqpt.Item_name',
             'eqpt.Model',
             'eqpt.Brand',
             'eqpt.Size',
             'eqpt.id',
             'eqpt.item_id',
-
-
             DB::raw('COUNT(*) as total_reviews'),
-            DB::raw('ROUND((AVG(customer_reviews.Product_reviews_star) / 5) * 5) as average_rating_out_of_5')
+            DB::raw('ROUND((AVG(customer_reviews.Product_reviews_star)), 2) as average_rating_out_of_5') // Removed redundant division by 5.
         )
-            ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
-            ->groupBy('customer_reviews.equipment_id')
-            ->get();
+        ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
+        ->groupBy(
+            'customer_reviews.equipment_id',
+            'eqpt.Item_name',
+            'eqpt.Model',
+            'eqpt.Brand',
+            'eqpt.Size',
+            'eqpt.id',
+            'eqpt.item_id'
+        )
+        ->get();
 
         $tech_reviews = customer_review::select(
             'customer_reviews.tech_user_id',
             'users.name',
-
             DB::raw('COUNT(*) as total_reviews'),
-            DB::raw('ROUND((AVG(customer_reviews.tech_reviews_star) / 5) * 5) as average_rating_out_of_5')
+            DB::raw('ROUND(AVG(customer_reviews.tech_reviews_star), 2) as average_rating_out_of_5') // Simplified rating calculation
         )
-            ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
-            ->join('users as users', 'customer_reviews.tech_user_id', '=', 'users.id')
-            ->groupBy('customer_reviews.tech_user_id')
-            ->get();
+        ->join('equipment as eqpt', 'customer_reviews.equipment_id', '=', 'eqpt.id')
+        ->join('users as users', 'customer_reviews.tech_user_id', '=', 'users.id')
+        ->groupBy(
+            'customer_reviews.tech_user_id',
+            'users.name' // Added users.name to GROUP BY
+        )
+        ->get();
 
         // printf($product_review);
         // die();

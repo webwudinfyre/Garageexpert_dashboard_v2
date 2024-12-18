@@ -160,65 +160,52 @@
                                                 <th>Star Rating (out of 5)</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
-                                            @foreach ($customer_reviews as $key => $customer_reviews)
+                                            @foreach ($customer_reviews as $key => $customer_review)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-
-
-
                                                     <td>
-                                                         <ul>
-                                                            <li>Product Code
-                                                                :{{ $customer_reviews->product_task_rew->product_add->product_code }}
-                                                            </li>
-                                                            <li>Serial Number
-                                                                :{{ $customer_reviews->product_task_rew->product_add->serial_number }}
-                                                            </li>
-
-                                                            <li>Service Name
-                                                                :{{ $customer_reviews->type_service->service_name }}</li>
+                                                        <ul>
+                                                            <li>Product Code: {{ $customer_review->product_task_rew->product_add->product_code ?? 'N/A' }}</li>
+                                                            <li>Serial Number: {{ $customer_review->product_task_rew->product_add->serial_number ?? 'N/A' }}</li>
+                                                            <li>Service Name: {{ $customer_review->type_service->service_name ?? 'N/A' }}</li>
                                                         </ul>
                                                     </td>
                                                     <td>
-                                                         <ul>
-                                                            <li>Company Name
-                                                                : {{ $customer_reviews->product_task_rew->product_add->client_pdt->office }}</li>
-
-                                                            <li>Location
-                                                                :{{ $customer_reviews->product_task_rew->product_add->client_pdt->location }}
-                                                            </li>
-                                                            <li>Phone Number
-                                                                :{{ $customer_reviews->product_task_rew->product_add->client_pdt->phonenumber }}
-                                                            </li>
-
+                                                        <ul>
+                                                            <li>Company Name: {{ $customer_review->product_task_rew->product_add->client_pdt->office ?? 'N/A' }}</li>
+                                                            <li>Location: {{ $customer_review->product_task_rew->product_add->client_pdt->location ?? 'N/A' }}</li>
+                                                            <li>Phone Number: {{ $customer_review->product_task_rew->product_add->client_pdt->phonenumber ?? 'N/A' }}</li>
                                                         </ul>
-
-                                                    <td>{{ $customer_reviews->Product_reviews }}</td>
+                                                    </td>
+                                                    <td>{{ $customer_review->Product_reviews ?? 'No Reviews' }}</td>
                                                     <td>
-                                                        @for ($i = 1; $i <= $customer_reviews->Product_reviews_star; $i++)
+                                                        {{-- Render filled stars --}}
+                                                        @for ($i = 1; $i <= floor($customer_review->Product_reviews_star); $i++)
+                                                            <label class="star-rating-complete" title="Filled Star">
+                                                                <i class="bi bi-star-fill"></i>
+                                                            </label>
+                                                        @endfor
 
-                                                            <label class="star-rating-complete" title="text"><i
-                                                                    class="bi bi-star-fill"></i> </label>
+                                                        {{-- Render half star if needed --}}
+                                                        @if ($customer_review->Product_reviews_star - floor($customer_review->Product_reviews_star) >= 0.5)
+                                                            <label class="star-rating-complete" title="Half Star">
+                                                                <i class="bi bi-star-half"></i>
+                                                            </label>
+                                                        @endif
+
+                                                        {{-- Render empty stars --}}
+                                                        @for ($i = ceil($customer_review->Product_reviews_star) + 1; $i <= 5; $i++)
+                                                            <label class="star-rating-complete" title="Empty Star">
+                                                                <i class="bi bi-star"></i>
+                                                            </label>
                                                         @endfor
                                                     </td>
-                                                    <td>
-
-
-
-
-
-                                                    </td>
-
-
-
                                                 </tr>
                                             @endforeach
-
-
                                         </tbody>
                                     </table>
+
                                 </div>
                             </div>
 

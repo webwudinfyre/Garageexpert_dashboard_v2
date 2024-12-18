@@ -7,12 +7,31 @@
             align-items: center;
             justify-content: space-between;
         }
+        .btn-outline-danger {
+            --bs-btn-color: #ff530a;
+            --bs-btn-border-color: #ff530a;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #ff530a;
+            --bs-btn-hover-border-color: #ff530a;
+            --bs-btn-focus-shadow-rgb: 220, 53, 69;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #ff530a;
+            --bs-btn-active-border-color: #ff530a;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #ff530a;
+            --bs-btn-disabled-bg: transparent;
+            --bs-btn-disabled-border-color: #ff530a;
+            --bs-gradient: none;
+        }
+        .icon:hover {
+            color: #fff; /* Color on hover */
+        }
     </style>
 
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
             <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-12  align-items-center ">
+                <div class="col-12 align-items-center ">
                     <h1>Job List</h1>
                     <nav>
                         <ol class="breadcrumb ">
@@ -50,13 +69,13 @@
     @include('components.task_status_admin')
 
     {{-- $notifications = auth()->user()->notifications; --}}
-    <section class="section pt-3" id="section_Search">
+    <section class="pt-3 section" id="section_Search">
         <div class="row">
             <div class="col-lg-12">
 
                 <div class="card">
                     <div class="card-body ">
-                        <div class="row gy-3 mt-3">
+                        <div class="mt-3 row gy-3">
 
                             <form action="{{ route('admin.joballocation.search') }}" class="row g-3" method="GET">
 
@@ -66,7 +85,7 @@
 
                                     <div class="row">
                                         <div class="start_date">
-                                            <div class="col-sm-4 mt-2">
+                                            <div class="mt-2 col-sm-4">
                                                 <label for="inputDate" class="form-label">Start Date :</label>
                                             </div>
                                             <div class="col-sm-8">
@@ -88,7 +107,7 @@
                                 <div class="col-xxl-3 col-md-6">
                                     <div class="row">
                                         <div class="start_date">
-                                            <div class="col-sm-4  mt-2">
+                                            <div class="mt-2 col-sm-4">
                                                 <label for="inputDate" class="form-label">End Date :</label>
                                             </div>
                                             <div class="col-sm-8">
@@ -105,7 +124,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-3 col-md-6 text-center">
+                                <div class="text-center col-xxl-3 col-md-6">
                                     <div class="row">
 
                                         <div class="col-sm-12">
@@ -125,9 +144,9 @@
                                     </div>
 
                                 </div>
-                                <div class="col-xxl-3 col-md-6 text-center ">
+                                <div class="text-center col-xxl-3 col-md-6 ">
                                     <div class="search">
-                                        <div class="form-floating mb-3 ">
+                                        <div class="mb-3 form-floating ">
                                             <button type="submit" class="btn bg-primary_expert"
                                                 style="height: 100%; width:50%">search</button>
                                         </div>
@@ -145,8 +164,7 @@
     </section>
 
 
-
-    <section class="section pt-3" id="section_admin">
+    <section class="pt-3 section" id="section_admin">
         <div class="row">
             <div class="col-lg-12">
 
@@ -155,12 +173,26 @@
 
                         <div class="card_head">
                             <div class="row d-flex justify-content-between align-items-center">
-                                <div class="col-12">
+                                <div class="col-6">
                                     <h5 class="card-title">Job List</h5>
                                 </div>
-
+                                <div class="col-6">
+                                    @if (!empty($task_id))
+                                    <div class="d-grid d-md-flex justify-content-end">
+                                        <a href="{{ route('admin.joballocation.job_list_each_task', ['id' =>$task_id, 'export' => 'excel']) }}">
+                                            <button class="btn btn-outline-danger download-button">
+                                                <i class="bi bi-filetype-xls icon"></i> Download Excel
+                                            </button>
+                                        </a>
+                                    </div>
+                                    @endif
+                                </div>
+                               
                             </div>
                         </div>
+
+                       
+                        
 
                         <!-- Table with stripped rows -->
                         <div class="table-responsive">
@@ -194,6 +226,14 @@
                                                             <i class="bi bi-eye"></i>
                                                         </button>
                                                     </a>
+                                                    @if (!empty($task_id) && $prdt_task->task_id == '1')
+                                                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"
+                                                        href="{{ route('admin.joballocation.job_edit', ['id' => encrypt($prdt_task->id)]) }}">
+                                                        <button type="button" class="btn">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                    </a>
+                                                    @endif 
                                                     @if (!empty($task_id) && $prdt_task->task_id == '3')
                                                         <a data-bs-toggle="tooltip" data-bs-placement="top"
                                                             data-bs-title="Quotation">
@@ -207,16 +247,16 @@
                                                     @endif
 
                                                     @if (!empty($task_id) && $prdt_task->task_id == '6')
-                                                    <a data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Quotation">
+                                                        <a data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-title="Quotation">
 
-                                                        <button type="button" class="btn" data-bs-toggle="modal"
-                                                            data-bs-target="#Quotation_aproval_waiting"
-                                                            data-bs-whatever={{ $prdt_task->id }}>
-                                                            <i class="bi bi-arrow-right"></i>
-                                                        </button>
-                                                    </a>
-                                                @endif
+                                                            <button type="button" class="btn" data-bs-toggle="modal"
+                                                                data-bs-target="#Quotation_aproval_waiting"
+                                                                data-bs-whatever={{ $prdt_task->id }}>
+                                                                <i class="bi bi-arrow-right"></i>
+                                                            </button>
+                                                        </a>
+                                                    @endif
 
                                                 </div>
 
@@ -247,7 +287,7 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Quotation Aproval</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body mb-5">
+                    <div class="mb-5 modal-body">
 
                         <div class="row">
                             <div class="col-12">
@@ -259,7 +299,7 @@
                                     </div>
                                     <div class="row gy-3 gx-1">
 
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -287,7 +327,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -333,7 +373,7 @@
                                     </div>
                                     <div class="row gy-3 gx-1">
 
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -361,7 +401,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -469,7 +509,7 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Quotation Aproval</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body mb-5">
+                    <div class="mb-5 modal-body">
 
                         <div class="row">
                             <div class="col-12">
@@ -481,7 +521,7 @@
                                     </div>
                                     <div class="row gy-3 gx-1">
 
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -509,7 +549,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -555,7 +595,7 @@
                                     </div>
                                     <div class="row gy-3 gx-1">
 
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -583,7 +623,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">

@@ -19,7 +19,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class MailController extends Controller
 {
-    public function index($id, $id2,$sign_email,$taskHistory_detail_1)
+    public function index($id, $id2, $sign_email, $taskHistory_detail_1)
     {
         $imagePaths = array(
             public_path() . '/admin/assets/img/Asset_6@4x.png',
@@ -40,65 +40,49 @@ class MailController extends Controller
 
         $data = product_add::with(['equip_pdt', 'client_pdt', 'client_pdt.users', 'warranty'])->find($id);
 
-
-        $data_mail = mail_sending::where('product_tasks_id', $id2)->where('product_id', $id)->get();
+        $data_mail = mail_sending::where('product_tasks_id', $id2)
+            ->where('product_id', $id)
+            ->get();
 
         $taskHistory_detail = $taskHistory_detail_1;
-
 
         $mailData = [
             'title' => 'GarageXpert',
             'body' => 'http://127.0.0.1:8000/admin/joballocation/job_pdf_dowmload/eyJpdiI6IlgvYmJ3VWgxQmI2WE54MXd3UklDWmc9PSIsInZhbHVlIjoiWU1pOVhZNFY0KzZkWG95bTI3c1JGUT09IiwibWFjIjoiN2ExZThmNzhhMDc3NDg4YTZkOGFjN2ViYWI0MmU2MTZmY2QzYzA0NTUyYjZmYzQzNjc5M2YyNDg0NDIyOGFjZiIsInRhZyI6IiJ9',
             'base64Images' => $base64Images['image2'],
             'data' => $data,
-            'taskHistory_detail'=>$taskHistory_detail,
-
+            'taskHistory_detail' => $taskHistory_detail,
         ];
 
-        $recipients=[];
-        // Assuming $recipients is already defined with your primary recipient(s)
-        $recipients = [$sign_email, $data->client_pdt->users->email];
+        $recipients = [];
+        if ($sign_email) {
+            $recipients[] = $sign_email;
+        }
+        if (!empty($data->client_pdt->users->email)) {
+            $recipients[] = $data->client_pdt->users->email;
+        }
 
-        // Initialize an empty array for BCC recipients
+        // Ensure recipients array doesn't contain null values
+        $recipients = array_filter($recipients);
+
         $bccRecipients = [];
-
-        // Check if $data_mail is set and not empty
-        if (!empty($data_mail)) {
+        if ($data_mail->isNotEmpty()) {
             foreach ($data_mail as $data) {
-                // Assuming each $data is an object with an 'email' property
-                if (isset($data->email)) {
-                    // Add each email to the BCC recipients array
+                if (!empty($data->email)) {
                     $bccRecipients[] = $data->email;
                 }
             }
         }
 
-        // if(($data_mail))
-        // {
-        //     foreach($data_mail as $data_mail)
-        //     {
-        //         $bccRecipients = [
-        //             'ashiqakkarayil@gmail.com',
-        //             $data_mail->email,
+        // Ensure BCC recipients array doesn't contain null values
+        $bccRecipients = array_filter($bccRecipients);
 
-        //         ];
-
-        //     }
-
-        // }
-        // else
-        // {
-        //     $bccRecipients = [
-        //         'ashiqakkarayil@gmail.com',
-
-
-        //     ];
-        //     Mail::to($recipients)->cc($bccRecipients)->send(new DemoMail($mailData));
-        // }
-
-    
-        Mail::to($recipients)->Cc($bccRecipients)->send(new DemoMail($mailData));
+        // Only send email if there are valid recipients
+        if (!empty($recipients)) {
+            // Mail::to($recipients)->Cc($bccRecipients)->send(new DemoMail($mailData));
+        }
     }
+
 
     public function jobpdfdowmload_mail(Request $request, $id)
     {

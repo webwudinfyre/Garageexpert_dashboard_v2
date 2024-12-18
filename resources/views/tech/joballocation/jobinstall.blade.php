@@ -42,7 +42,7 @@
 
         .signature-container {
             width: 100%;
-            max-width: 350px;
+            {{--  max-width: 350px;  --}}
             /* Set the maximum width as needed */
             margin: 0 auto;
             /* Center the container */
@@ -62,7 +62,7 @@
     <section class="pagetitle_sec">
         <div id="pagetitle" class="pagetitle">
             <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-8  align-items-center ">
+                <div class="col-8 align-items-center ">
                     <h1>Job Details</h1>
                     <nav>
                         <ol class="breadcrumb ">
@@ -110,7 +110,7 @@
     </section>
 
 
-    <section class="section pt-3" id="section_admin">
+    <section class="pt-3 section" id="section_admin">
         <div class="row">
             <div class="col-lg-12">
 
@@ -128,14 +128,14 @@
                         <div class="row">
                             <div class="col-12">
 
-                                <div id="job_deatail_v1" class="bluck_add mb-4">
+                                <div id="job_deatail_v1" class="mb-4 bluck_add">
                                     <div class="head-profie">
                                         <h5 class="card-title">Client Details</h5>
 
                                     </div>
                                     <div class="row gy-3 gx-1">
 
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -163,7 +163,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6  custom-border">
+                                        <div class="col-md-6 custom-border">
                                             <div class="under_line">
                                                 <div class="row ">
                                                     <div class="col-6 ">
@@ -203,7 +203,7 @@
 
                             <div class="col-12">
 
-                                <div id="job_deatail_v2" class="bluck_add mb-4">
+                                <div id="job_deatail_v2" class="mb-4 bluck_add">
                                     <div class="head-profie">
                                         <h5 class="card-title">Product Details</h5>
 
@@ -376,7 +376,7 @@
 
                             <div class="col-12">
 
-                                <div id="job_deatail_v2" class="bluck_add mb-4">
+                                <div id="job_deatail_v2" class="mb-4 bluck_add">
                                     <div class="head-profie">
                                         <h5 class="card-title">{{ $type_services }} Details</h5>
 
@@ -424,7 +424,7 @@
                                                         <div class="col-12">
                                                             <fieldset class="row mb-3 ms-.5 gy-3">
                                                                 <div class="col-12">
-                                                                    <legend class="col-form-label col-sm-12 pt-0">Quotation
+                                                                    <legend class="pt-0 col-form-label col-sm-12">Quotation
                                                                         Product</legend>
                                                                 </div>
                                                                 <div class="col-md-6">
@@ -443,7 +443,7 @@
                                                                             name="Quotation_value" id="gridRadios2"
                                                                             value="2">
                                                                         <label class="form-check-label" for="gridRadios2">
-                                                                            Don't Send Quotation
+                                                                            {{ `Don't Send Quotation` }}
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -451,7 +451,7 @@
                                                             </fieldset>
                                                         </div>
                                                     @endif
-
+                                                   
 
                                                     <div class="col-12">
                                                         <div class="table-responsive">
@@ -476,13 +476,13 @@
 
 
                                             <div class="col-md-6">
-                                                <div class="row  gy-3">
+                                                <div class="row gy-3">
                                                     <div class="col-12">
                                                         <div class="form-floating">
                                                             <input type="text" class="form-control" id="name_client"
-                                                                name="name_client" placeholder="Name">
+                                                                name="name_client" placeholder="Name" required>
                                                             <label for="name_client">Name</label>
-
+                                                            <div id="name_client_suggestions" class="dropdown-menu" style="display: none; position: absolute; width: 100%;"></div>
 
                                                         </div>
                                                     </div>
@@ -523,11 +523,11 @@
 
                                                             <div class="col-md-12 ">
                                                                 <div class="row gy-3">
-                                                                    <div class="col-6">
+                                                                    <div class="col-12">
                                                                         <p class="mb-0">Signature </p>
 
                                                                     </div>
-                                                                    <div class="col-6">
+                                                                    <div class="col-12">
                                                                         <div class="signature-container">
                                                                             <canvas id="signature-pad"
                                                                                 class="signature-pad"
@@ -557,7 +557,9 @@
                                                     <input type="hidden" name="signature" id="signature_data">
                                                     <input type="hidden" name="producttask_id" id="producttask_id"
                                                         value="{{ $prdt_task_id }}">
-
+                                                    <input type="hidden" name="client_pdt" id="client_pdt"
+                                                        value="{{ $data->client_pdt->id }}">
+ 
                                                     <button type="submit" class="btn bg-primary_expert btn-style"
                                                         id="save-signature">Submit</button>
 
@@ -590,7 +592,7 @@
                 $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i +
                     '][name_mail]" placeholder="Enter Name" class="form-control" /></td><td><input type="text" name="addmore[' +
                     i +
-                    '][email_mail]" placeholder="Enter Email" class="form-control" /></td><td><button type="button" class="btn  remove-tr"><i class="bi bi-trash"></i></button></td></tr>'
+                    '][email_mail]" placeholder="Enter Email" class="form-control" /></td><td><button type="button" class="btn remove-tr"><i class="bi bi-trash"></i></button></td></tr>'
                     );
             });
 
@@ -625,6 +627,71 @@
 
 
             });
+
+            $(document).ready(function () {
+                $('#name_client').on('input', function () {
+                    let clientName = $(this).val(); // Get the input value
+                    let clientPdt = $('#client_pdt').val(); // Get the hidden input value
+                    
+                    if (clientName.length > 2) { // Trigger only for meaningful input
+                        $.ajax({
+                            url: '{{ route("tech.joballocation.search_client_names") }}', // Corrected URL with route name
+                            type: 'GET',
+                            data: { 
+                                name: clientName,
+                                client_pdt: clientPdt
+                            },
+                            success: function (response) {
+                                if (response.success && response.data.length > 0) {
+                                    let suggestions = response.data.map(client => 
+                                        `<a href="#" class="dropdown-item" data-id="${client.id}" 
+                                            data-position="${client.postion}"
+                                            data-name="${client.name}" 
+                                            data-email="${client.email_id_sign}" 
+                                            data-phone="${client.phone_sign}">
+                                            ${client.name}
+                                        </a>`).join('');
+                                    $('#name_client_suggestions').html(suggestions).show();
+                                } else {
+                                    $('#name_client_suggestions').hide();
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('AJAX error:', error);
+                                $('#name_client_suggestions').hide();
+                            }
+                        });
+                    } else {
+                        $('#name_client_suggestions').hide(); // Hide dropdown if input is less than 3 characters
+                    }
+                });
+            
+                // Handle suggestion click
+                $('#name_client_suggestions').on('click', '.dropdown-item', function (e) {
+                    e.preventDefault();
+                    let clientName =  $(this).data('name');
+                    let clientPosition = $(this).data('position');
+                    let clientEmail = $(this).data('email');
+                    let clientPhone = $(this).data('phone');
+            
+                    // Fill the form fields with the selected client data
+                    $('#name_client').val(clientName);
+                    $('#Postion').val(clientPosition || '');
+                    $('#Email').val(clientEmail || '');
+                    $('#Phone').val(clientPhone || '');
+                    $('#name_client_suggestions').hide(); // Hide the dropdown
+                });
+            
+                // Hide suggestions when clicking outside
+                $(document).on('click', function (e) {
+                    if (!$(e.target).closest('#name_client').length && !$(e.target).closest('#name_client_suggestions').length) {
+                        $('#name_client_suggestions').hide();
+                    }
+                });
+            });
+            
+            
+            
         </script>
     @endpush
 @endsection
